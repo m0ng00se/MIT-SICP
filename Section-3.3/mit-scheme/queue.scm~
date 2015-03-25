@@ -17,7 +17,7 @@
   (set-cdr! queue item))
 
 ;;
-;; Accessor Procedures:
+;; Supporting Procedures:
 ;;
 (define (empty-queue? queue)
   (null? (front-ptr queue)))
