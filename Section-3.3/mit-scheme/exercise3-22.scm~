@@ -15,7 +15,7 @@
       (null? front-ptr))
     (define (front-queue)
       (if (empty-queue?)
-	  (error "FRONT called with an empty queue" queue)
+	  (error "FRONT called with an empty queue")
 	  (car (front-ptr))))
     (define (insert-queue! item)
       (let ((new-pair (cons item '())))
