@@ -63,5 +63,43 @@
   (queue 'print-queue))
 
 ;;
-;; [working]
+;; Unit Tests
 ;;
+(define q (make-queue))
+;; ==> [compiled-procedure]
+
+(empty-queue? q)
+;; ==> #t
+
+(insert-queue! q 'a)
+;; ==> (a)
+
+(empty-queue? q)
+;; ==> #f
+
+(insert-queue! q 'b)
+;; ==> (a b)
+
+(insert-queue! q 'c)
+;; ==> (a b c)
+
+(print-queue q)
+;; ==> (a b c)
+
+(delete-queue! q)
+;; ==> (b c)
+
+(delete-queue! q)
+;; ==> (c)
+
+(insert-queue! q 'd)
+;; ==> (c d)
+
+(delete-queue! q)
+;; ==> (d)
+
+(delete-queue! q)
+;; ==> ()
+
+(empty-queue? q)
+;; ==> #t
