@@ -36,11 +36,11 @@
 
     ;; Dispatch Procedure
     (define (dispatch m)
-      (cond ((eq? m 'empty-queue?) (empty-queue?))
-	    ((eq? m 'front-queue) (front-queue))
-	    ((eq? m 'insert-queue!) insert-queue!)
-	    ((eq? m 'delete-queue!) (delete-queue!))
-	    ((eq? m 'print-queue) (print-queue))
+      (cond ((eq? 'empty-queue?) (empty-queue?))
+	    ((eq? 'front-queue) (front-queue))
+	    ((eq? 'insert-queue!) insert-queue!)
+	    ((eq? 'delete-queue!) (delete-queue!))
+	    ((eq? 'print-queue) (print-queue))
 	    (else
 	     (error "QUEUE - Unknown message" m))))
     dispatch))
