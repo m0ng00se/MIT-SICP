@@ -2,6 +2,80 @@
 ;; [working] []
 ;;
 
+;;
+;; Deque --> Pair
+;; (first pair -> front of deque)
+;; (second pair -> rear of deque)
+;;
+;; each element in pair -> (data, (prev, next))
+;;
+;; make-deque
+;; empty-deque?
+;; front-deque?
+;; rear-deque?
+;; front-insert-deque! 
+;; rear-insert-deque!
+;; front-delete-deque!
+;; rear-delete-deque!
+;;
+
+;;
+;; Deque is specified as a pair:
+;;
+(define (make-deque)
+  (cons '() '()))
+
+(define (front-ptr-deque deque)
+  (car deque))
+
+(define (rear-ptr-deque deque)
+  (cdr deque))
+
+(define (set-front-ptr-deque! deque item)
+  (set-car! deque item))
+
+(define (set-rear-ptr-deque! deque item)
+  (set-cdr! deque item))
+
+;;
+;; Accessor Procedures:
+;;
+(define (empty-deque? deque)
+  (and (null? (front-ptr-deque deque))
+       (null? (rear-ptr-deque deque))))
+
+(define (front-deque deque)
+  (if (empty-deque? deque)
+      (error "FRONT called with an empty deque" deque)
+      (car (front-ptr-deque deque))))
+
+(define (rear-deque deque)
+  (if (empty-deque? deque)
+      (error "REAR called with an empty deque" deque)
+      (car (rear-ptr-deque deque))))
+
+;;
+;; Mutator Procedures:
+;;
+(define (front-insert-deque! deque item)
+  (cond ((empty-deque? deque)
+	 (let ((new-item (cons item (cons '() '()))))
+	   (
+  '())
+
+(define (rear-insert-deque! deque item)
+  '())
+
+(define (front-delete-deque! deque)
+  '())
+
+(define (rear-delete-deque! deque)
+  '())
+
+;; 
+;; Each of these procedures runs in constant time.
+;;
+
 ;; 
 ;; We'll stick with the representation of the data structure
 ;; as a pair, where the first element in the pair is the 
