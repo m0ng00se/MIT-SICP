@@ -28,7 +28,7 @@
       (car (front-ptr queue))))
 
 ;;
-;; Queue Insert/Delete Procedures:
+;; Mutator Procedures:
 ;;
 (define (insert-queue! queue item)
   (let ((new-pair (cons item '())))
