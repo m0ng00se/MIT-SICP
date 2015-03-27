@@ -64,18 +64,10 @@
 	   (set-rear-ptr-deque! deque rear-pair)
 	   deque))
 	(else
-	 ;; TODO --> implement
 	 '())))
 
 (define (rear-insert-deque! deque item)
-  (cond ((empty-deque? deque)
-	 (let ((new-pair (cons item (cons '() '()))))
-	   (set-front-ptr-deque! deque new-pair)
-	   (set-rear-ptr-deque! deque new-pair)
-	   deque))
-	(else
-	 ;; TODO --> implement
-	 '())))
+  '())
 
 (define (front-delete-deque! deque)
   '())
