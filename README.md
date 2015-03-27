@@ -27,8 +27,6 @@ Some useful links:
 
 * [Hyperpolyglot - Commands for Common Lisp / Scheme / Clojure / Emacs](http://hyperpolyglot.org/lisp)
 
-The [wiki](https://github.com/psholtz/MIT-SICP/wiki) contains answers to some of the more mathematically oriented questions.
-
 [![](http://farm6.static.flickr.com/5239/5890766673_7bf85a61a7.jpg)](http://farm6.static.flickr.com/5239/5890766673_7bf85a61a7.jpg)
 
 **John McCarthy, Inventor of Lisp**
