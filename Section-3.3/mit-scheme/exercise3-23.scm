@@ -108,19 +108,11 @@
 ;;
 (define (front-insert-deque! deque item)
   (cond ((empty-deque? deque)
-	 (let ((new-pair (cons item (cons '() '()))))
-	   (set-front-ptr-deque! deque new-pair)
-	   (set-rear-ptr-deque! deque rear-pair)
+	 (let ((new-node (make-deque-node item '() '())))
+	   (set-front-ptr-deque! deque new-node)
+	   (set-rear-ptr-deque! deque new-node)
 	   deque))
 	(else
-	 (let ((front-ptr (front-ptr-deque deque)))
-	   (let ((new-pair (cons item (cons '() front-ptr))))
-	     (set-cdr! front-ptr 
-	     
-	 (let ((new-pair (cons item (cons '() '())))
-	       (front-ptr (front-ptr-deque deque)))
-	   
-	   
 	 ;; TODO --> implement
 	 '())))
 
