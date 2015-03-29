@@ -113,8 +113,11 @@
 	   (set-rear-ptr-deque! deque new-node)
 	   deque))
 	(else
-	 ;; TODO --> implement
-	 '())))
+	 (let ((first-node (front-ptr-deque deque)))
+	   (let ((new-node (make-deque-node item '() first-node)))
+	     (set-prev-deque-node! first-node new-node)
+	     (set-front-ptr-deque! deque new-node)
+	     deque)))))
 
 (define (rear-insert-deque! deque item)
   (cond ((empty-deque? deque)
