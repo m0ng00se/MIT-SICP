@@ -38,6 +38,27 @@
   (set-cdr! deque item))
 
 ;;
+;; Accessors and Mutators for Deque Nodes: 
+;;
+(define (item-node node)
+  (car node))
+
+(define (set-item-node! node value)
+  (set-car! node value))
+
+(define (prev-node node)
+  (car (cdr node)))
+
+(define (set-prev-node! node value)
+  (set-car! (cdr node)))
+
+(define (next-node node)
+  (cdr (cdr node)))
+
+(define (set-next-node! node value)
+  (set-cdr! (cdr node)))
+
+;;
 ;; Accessor Procedures:
 ;;
 (define (empty-deque? deque)
@@ -64,6 +85,14 @@
 	   (set-rear-ptr-deque! deque rear-pair)
 	   deque))
 	(else
+	 (let ((front-ptr (front-ptr-deque deque)))
+	   (let ((new-pair (cons item (cons '() front-ptr))))
+	     (set-cdr! front-ptr 
+	     
+	 (let ((new-pair (cons item (cons '() '())))
+	       (front-ptr (front-ptr-deque deque)))
+	   
+	   
 	 ;; TODO --> implement
 	 '())))
 
