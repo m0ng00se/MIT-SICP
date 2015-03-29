@@ -96,12 +96,12 @@
 (define (front-deque deque)
   (if (empty-deque? deque)
       (error "FRONT called with an empty deque" deque)
-      (car (front-ptr-deque deque))))
+      (item-deque-node (front-ptr-deque deque))))
 
 (define (rear-deque deque)
   (if (empty-deque? deque)
       (error "REAR called with an empty deque" deque)
-      (car (rear-ptr-deque deque))))
+      (item-deque-node (rear-ptr-deque deque))))
 
 ;;
 ;; Mutator Procedures for Deque:
