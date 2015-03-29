@@ -47,22 +47,25 @@
   (car node))
 
 (define (set-item-deque-node! node value)
-  (set-car! node value))
+  (set-car! node value)
+  node)
 
 (define (prev-deque-node node)
   (car (cdr node)))
 
 (define (set-prev-deque-node! node value)
-  (set-car! (cdr node)))
+  (set-car! (cdr node))
+  node)
 
 (define (next-deque-node node)
   (cdr (cdr node)))
 
 (define (set-next-deque-node! node value)
-  (set-cdr! (cdr node)))
+  (set-cdr! (cdr node))
+  node)
 
 ;;
-;; Accessor Procedures:
+;; Accessor Procedures for Deque:
 ;;
 (define (empty-deque? deque)
   (and (null? (front-ptr-deque deque))
@@ -79,7 +82,7 @@
       (car (rear-ptr-deque deque))))
 
 ;;
-;; Mutator Procedures:
+;; Mutator Procedures for Deque:
 ;;
 (define (front-insert-deque! deque item)
   (cond ((empty-deque? deque)
