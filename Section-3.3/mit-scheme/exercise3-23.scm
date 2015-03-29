@@ -38,24 +38,27 @@
   (set-cdr! deque item))
 
 ;;
-;; Accessors and Mutators for Deque Nodes: 
+;; Accessors and Mutators for Deque Nodes:
 ;;
-(define (item-node node)
+(define (make-deque-node item prev next)
+  (cons item (cons prev next)))
+
+(define (item-deque-node node)
   (car node))
 
-(define (set-item-node! node value)
+(define (set-item-deque-node! node value)
   (set-car! node value))
 
-(define (prev-node node)
+(define (prev-deque-node node)
   (car (cdr node)))
 
-(define (set-prev-node! node value)
+(define (set-prev-deque-node! node value)
   (set-car! (cdr node)))
 
-(define (next-node node)
+(define (next-deque-node node)
   (cdr (cdr node)))
 
-(define (set-next-node! node value)
+(define (set-next-deque-node! node value)
   (set-cdr! (cdr node)))
 
 ;;
