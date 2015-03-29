@@ -47,22 +47,19 @@
   (car node))
 
 (define (set-item-deque-node! node value)
-  (set-car! node value)
-  node)
+  (set-car! node value) node)
 
 (define (prev-deque-node node)
   (car (cdr node)))
 
 (define (set-prev-deque-node! node value)
-  (set-car! (cdr node))
-  node)
+  (set-car! (cdr node)) node)
 
 (define (next-deque-node node)
   (cdr (cdr node)))
 
 (define (set-next-deque-node! node value)
-  (set-cdr! (cdr node))
-  node)
+  (set-cdr! (cdr node)) node)
 
 ;;
 ;; Accessor Procedures for Deque:
