@@ -139,6 +139,20 @@
 ;; Each of these procedures runs in constant time.
 ;;
 
+;;
+;; We can also define a print procedure, we runs in linear time:
+;;
+(define (print-deque deque)
+  (define (print-deque-node node)
+    (let ((current-item (item-deque-node node)))
+      (display current-item)
+      (let ((next-node (next-deque-node node)))
+	(cond ((null? next-node)
+	       (newline))
+	      (else
+	       (print-deque-node next-node))))))
+  (print-deque-node (front-node-deque deque)))
+
 ;; 
 ;; We'll stick with the representation of the data structure
 ;; as a pair, where the first element in the pair is the 
