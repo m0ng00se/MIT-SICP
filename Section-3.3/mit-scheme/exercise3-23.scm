@@ -113,10 +113,11 @@
 	   (set-rear-node-deque! deque new-node)
 	   deque))
 	(else
-	 (let ((first-node (front-ptr-deque deque)))
+	 (let ((first-node (front-node-deque deque)))
 	   (let ((new-node (make-deque-node item '() first-node)))
 	     ;;(set-prev-deque-node! first-node new-node)
-	     ;;(set-front-ptr-deque! deque new-node)
+	     ;; (still working)
+	     (set-front-node-deque! deque new-node)
 	     deque)))))
 
 (define (rear-insert-deque! deque item)
@@ -146,6 +147,7 @@
   (define (print-deque-node node)
     (let ((current-item (item-deque-node node)))
       (display current-item)
+      (display " ")
       (let ((next-node (next-deque-node node)))
 	(cond ((null? next-node)
 	       (newline))
