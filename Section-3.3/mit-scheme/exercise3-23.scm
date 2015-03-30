@@ -25,17 +25,17 @@
 (define (make-deque)
   (cons '() '()))
 
-(define (front-ptr-deque deque)
+(define (front-node-deque deque)
   (car deque))
 
-(define (rear-ptr-deque deque)
+(define (rear-node-deque deque)
   (cdr deque))
 
-(define (set-front-ptr-deque! deque item)
-  (set-car! deque item))
+(define (set-front-node-deque! deque node)
+  (set-car! deque node))
 
-(define (set-rear-ptr-deque! deque item)
-  (set-cdr! deque item))
+(define (set-rear-node-deque! deque node)
+  (set-cdr! deque node))
 
 ;;
 ;; Accessors and Mutators for Deque Nodes:
@@ -90,18 +90,18 @@
 ;; Accessor Procedures for Deque:
 ;;
 (define (empty-deque? deque)
-  (and (null? (front-ptr-deque deque))
-       (null? (rear-ptr-deque deque))))
+  (and (null? (front-node-deque deque))
+       (null? (rear-node-deque deque))))
 
 (define (front-deque deque)
   (if (empty-deque? deque)
       (error "FRONT called with an empty deque" deque)
-      (item-deque-node (front-ptr-deque deque))))
+      (item-deque-node (front-node-deque deque))))
 
 (define (rear-deque deque)
   (if (empty-deque? deque)
       (error "REAR called with an empty deque" deque)
-      (item-deque-node (rear-ptr-deque deque))))
+      (item-deque-node (rear-node-deque deque))))
 
 ;;
 ;; Mutator Procedures for Deque:
@@ -109,8 +109,8 @@
 (define (front-insert-deque! deque item)
   (cond ((empty-deque? deque)
 	 (let ((new-node (make-deque-node item '() '())))
-	   (set-front-ptr-deque! deque new-node)
-	   (set-rear-ptr-deque! deque new-node)
+	   (set-front-node-deque! deque new-node)
+	   (set-rear-node-deque! deque new-node)
 	   deque))
 	(else
 	 (let ((first-node (front-ptr-deque deque)))
