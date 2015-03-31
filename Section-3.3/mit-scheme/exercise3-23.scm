@@ -65,7 +65,7 @@
 ;; Unit Test Deque Node API:
 ;;
 (define node (make-deque-node 'a 'b 'c))
-;; ==> (a (b c))
+;; ==> (a b c)
 (item-deque-node node)
 ;; ==> a
 (prev-deque-node node)
@@ -74,15 +74,15 @@
 ;; ==> c
 
 (set-item-deque-node! node 'x)
-;; ==> (x (b c))
+;; ==> (x b c)
 (item-deque-node node)
 ;; ==> x
 (set-prev-deque-node! node 'y)
-;; ==> (x (y c))
+;; ==> (x y c)
 (prev-deque-node node)
 ;; ==> y
 (set-next-deque-node! node 'z)
-;; ==> (x (y z))
+;; ==> (x y z)
 (next-deque-node node)
 ;; ==> z
 
