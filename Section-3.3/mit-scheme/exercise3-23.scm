@@ -52,9 +52,9 @@
 (define (set-item-deque-node! node item)
   (set-car! node item) node)
 (define (set-prev-deque-node! node prev)
-  (set-car! (cdr node) item) node)
+  (set-car! (cdr node) prev) node)
 (define (set-next-deque-node! node next)
-  (set-car! (cddr node) item) node)
+  (set-car! (cddr node) next) node)
 
 
 (define (make-deque-node item prev next)
