@@ -17,16 +17,21 @@
 ;;
 (define (make-table same-key?)
   (let ((table (list '*table*)))
+    ;; "assoc" procedure
     (define (assoc key records)
-      (cond ((null? records) false)
+      (cond ((null? records) #f)
 	    ((same-key? key (caar records)) (car records))
 	    (else
 	     (assoc key (cdr records)))))
+
+    ;; "lookup" procedure
     (define (lookup key)
       (let ((record (assoc key (cdr table))))
 	(if record
 	    (cdr record)
 	    #f)))
+
+    ;; "insert!" procedure
     (define (insert! key value)
       (let ((record (assoc key (cdr table))))
 	(if record
@@ -34,6 +39,8 @@
 	    (set-cdr! table
 		      (cons (cons key value) (cdr table)))))
       'ok)
+
+    ;; "dispatch" procedure
     (define (dispatch m)
       (cond ((eq? m 'lookup) lookup)
 	    ((eq? m 'insert!) insert!)
