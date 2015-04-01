@@ -50,7 +50,7 @@
   ((table 'insert!) key value))
 
 ;;
-;; Unit Test Symbols:
+;; Unit Test, Symbolic Keys:
 ;;
 (define symbol-table (make-table equal?))
 
@@ -66,7 +66,7 @@
 ;; ==> #f
 
 ;;
-;; Unit Test Numbers:
+;; Unit Test, Numeric Keys:
 ;;
 (define number-table (make-table =))
 
