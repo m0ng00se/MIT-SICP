@@ -1,5 +1,5 @@
 ;;
-;; Exercise 3.24
+;; Exercise 3.24 
 ;;
 ;; In the table implementations above, the keys are tested for equality 
 ;; using "equal?" (called by "assoc"). This is not always the appropriate
