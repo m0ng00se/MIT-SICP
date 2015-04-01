@@ -152,3 +152,22 @@
 
 (delete-rear-deque! deque)
 ;; ==> (() b)
+(empty-deque? deque)
+;; ==> #t
+(front-ptr deque)
+;; ==> ()
+(rear-ptr deque)
+;; ==> (b)
+(front-deque deque)
+;; ==> FRONT-DEQUE called with an empty deque (() b)
+(rear-deque deque)
+;; ==> REAR-DEQUE called with an empty deque (() b)
+
+(insert-front-deque! deque 'a)
+;; ==> ((a) a) 
+(delete-rear-deque! deque)
+;; ==> (() a)
+(insert-rear-deque! deque 'b)
+;; ==> ((b) b)
+(delete-front-deque! deque)
+;; ==> (() b)
