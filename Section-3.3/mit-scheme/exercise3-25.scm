@@ -12,7 +12,9 @@
 (define (make-table)
   (let ((table (list '*table*)))
     
-    ;; "assoc" procedure:
+    ;;
+    ;; The "assoc" procedure remains unchanged:
+    ;; 
     (define (assoc key records)
       (cond ((null? records) #f)
 	    ((equal? key (caar records)) (car records))
@@ -20,6 +22,19 @@
 	     (assoc key (cdr records)))))
 	  
     ;; "lookup" procedure:
+
+    ;;
+    ;; Implement a recursive "lookup" procedure. 
+    ;;
+    ;; If we can associate a subtable with the first key in the list, 
+    ;; then check to see whether we are at the end of the key list. 
+    ;; If yes, then we have our record; if no, then recursively invoke
+    ;; the "lookup" procedure using the remainder of the key list on 
+    ;; the subtable. 
+    ;;
+    ;; If we cannot associate a subtable with the first key in the list,
+    ;; we know that there are no assoicated records.
+    ;;
     (define (lookup keys)
       (define (lookup-iter local-keys local-table)
 	(let ((subtable (assoc (car local-keys) (cdr local-table))))
@@ -31,6 +46,11 @@
       (lookup-iter keys table))
 
     ;; "insert!" procedure:
+
+    ;;
+    ;; Implement a recursive "insert!" procedure.
+    ;;
+    ;; 
     (define (insert! keys value)
       (define (make-record keys)
 	(if (null? (cdr keys)
@@ -47,7 +67,9 @@
 			      (cdr local-table))))))
       (insert-iter! keys table))
    
-    ;; "dispatch" procedure:
+    ;;
+    ;; The "dispatch" procedure remains unchanged:
+    ;;
     (define (dispatch m)
       (cond ((eq? m 'lookup) lookup)
 	    ((eq? m 'insert!) insert!)
