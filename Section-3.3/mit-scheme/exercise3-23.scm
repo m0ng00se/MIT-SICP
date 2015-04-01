@@ -52,7 +52,7 @@
 	   (set-rear-ptr! deque new-pair)
 	   deque)
 	  (else
-	   (set-front-ptr! deque (cdr (front-ptr deque)))
+	   (set-front-ptr! deque (cons item (front-ptr deque)))
 	   deque))))
 
 (define (insert-rear-deque! deque item)
