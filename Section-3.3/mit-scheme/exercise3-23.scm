@@ -107,9 +107,9 @@
 (empty-deque? deque)
 ;; ==> #t
 (front-ptr deque)
-;; ==>
+;; ==> ()
 (rear-ptr deque)
-;; ==>
+;; ==> ()
 
 (insert-front-deque! deque 'a)
 ;; ==> ((a) a)
