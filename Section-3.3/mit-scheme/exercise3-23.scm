@@ -124,4 +124,31 @@
 (rear-deque deque)
 ;; ==> a
 
+(delete-front-deque! deque)
+;; ==> (() a)
+(empty-deque? deque)
+;; ==> #t
+(front-ptr deque)
+;; ==> ()
+(rear-ptr deque)
+;; ==> (a) 
+(front-deque deque)
+;; ==> FRONT-DEQUE called with an empty deque (() a)
+(rear-deque deque)
+;; ==> REAR-DEQUE called with an empty deque (() a)
 
+(insert-rear-deque! deque 'b)
+;; ==> ((b) b)
+(empty-deque? deque)
+;; ==> #f
+(front-ptr deque)
+;; ==> (b)
+(rear-ptr deque)
+;; ==> (b)
+(front-deque deque)
+;; ==> b
+(rear-deque deque)
+;; ==> b
+
+(delete-rear-deque! deque)
+;; ==> (() b)
