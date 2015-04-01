@@ -99,3 +99,29 @@
 ;; All of these procedures run in constant time.
 ;;
 
+;;
+;; Unit Tests:
+;;
+(define deque (make-deque))
+;; ==> (())
+(empty-deque? deque)
+;; ==> #t
+(front-ptr deque)
+;; ==>
+(rear-ptr deque)
+;; ==>
+
+(insert-front-deque! deque 'a)
+;; ==> ((a) a)
+(empty-deque? deque)
+;; ==> #f
+(front-ptr deque)
+;; ==> (a)
+(rear-ptr deque)
+;; ==> (a)
+(front-deque deque)
+;; ==> a
+(rear-deque deque)
+;; ==> a
+
+
