@@ -13,7 +13,7 @@
 ;;
 
 ;;
-;; Table Constructors:
+;; Table Constructor:
 ;;
 (define (make-table same-key?)
   (let ((table (list '*table*)))
