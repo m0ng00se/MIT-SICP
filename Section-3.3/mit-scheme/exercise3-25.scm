@@ -21,8 +21,6 @@
 	    (else
 	     (assoc key (cdr records)))))
 	  
-    ;; "lookup" procedure:
-
     ;;
     ;; Implement a recursive "lookup" procedure. 
     ;;
@@ -45,12 +43,12 @@
 	      #f)))
       (lookup-iter keys table))
 
-    ;; "insert!" procedure:
-
     ;;
     ;; Implement a recursive "insert!" procedure.
-    ;;
     ;; 
+    ;; If we can associate a subtable with the first key in the list, 
+    ;; then check to see whether we are at the end of the key list. 
+    ;; If yes, then append the new value to the end of the subtable.
     (define (insert! keys value)
       (define (make-record keys)
 	(if (null? (cdr keys)
@@ -59,12 +57,8 @@
       (define (insert-iter! local-keys local-table)
 	(let ((subtable (assoc (car local-keys) (cdr local-table))))
 	  (if subtable
-	      (if (null? (cdr keys))
-		  (set-cdr! subtable value)
-		  (insert-iter! (cdr local-keys) subtable))
-	      (set-cdr! local-table 
-			(cons (make-entry local-keys)
-			      (cdr local-table))))))
+	      '()
+	      '())))
       (insert-iter! keys table))
    
     ;;
