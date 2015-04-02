@@ -11,6 +11,37 @@
 ;;
 (define (make-table)
   (let ((table (list '*table*)))
+
+    ;;
+    ;; The "assoc" procedure remains unchanged:
+    ;;
+    (define (assoc key records)
+      (cond ((null? records) #f)
+	    ((equal? key (caar records)) (car records))
+	    (else
+	     (assoc key (cdr records)))))
+
+    (define (lookup keys)
+      '())
+    (define (insert! keys value)
+      '())
+
+    ;;
+    ;; The "dispatch" procedure remains unchanged:
+    ;;
+    (define (dispatch m)
+      (cons ((eq? m 'lookup) lookup)
+	    ((eq? m 'insert!) insert!)
+	    (else
+	     (error "Unknown message" m))))
+    dispatch))
+
+
+;;
+;; Table Constructor:
+;;
+(define (make-table)
+  (let ((table (list '*table*)))
     
     ;;
     ;; The "assoc" procedure remains unchanged:
