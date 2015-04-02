@@ -67,7 +67,8 @@
 			(cons (make-record keys)
 			      (cdr local-table))))))
 
-      (insert-iter! keys table))
+      (insert-iter! keys table)
+      'ok)
    
     ;;
     ;; The "dispatch" procedure remains unchanged:
