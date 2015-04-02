@@ -90,6 +90,9 @@
 ;;
 ;; First attempt a standard one-dimensional table:
 ;;
+(define table (make-table))
+(define (get keys) (lookup keys table))
+(define (put keys value) (insert! keys value table))
 
 ;; (use the [get] [set] as defined in the TEXT)
 
