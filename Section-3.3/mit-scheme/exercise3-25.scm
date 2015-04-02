@@ -50,15 +50,23 @@
     ;; then check to see whether we are at the end of the key list. 
     ;; If yes, then append the new value to the end of the subtable.
     (define (insert! keys value)
+
       (define (make-record keys)
-	(if (null? (cdr keys))
-	    (cons (car keys) value)
-	    (list (car keys) (make-record (cdr keys)))))
+	(let ((key (car keys)))
+	  (if (null? (cdr keys))
+	      (cons key value)
+	      (list key (make-record (cdr keys))))))
+
       (define (insert-iter! local-keys local-table)
 	(let ((subtable (assoc (car local-keys) (cdr local-table))))
 	  (if subtable
-	      '()
-	      '())))
+	      (if (null? (cdr keys))
+		  (set-cdr! subtable value)
+		  (insert-iter! (cdr keys) subtable))
+	      (set-cdr! local-table
+			(cons (make-entry keys)
+			      (cdr local-table))))))
+
       (insert-iter! keys table))
    
     ;;
