@@ -73,6 +73,24 @@
 ;;
 ;; Run some unit tests:
 ;;
+(get '(a))
+;; ==> #f
+(put '(a) 1)
+;; ==> ok
+(get '(a))
+;; ==> 1
+(put '(a) 2)
+;; ==> ok
+(get '(a))
+;; ==> 2
+(put '(b) 33)
+;; ==> ok
+(get '(a))
+;; ==> 2
+(get '(b))
+;; ==> 33
+
+;; THESE TESTS STILL FAIL
 (get '(math))
 ;; ==> #f
 (get '(math +))
