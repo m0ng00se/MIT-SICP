@@ -23,9 +23,9 @@
       (define (lookup-iter key-list local-table)
 	(let ((subtable (assoc (car key-list) (cdr local-table))))
 	  (if subtable
-	      (if (list? subtable)
-		  (lookup-iter (cdr key-list) subtable)
-		  (cdr subtable))
+	      (if (null? (cdr keys))
+		  (cdr subtable)
+		  (lookup-iter (cdr key-list) subtable))
 	      #f)))
       (lookup-iter keys table))
     
@@ -38,9 +38,9 @@
       (define (insert!-iter key-list local-table)
 	(let ((subtable (assoc (car key-list) (cdr local-table))))
 	  (if subtable
-	      (if (list? subtable)
-		  (insert!-iter (cdr keys) subtable)
-		  (set-cdr! subtable value))
+	      (if (null? (cdr keys))
+		  (set-cdr! subtable value)
+		  (insert!-iter (cdr key-list) subtable))
 	      (set-cdr! local-table
 			(cons (make-record keys)
 			      (cdr local-table))))))
