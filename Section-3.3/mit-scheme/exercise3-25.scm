@@ -40,9 +40,7 @@
 	  (if subtable
 	      (cond ((list? subtable) '())
 		    ((pair? subtable) 
-		     (set-cdr! subtable
-			       (cons (make-record key-list)
-				     (cdr subtable)))))
+		     (set-cdr! subtable value))
 	      (set-cdr! local-table
 			(cons (make-record key-list)
 			      (cdr local-table))))))
