@@ -68,7 +68,7 @@
 (define (insert! keys value table)
   ((table 'insert!) keys value))
 (define (print table)
-  ('table print))
+  ((table 'print)))
 
 ;;
 ;; Define specifics for "operation-table":
