@@ -34,21 +34,20 @@
 	(if (null? (cdr key-list))
 	    (cons (car key-list) value)
 	    (list (car key-list) (make-record (cdr key-list)))))	    
-      (define (insert!-iter key-list local-table)
+      (define (insert-record! record table)
+	(set-cdr! table 
+		  (cons record (cdr table))))
+      (define (insert-iter! key-list local-table)
 	(let ((subtable (assoc (car key-list) (cdr local-table))))
 	  (if subtable
 	      (cond ((list? subtable)
-		     (insert!-iter (cdr key-list) subtable))
+		     (insert-iter! (cdr key-list) subtable))
 		    ((pair? subtable) 
 		     (if (null? (cdr key-list))
 			 (set-cdr! subtable value)
-			 (set-cdr! local-table
-				   (cons (make-record (cdr key-list))
-					 (cdr local-table))))))
-	      (set-cdr! local-table
-			(cons (make-record key-list)
-			      (cdr local-table))))))
-      (insert!-iter keys table)
+			 (insert-record! (make-record key-list) local-table))))
+	      (insert-record! (make-record key-list) local-table))))
+      (insert-iter! keys table)
       'ok)
     
     ;; "print" procedure (for debugging):
