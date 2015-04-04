@@ -42,7 +42,7 @@
 		  (insert!-iter (cdr key-list) subtable)
 		  (set-cdr! subtable value))
 	      (set-cdr! local-table
-			(cons (make-record keys)
+			(cons (make-record key-list)
 			      (cdr local-table))))))
       (insert!-iter keys table)
       'ok)
