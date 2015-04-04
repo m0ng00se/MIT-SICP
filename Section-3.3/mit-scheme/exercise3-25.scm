@@ -41,7 +41,7 @@
 	      (begin
 		(cond ((list? subtable) '())
 		      ((pair? subtable) 
-		       (set-cdr! subtable value)))))
+		       (set-cdr! subtable value))))
 	      (begin
 		(set-cdr! local-table
 			  (cons (make-record key-list)
