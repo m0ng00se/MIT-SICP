@@ -47,10 +47,15 @@
       (insert!-iter keys table)
       'ok)
     
+    ;; "print" procedure:
+    (define (print)
+      table)
+
     ;; "dispatch" procedure:
     (define (dispatch m)
       (cond ((eq? m 'lookup) lookup)
 	    ((eq? m 'insert!) insert!)
+	    ((eq? m 'print) print)
 	    (else
 	     (error "Unknown message" m))))
     dispatch))
@@ -62,6 +67,8 @@
   ((table 'lookup) keys))
 (define (insert! keys value table)
   ((table 'insert!) keys value))
+(define (print table)
+  ('table print))
 
 ;;
 ;; Define specifics for "operation-table":
