@@ -96,6 +96,10 @@
 ;; ==> 2
 (get '(b))
 ;; ==> 33
+(get '(a b c d))
+;; ==> #f
+(put '(a b c d) 100)
+;; THESE TEST STILL FAIL
 
 ;; THESE TESTS STILL FAIL
 (get '(math))
