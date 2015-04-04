@@ -38,7 +38,11 @@
       (define (insert!-iter key-list local-table)
 	(let ((subtable (assoc (car key-list) (cdr local-table))))
 	  (if subtable
-	      subtable
+	      (cond ((list? subtable) '())
+		    ((pair? subtable) 
+		     (set-cdr! subtable
+			       (cons (make-record key-list)
+				     (cdr subtable)))))
 	      (set-cdr! local-table
 			(cons (make-record key-list)
 			      (cdr local-table))))))
