@@ -39,9 +39,11 @@
 	(let ((subtable (assoc (car key-list) (cdr local-table))))
 	  (if subtable
 	      (begin
-		(display "found subtable" subtable)
-		(cond ((list? subtable) '())
+		(display "found subtable")
+		(cond ((list? subtable)
+		       (display "subtable is list"))
 		      ((pair? subtable) 
+		       (display "subtable is pair")
 		       (set-cdr! subtable value))))
 	      (begin
 		(display "no subtable")
