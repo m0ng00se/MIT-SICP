@@ -39,7 +39,7 @@
 	(let ((subtable (assoc (car key-list) (cdr local-table))))
 	  (if subtable
 	      (begin
-		(cond ((list? subtable)
+		(cond ((list? subtable '())
 		      ((pair? subtable) 
 		       (set-cdr! subtable value)))))
 	      (begin
