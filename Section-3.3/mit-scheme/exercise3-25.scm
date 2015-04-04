@@ -41,7 +41,9 @@
 	      (cond ((list? subtable)
 		     (insert!-iter (cdr key-list) subtable))
 		    ((pair? subtable)
-		     (set-cdr! subtable value)))
+		     (set-cdr! subtable
+			       (cons (make-record key-list)
+				     (cdr subtable))))
 	      (set-cdr! local-table
 			(cons (make-record key-list)
 			      (cdr local-table))))))
