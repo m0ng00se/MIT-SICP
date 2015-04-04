@@ -16,8 +16,7 @@
 	  (else
 	   (assoc key (cdr records)))))
 
-  (let ((table (list '*table*)))
-    
+  (let ((table (list '*table*)))    
     ;; "lookup" procedure:
     (define (lookup keys)
       (define (lookup-iter key-list local-table)
@@ -43,9 +42,9 @@
 		    ((pair? subtable) 
 		     (if (null? (cdr key-list))
 			 (set-cdr! subtable value)
-			 (set-cdr! subtable
+			 (set-cdr! local-table
 				   (cons (make-record (cdr key-list))
-					 (cdr subtable))))))
+					 (cdr local-table))))))
 	      (set-cdr! local-table
 			(cons (make-record key-list)
 			      (cdr local-table))))))
