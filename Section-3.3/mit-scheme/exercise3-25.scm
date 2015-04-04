@@ -9,6 +9,7 @@
 
 
 (define (make-table)
+  ;; "assoc" procedure:
   (define (assoc key records)
     (cond ((null? records) #f)
 	  ((equal? key (caar records)) (car records))
@@ -48,7 +49,7 @@
     ;; "dispatch" procedure:
     (define (dispatch m)
       (cond ((eq? m 'lookup) lookup)
-	    ((eq? m 'insert!) insert)
+	    ((eq? m 'insert!) insert!)
 	    (else
 	     (error "Unknown message" m))))
     dispatch))
