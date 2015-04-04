@@ -73,4 +73,15 @@
 ;;
 ;; Run some unit tests:
 ;;
+(get '(math))
+;; ==> #f
+(get '(math +))
+;; ==> #f
+
+(put '(math +) 43)
+;; ==> ok
+(put '(math -) 45)
+;; ==> ok
+(put '(math *) 42)
+;; ==> ok
 
