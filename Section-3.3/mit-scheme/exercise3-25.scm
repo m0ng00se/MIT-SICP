@@ -104,6 +104,16 @@
 (put '(a b c d) 100)
 ;; THESE TEST STILL FAIL
 
+;;
+;; USE ASE YOURE WOKRING ON
+;;
+(get '(a))
+(put '(a) 1)
+(get '(a))
+(get '(a b c d))
+(put '(a b c d) 100)
+(get '(a b c d))
+
 ;; THESE TESTS STILL FAIL
 (get '(math))
 ;; ==> #f
