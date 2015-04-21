@@ -113,3 +113,18 @@
   (car s))
 (define (segment-queue s) 
   (cdr s))
+
+(define the-agenda (make-agenda))
+(define (after-delay delay action)
+  (add-to-agenda! (+ delay (current-time the-agenda))
+		  action
+		  the-agenda))
+(define (probe name wire)
+  (add-action! wire
+	       (lambda ()
+		 (newline)
+		 (display name)
+		 (display " ")
+		 (display (current-time the-agenda))
+		 (display " New-value = ")
+		 (display (get-signal wire)))))
