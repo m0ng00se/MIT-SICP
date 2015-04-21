@@ -1,4 +1,4 @@
-(include "queue.scm")
+(load "queue.scm")
 
 ;;
 ;; Wire Procedures:
