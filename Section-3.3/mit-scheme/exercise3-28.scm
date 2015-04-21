@@ -67,10 +67,13 @@
 ;; ==> Invalid signal 2 2
 
 ;;
-;; Let's try and unit-test the or-gate by connecting some wires:
+;; First let's create some wires:
 ;;
 (define a (make-wire))
 (define b (make-wire))
 (define c (make-wire))
 
+;;
+;; Now hook them up using an or-gate:
+;;
 (or-gate a b c)
