@@ -100,7 +100,7 @@
   (cdr (segments agenda)))
 
 (define (propagate)
-  (if (empty-propaganda? the-agenda)
+  (if (empty-agenda? the-agenda)
       'done
       (let ((first-item (first-agenda-item the-agenda)))
 	(first-item)
