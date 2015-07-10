@@ -43,7 +43,7 @@ Exercises
 (j) (let ((a (list 1 2))) (eq? a a))
 ```
 
-***Boolean Formulas***
+**Boolean Formulas**
 
 A boolean formula is a formula containing boolean operations and boolean variables. A boolean variable is either ```true``` or ```false```. ```and```, ```or``` and ```not``` are all boolean operations. For the purpose of this problem, ```and``` and ```or``` will be defined to take exactly two inputs.
 
