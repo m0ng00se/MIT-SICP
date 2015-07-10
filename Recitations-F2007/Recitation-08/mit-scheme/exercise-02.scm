@@ -33,8 +33,6 @@
   (cadr exp))
 
 ;;
-;; Unit Tests
-;;
 ;; Create the boolean forms defined in the recitation:
 ;;
 (make-not 'b)
