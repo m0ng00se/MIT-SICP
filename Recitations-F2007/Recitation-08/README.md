@@ -25,8 +25,15 @@ Procedures
   
     Returns true if v1 and v2 print out the same. "Works on" almost everything.
 
+Exercises
+--------- 
+
+(1) Evaluation - give the printed value, assuming x is bound to 5.
+
+(a) '3
+(b) 'x
+(c) ''x
 
 
-Scheme done, Emacs done.
+TODO: Clojure
 
-Clojure in progress (can't update state on objects easily). 
