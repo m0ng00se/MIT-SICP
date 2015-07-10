@@ -86,5 +86,9 @@ Some useful procedures:
   (caddr exp))
 ```
 
+(2) Write selectors, constructor and predicate for ```not```.
+
+(3) Given a boolean expression and a set of variable assignments, evaluate the expression to decide whether the result is #t or #f. Assume that you have a procedure ```(variable-value name environment)```, which takes a variable name and list of values and returns the value assigned to the varaible, if a binding for it exists, or throws an error if no binding is found.
+
 TODO: Emacs, Clojure
 
