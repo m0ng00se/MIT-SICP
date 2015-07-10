@@ -6,7 +6,7 @@ Special Forms
 
 (a) quote - ```(quote expr)```
 
-    Returns whatever the reader built for expr.
+Returns whatever the reader built for expr.
 
 (b) 'thing - syntactic sugar for ```(quote thing)```
 
