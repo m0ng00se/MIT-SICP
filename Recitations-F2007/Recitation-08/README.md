@@ -34,6 +34,13 @@ Exercises
 (a) '3
 (b) 'x
 (c) ''x
+(d) (quote (3 4))
+(e) ('+ 3 4) 
+(f) (if '(= x 0) 7 8)
+(g) (eq? 'x 'X)
+(h) (eq? (list 1 2) (list 1 2))
+(i) (equal? (list 1 2) (list 1 2))
+(j) (let ((a (list 1 2))) (eq? a a))
 ```
 
 
