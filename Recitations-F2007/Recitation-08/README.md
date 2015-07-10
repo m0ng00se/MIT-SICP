@@ -13,11 +13,17 @@ Special Forms
 Procedures
 ---------- 
 
-(a) ```(eq? v1 v2)``` - returns true if v1 and v2 are bitwise identical. "Works on" symbols, booleans and pairs. Does not "work on" numbers and strings.
+(a) ```(eq? v1 v2)```
 
-(b) ```(eqv? v1 v2)``` - like ```eq?``` except it "works on" numbers as well.
+    Returns true if v1 and v2 are bitwise identical. "Works on" symbols, booleans and pairs, does not "work on" numbers and strings.
 
-(c) ```(equal? v1 v2)``` returns true if v1 and v2 print out the same. "Works on" almost everything.
+(b) ```(eqv? v1 v2)```
+
+    Like ```eq?``` except it "works on" numbers as well.
+
+(c) ```(equal? v1 v2)``` 
+  
+    Returns true if v1 and v2 print out the same. "Works on" almost everything.
 
 
 
