@@ -28,11 +28,13 @@ Procedures
 Exercises
 --------- 
 
-(1) Evaluation - give the printed value, assuming x is bound to 5.
+(1) **Evaluation** - give the printed value, assuming x is bound to 5.
 
+```
 (a) '3
 (b) 'x
 (c) ''x
+```
 
 
 TODO: Clojure
