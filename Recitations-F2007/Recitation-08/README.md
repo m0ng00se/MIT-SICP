@@ -92,5 +92,7 @@ Some useful procedures:
 
 ```(define (eval-boolean exp env) [fill-in-blank])```
 
+(4) The evaluator as described so far only allows expressions to be either boolean operators or variable values. Extend the operator so that expressions can include literal booleans as well, so that evaluating expressions such as ```(and #t #f)``` work.
+
 TODO: Emacs, Clojure
 
