@@ -31,3 +31,19 @@
   (list 'not exp))
 (define (not-first exp)
   (cadr exp))
+
+;;
+;; Unit Tests
+;;
+;; Create the boolean forms defined in the recitation:
+;;
+(make-not 'b)
+;; ==> (not b)
+(make-or 'b (make-not 'c))
+;; ==> (or b (not c))
+(make-and (make-not 'a) (make-not 'c))
+;; ==> (and (not a) (not c))
+(make-not (make-or (make-not 'a) 'c))
+;; ==> (not (or (not a) c))
+(make-and (make-or 'a (make-not 'b)) (make-or (make-not 'a) 'c))
+;; ==> (and (or a (not b)) (or (not a) c))
