@@ -33,6 +33,8 @@ Problems
 
 (1) Complete the definition for ```tree-lookup```, which returns ```true``` if the value is present in the tree.
 
+(2) Fill in the definition for ```tree-insert```, which takes in a tree and a val and returns a new tree with the value added.
+
 **working**
 touch
 (reading --> red/black trees, or AVL trees)
