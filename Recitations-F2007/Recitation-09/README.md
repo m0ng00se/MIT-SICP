@@ -13,8 +13,22 @@ In order to support such searches, an invariant on each tree node holds: Each (n
 (define the-empty-tree null)
 (define empty-tree? null?)
 (define tree? list?)
+
+(define (make-tree-node value left-subtree right-subtree)
+  (list value left-subtree right-subtree))
+
+;; selectors
+(define (node-value node)
+  (car node))
+
+(define (node-left node)
+  (cadr node))
+
+(define (node-right node)
+  (caddr node))
 ```
 
+**working**
 touch
 (reading --> red/black trees, or AVL trees)
 
