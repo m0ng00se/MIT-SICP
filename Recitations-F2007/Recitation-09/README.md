@@ -28,6 +28,11 @@ In order to support such searches, an invariant on each tree node holds: Each (n
   (caddr node))
 ```
 
+Problems
+-------- 
+
+(1) Complete the definition for ```tree-lookup```, which returns ```true``` if the value is present in the tree.
+
 **working**
 touch
 (reading --> red/black trees, or AVL trees)
