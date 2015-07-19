@@ -22,33 +22,33 @@
   (cond ((not (tree? tree)) #f)
 	((empty-tree? tree) #f)
 	(else
-	  (let ((current-value (node-value tree))
-		       (left (node-left tree))
-		              (right (node-right tree)))
-	       (cond ((= current-value value) #t)
-		      ((and (> current-value value) (not (empty-tree? left)))
-		         (tree-lookup value left))
-		       ((and (< current-value value) (not (empty-tree? right)))
-			  (tree-lookup value right))
-		        (else #f))))))
+	 (let ((current-value (node-value tree))
+	       (left (node-left tree))
+	       (right (node-right tree)))
+	   (cond ((= current-value value) #t)
+		 ((and (> current-value value) (not (empty-tree? left)))
+		  (tree-lookup value left))
+		 ((and (< current-value value) (not (empty-tree? right)))
+		  (tree-lookup value right))
+		 (else #f))))))
 
 (define (tree-insert value tree)
   (cond ((empty-tree? tree)
-	  (make-tree-node value
-			   the-empty-tree
-			    the-empty-tree))
+	 (make-tree-node value
+			 the-empty-tree
+			 the-empty-tree))
 	(else
-	  (let ((current (node-value tree)))
-
-	       (cond ((= value current) tree)
-		      ((< value current)
-		         (make-tree-node current
-					   (tree-insert value (node-left tree))
-					     (node-right tree)))
-		       ((> value current)
-			  (make-tree-node current
-					    (node-left tree)
-					      (tree-insert value (node-right tree)))))))))
+	 (let ((current (node-value tree)))
+	   
+	   (cond ((= value current) tree)
+		 ((< value current)
+		  (make-tree-node current
+				  (tree-insert value (node-left tree))
+				  (node-right tree)))
+		 ((> value current)
+		  (make-tree-node current
+				  (node-left tree)
+				  (tree-insert value (node-right tree)))))))))
 
 ;;
 ;; Exercise 4
