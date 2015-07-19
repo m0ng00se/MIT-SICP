@@ -136,11 +136,6 @@
 			     (build-balanced-tree (list-head elems k))
 			     (build-balanced-tree (list-tail elems (+ k 1)))))))))
 
-;; [working]
-;; (1) Draw the graphs
-;; (2) Performance on the lookups (which should be O(lg n)
-;; (3) Performance on the builds (which may be longer)
-
 ;;
 ;; Run some unit tests:
 ;;
@@ -183,3 +178,6 @@
 (make-tree-node 8 
 		(build-balanced-tree (list-head '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) 7))
 		(build-balanced-tree (list-tail '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) 8))) ;; cost O(n) to calculate "length"
+(make-tree-node 8
+		(build-balanced-tree '(1 2 3 4 5 6 7))
+		(build-balanced-tree '(9 10 11 12 13 14 15)))
