@@ -169,103 +169,14 @@
 ;; It has the form of a binary search tree, so lookups run in 
 ;; O(lg n) time. 
 ;;
-;; To get a sense for the computational complexity required to 
-;; build the tree, we expand the call graph for constructing a 
-;; 15 (i.e., 2^4-1) element balanced tree:
+;; 
+;; The "build-balanced-tree" procedure calculates the length of 
+;; the input list in time O(n). It then recursively invokes 
+;; itself twice, each time with an argument list of size n/2. 
+;; As per the Master Method technique of calculating running
+;; times, the recurrence for this procedure is given by:
 ;;
-
-(build-balanced-tree '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
-(make-tree-node 8 
-		(build-balanced-tree (list-head '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) 7))
-		(build-balanced-tree (list-tail '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) 8))) ;; cost O(n) to calculate "length"
-(make-tree-node 8
-		(build-balanced-tree '(1 2 3 4 5 6 7))        ;; cost ???
-		(build-balanced-tree '(9 10 11 12 13 14 15))) ;; cost ???
-(make-tree-node 8
-		(make-tree-node 4
-				(build-balanced-tree (list-head '(1 2 3 4 5 6 7) 3))
-				(build-balanced-tree (list-tail '(1 2 3 4 5 6 7) 4))) ;; cost O(n') -> O(lg n) to calculate "length"
-		(make-tree-node 12
-				(build-balanced-tree (list-head '(9 10 11 12 13 14 15) 3))
-				(build-balanced-tree (list-tail '(9 10 11 12 13 14 15) 4)))) ;; cost O(n') -> O(lg n) to calculate "length"
-(make-tree-node 8
-		(make-tree-node 4
-				(build-balanced-tree '(1 2 3))
-				(build-balanced-tree '(5 6 7)))     ;; cost ???
-		(make-tree-node 12
-				(build-balanced-tree '(9 10 11))
-				(build-balanced-tree '(13 14 15)))) ;; cost ???
-(make-tree-node 8
-		(make-tree-node 4
-				(make-tree-node 2
-						(build-balanced-tree (list-head '(1 2 3) 1))
-						(build-balanced-tree (list-tail '(1 2 3) 2)))  ;; cost O(n'') -> O(lg lg n) to calculate "length"
-				(make-tree-node 6
-						(build-balanced-tree (list-head '(5 6 7) 1))
-						(build-balanced-tree (list-tail '(5 6 7) 2)))) ;; cost O(n'') -> O(lg lg n) to calculate "length"
-		(make-tree-node 12
-				(make-tree-node 10
-						(build-balanced-tree (list-head '(9 10 11) 1))
-						(build-balanced-tree (list-tail '(9 10 11) 2)))    ;; cost O(n'') -> O(lg lg n) to calculate "length"
-				(make-tree-node 14
-						(build-balanced-tree (list-head '(13 14 15) 1))
-						(build-balanced-tree (list-tail '(13 14 15) 2))))) ;; cost O(n'') -> O(lg lg n) to calculate "length"
-(make-tree-node 8
-		(make-tree-node 4
-				(make-tree-node 2
-						(build-balanced-tree '(1))
-						(build-balanced-tree '(3)))  ;; cost ???
-				(make-tree-node 6
-						(build-balanced-tree '(5))
-						(build-balanced-tree '(7)))) ;; cost ???
-		(make-tree-node 12
-				(make-tree-node 10
-						(build-balanced-tree '(9))
-						(build-balanced-tree '(11))) ;; cost???
-				(make-tree-node 14
-						(build-balanced-tree '(13))
-						(build-balanced-tree '(15))))) ;;; cost ???
-(make-tree-node 8
-		(make-tree-node 4
-				(make-tree-node 2
-						(make-tree-node 1 '() '())
-						(make-tree-node 3 '() '()))  ;; cost O(1)
-				(make-tree-node 6
-						(make-tree-node 5 '() '())
-						(make-tree-node 7 '() '()))) ;; cost O(1)
-		(make-tree-node 12
-				(make-tree-node 10
-						(make-tree-node 9 '() '())
-						(make-tree-node 11 '() '()))   ;; cost O(1)
-				(make-tree-node 14
-						(make-tree-node 13 '() '())
-						(make-tree-node 15 '() '())))) ;; cost O(1)
-(make-tree-node 8
-		(make-tree-node 4
-				(make-tree-node 2
-						'(1 () ())
-						'(3 () ()))  ;; cost O(1)
-				(make-tree-node 6
-						'(5 () ())
-						'(7 () ()))) ;; cost O(1)
-		(make-tree-node 12
-				(make-tree-node 10
-						'(9 () ())
-						'(11 () ()))   ;; cost O(1)
-				(make-tree-node 14
-						'(13 () ())
-						'(15 () ())))) ;; cost O(1)
-(make-tree-node 8
-		(make-tree-node 4
-				'(2 (1 () ()) (3 () ()))
-				'(6 (5 () ()) (7 () ())))     ;; cost O(1)
-		(make-tree-node 12
-				'(10 (9 () ()) (11 () ()))
-				'(14 (13 () ()) (15 () ())))) ;; cost O(1)
-(make-tree-node 8
-		'(4 (2 (1 () ()) (3 () ())) (6 (5 () ()) (7 () ())))        ;; cost O(1)
-		'(12 (10 (9 () ()) (11 () ())) (14 (13 () ()) (15 () ())))) ;; cost O(1)
-;; ==> '(8 (4 (2 (1 () ()) (3 () ())) (6 (5 () ()) (7 () ()))) (12 (10 (9 () ()) (11 () ())) (14 (13 () ()) (15 () ())))) ;; cost O(1)
-					       
-
-;; (working)
+;;  T(n) = 2*T(n/2) + n
+;;
+;; which can be solved to give T(n) = O(n*lg(n))
+;;
