@@ -58,8 +58,6 @@
 ;; which means that insertion and deletion is generally slower, but actual 
 ;; lookup of information is faster.
 ;;
-
-;;
 ;; To implement an AVL tree, we start with a standard BST insertion. Once 
 ;; the insertion is complete, we check to see whether both subtrees at the 
 ;; insertion point are balanced, respectively. If not, we "pivot" or rotate
