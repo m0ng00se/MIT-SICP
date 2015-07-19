@@ -67,6 +67,49 @@
 ;; height of final tree is (roughly) on the order of O(lg n).
 ;;
 
+;;
+;; Implementing an AVL tree is generally easier if we use tree nodes that 
+;; keep a running record of their height in the tree. We adjust our data
+;; structures accordingly:
+;;
+(define the-empty-tree '())
+(define empty-tree? null?)
+(define tree? list?)
+
+(define (node-value node)
+  (car node))
+(define (node-left node)
+  (cadr node))
+(define (node-right node)
+  (caddr node))
+(define (node-height node)
+  (cadddr node))
+
+;; (working) -> explain
+(define (tree-new-node value)
+  (list value '() '() 1))
+
+;; (working) -> explain
+(define (tree-height tree)
+  (cond ((empty-tree? tree) 0)
+	(else
+	 (node-height tree))))
+
+;; (working) -> explain
+(define (tree-balance tree)
+  (cond ((empty-tree? tree) 0)
+	(else
+	 (- (tree-balance (node-left tree)) (tree-balance (node-right tree))))))
+
+;; (working) -> explain
+(define (tree-insert value tree)
+  (cond ((empty-tree? tree) (tree-new-node value))
+	((< key (node-value tree)) (tree-insert value (node-left tree)))
+	((> key (node-value tree)) (tree-insert value (node-right tree)))
+	(else
+	 tree)))
+  
+
 
 
 ;;
