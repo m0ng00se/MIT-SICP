@@ -158,19 +158,16 @@
 ;; ==> (4 (2 (1 () ()) (3 () ())) (6 (5 () ()) (7 () ())))
 
 ;;
-;; This last structure looks something like the following:
+;; If we omit representing the null leaf nodes, this last 
+;; structure looks something like the following:
 ;;
-;;                 (4)
-;;                  |
-;;         +--------+--------+    
-;;         |                 |
-;;        (2)               (6) 
-;;        / \               / \
-;;       /   \             /   \
-;;      /     \           /     \
-;;     /       \         /       \
-;;   (1)       (3)     (5)       (7)
-;;   / \       / \     / \       / \ 
-;;  /   \     /   \   /   \     /   \
-;; ()   ()   ()   () ()   ()   ()   ()
+;;         (4)      
+;;         / \           
+;;        /   \          
+;;       /     \         
+;;      /       \     
+;;    (2)       (6)   
+;;   /   \      / \    
+;;  /     \    /   \   
+;; (1)    (3) (5)  (7) 
 ;;
