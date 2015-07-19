@@ -98,6 +98,8 @@
 (define (node-height node)
   (cadddr node))
 
+(define (node-set-value! node value)
+  (set-car! node value))
 (define (node-set-left! node left)
   (set-car! (cdr node) left))
 (define (node-set-right! node right)
