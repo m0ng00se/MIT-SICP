@@ -1,11 +1,4 @@
 ;;
-;; Exercise 1
-;;
-;; Complete the definition for "tree-lookup", which returns true 
-;; if the value is present in the tree.
-;;
-
-;;
 ;; A tree is either an empty tree, or a tree-node (defined below)
 ;;
 (define the-empty-tree '())
