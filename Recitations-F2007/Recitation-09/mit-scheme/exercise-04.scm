@@ -136,6 +136,11 @@
 			     (build-balanced-tree (list-head elems k))
 			     (build-balanced-tree (list-tail elems (+ k 1)))))))))
 
+;; [working]
+;; (1) Draw the graphs
+;; (2) Performance on the lookups (which should be O(lg n)
+;; (3) Performance on the builds (which may be longer)
+
 ;;
 ;; Run some unit tests:
 ;;
