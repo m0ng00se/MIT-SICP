@@ -198,8 +198,8 @@
 (make-tree-node 8
 		(make-tree-node 4
 				(make-tree-node 2
-						(build-balanced-tree (list-head '(1) 1))
-						(build-balanced-tree (list-tail '(1) 2)))  ;; cost O(n'') -> O(lg lg n) to calculate "length"
+						(build-balanced-tree (list-head '(1 2 3) 1))
+						(build-balanced-tree (list-tail '(1 2 3) 2)))  ;; cost O(n'') -> O(lg lg n) to calculate "length"
 				(make-tree-node 6
 						(build-balanced-tree (list-head '(3) 1))
 						(build-balanced-tree (list-tail '(3) 2)))) ;; cost O(n'') -> O(lg lg n) to calculate "length"
