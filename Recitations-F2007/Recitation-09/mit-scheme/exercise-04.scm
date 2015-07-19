@@ -240,6 +240,21 @@
 				(make-tree-node 14
 						(make-tree-node 13 '() '())
 						(make-tree-node 15 '() '())))) ;; cost O(1)
+(make-tree-node 8
+		(make-tree-node 4
+				(make-tree-node 2
+						'(1 () ())
+						'(3 () ()))  ;; cost O(1)
+				(make-tree-node 6
+						'(5 () ())
+						'(7 () ()))) ;; cost O(1)
+		(make-tree-node 12
+				(make-tree-node 10
+						'(9 () ())
+						'(11 () ()))   ;; cost O(1)
+				(make-tree-node 14
+						'(13 () ())
+						'(15 () ())))) ;; cost O(1)
 						
 
 				
