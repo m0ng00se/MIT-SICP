@@ -45,13 +45,23 @@
 ;; One simple model for implementing self-balancing trees is a red-black tree.
 ;;
 
+;; [working] -> implement
+
 ;;
 ;; Another relatively simple model for implementing self-balancing trees is 
-;; an AVL tree, which we won't implement here. AVL trees are more strictly 
-;; balanced than red-black trees, which means that insertion and retrieval is 
-;; generally slower, but actual lookup of information is faster.
+;; an AVL tree, named after its Soviet inventors Georgy Adelson-Velsky and 
+;; E. M. Landis. AVL trees are generally better balanced than red-black trees, 
+;; which means that insertion and deletion is generally slower, but actual 
+;; lookup of information is faster.
 ;;
 
+;;
+;; To implement an AVL tree, we start with a standard BST insertion. Once 
+;; the insertion is complete, we check to see whether both subtrees at the 
+;; insertion point are balanced, respectively. If not, we "pivot" or rotate
+;; the subtrees to achieve a balanced tree structure, such that the overall 
+;; height of final tree is (roughly) on the order of O(lg n).
+;;
 
 
 
