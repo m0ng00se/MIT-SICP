@@ -169,7 +169,6 @@
 ;; It has the form of a binary search tree, so lookups run in 
 ;; O(lg n) time. 
 ;;
-;; 
 ;; The "build-balanced-tree" procedure calculates the length of 
 ;; the input list in time O(n). It then recursively invokes 
 ;; itself twice, each time with an argument list of size n/2. 
