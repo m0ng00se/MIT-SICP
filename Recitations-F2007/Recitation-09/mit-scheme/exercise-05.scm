@@ -66,8 +66,6 @@
 ;; the subtrees to achieve a balanced tree structure, such that the overall 
 ;; height of final tree is (roughly) on the order of O(lg n).
 ;;
-
-;;
 ;; Suppose that T1, T2 and T3 are subtrees of the tree rooted at y (on 
 ;; the left side) or x (on the right side):
 ;;
@@ -109,17 +107,30 @@
 (define (node-set-height! node height)
   (set-car! (cdr (cdr (cdr node))) height))
 
-;; (working) -> explain
+;; Create a new tree node with the given value
 (define (tree-new-node value)
   (list value '() '() 1))
 
-;; (working) -> explain
+;; Return the height of the sub-tree rooted at "tree"
 (define (tree-height tree)
   (cond ((empty-tree? tree) 0)
 	(else
 	 (node-height tree))))
 
-;; (working) -> explain
+;; 
+;; This is the "workhorse" method of the AVL data structure.
+;; It returns the difference of the heights of the left and 
+;; right sub-trees of "tree". 
+;;
+;;  * If the value returned is 0, the two sub-trees are of equal height;
+;;  * If the value returned is positive, the left sub-tree is higher than the right;
+;;  * If the value returned is negative, the right sub-tree is higher than the left;
+;;
+;; If the absolute value of the value returned is greater than 1, 
+;; we will re-pivot the sub-trees so as to re-establish an overall 
+;; tree height on the order of ln(N) while still maintaining the BST 
+;; ordering property.
+;;
 (define (tree-balance tree)
   (cond ((empty-tree? tree) 0)
 	(else
