@@ -68,6 +68,16 @@
 ;;
 
 ;;
+;; Suppose that T1, T2 and T3 are subtrees of the tree rooted at y (on 
+;; the left side) or x (on the right side):
+;;
+;;          y                             x
+;;         / \      Right Rotation       / \ 
+;;        x  T3   - - - - - - - - >     T1  y 
+;;       / \      < - - - - - - - -        / \
+;;      T1 T2       Left Rotation         T2 T3
+
+;;
 ;; Implementing an AVL tree is generally easier if we use tree nodes that 
 ;; keep a running record of their height in the tree. A tree node will thus 
 ;; look something like the following:
