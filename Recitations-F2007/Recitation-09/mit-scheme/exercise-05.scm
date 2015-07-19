@@ -76,6 +76,7 @@
 ;;        x  T3   - - - - - - - - >     T1  y 
 ;;       / \      < - - - - - - - -        / \
 ;;      T1 T2       Left Rotation         T2 T3
+;;
 
 ;;
 ;; Implementing an AVL tree is generally easier if we use tree nodes that 
