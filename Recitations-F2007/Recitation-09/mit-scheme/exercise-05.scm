@@ -126,12 +126,14 @@
 ;; ==> ()
 (node-height n1)
 ;; ==> 1
+(node-set-value! n1 12)
+;; ==> (12 () () 1)
 (node-set-left! n1 '(a))
-;; ==> (10 (a) () 1)
+;; ==> (12 (a) () 1)
 (node-set-right! n1 '(b))
-;; ==> (10 (a) (b) 1)
+;; ==> (12 (a) (b) 1)
 (node-set-height! n1 5)
-;; ==> (10 (a) (b) 5)
+;; ==> (12 (a) (b) 5)
 
 ;;
 ;; Return the height of the sub-tree rooted at "tree".
@@ -167,6 +169,18 @@
 
 ;; (working) -> explain
 (define (tree-insert value tree)
+  (define (tree-insert-proc)
+    (cond ((empty-tree? tree)
+	   (let ((new-node (tree-new-node value)))
+	     (node-set-value! tree (node-value new-node))
+	     (node-set-left! tree (node-left new-node))
+	     (node-set-right! tree (node-right new-node))
+	     (node-set-height! tree (node-height new-node))))
+	  ((< value (
+    '())
+  (let ((new-tree (tree-insert-proc)))
+    new-tree))
+  
   (define (tree-insert-proc)
     (cond ((empty-tree? tree) (tree-new-node value))
 	  ((< value (node-value tree)) (tree-insert value (node-left tree)))
