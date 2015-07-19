@@ -74,6 +74,10 @@
 ;;
 ;;  '(node-value left-subtree right-subtree node-height)
 ;;
+;; This data structure is also much easier to implement if we allow ourselves
+;; the convenience of mutating the state of tree node as the insertion procedure
+;; runs.
+;;
 (define the-empty-tree '())
 (define empty-tree? null?)
 (define tree? list?)
@@ -86,6 +90,13 @@
   (caddr node))
 (define (node-height node)
   (cadddr node))
+
+(define (node-set-left! node left)
+  (set-car! (cdr node) left))
+(define (node-set-right! node right)
+  (set-car! (cdr (cdr node)) right))
+(define (node-set-height! node height)
+  (set-car! (cdr (cdr (cdr node))) height))
 
 ;; (working) -> explain
 (define (tree-new-node value)
@@ -105,6 +116,8 @@
 
 ;; (working) -> explain
 (define (tree-insert value tree)
+  (let ((height (+ (max (tree-height (node-left tree)) (tree-height (node-right tree))) 1)))
+    '())
   (cond ((empty-tree? tree) (tree-new-node value))
 	((< key (node-value tree)) (tree-insert value (node-left tree)))
 	((> key (node-value tree)) (tree-insert value (node-right tree)))
