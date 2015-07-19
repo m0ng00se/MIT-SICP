@@ -165,15 +165,14 @@
 
 ;; (working) -> explain
 (define (tree-insert value tree)
-  (let ((height (+ (max (tree-height (node-left tree)) (tree-height (node-right tree))) 1)))
-    '())
-  (cond ((empty-tree? tree) (tree-new-node value))
-	((< key (node-value tree)) (tree-insert value (node-left tree)))
-	((> key (node-value tree)) (tree-insert value (node-right tree)))
-	(else
-	 tree)))
-  
-
+  (define (tree-insert-proc)
+    (cond ((empty-tree? tree) (tree-new-node value))
+	  ((< value (node-value tree)) (tree-insert value (node-left tree)))
+	  ((> value (node-value tree)) (tree-insert value (node-right tree)))
+	  (else
+	   tree)))
+  (let ((new-tree (tree-insert-proc)))
+    new-tree))
 
 
 ;;
