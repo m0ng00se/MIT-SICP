@@ -188,6 +188,29 @@
 		(make-tree-node 12
 				(build-balanced-tree (list-head '(9 10 11 12 13 14 15) 3))
 				(build-balanced-tree (list-tail '(9 10 11 12 13 14 15) 4)))) ;; cost O(n') -> O(lg n) to calculate "length"
+(make-tree-node 8
+		(make-tree-node 4
+				(build-balanced-tree '(1 2 3))
+				(build-balanced-tree '(5 6 7)))     ;; cost ???
+		(make-tree-node 12
+				(build-balanced-tree '(9 10 11))
+				(build-balanced-tree '(13 14 15)))) ;; cost ???
+(make-tree-node 8
+		(make-tree-node 4
+				(make-tree-node 2
+						(build-balanced-tree (list-head '(1) 1))
+						(build-balanced-tree (list-tail '(1) 2)))
+				(make-tree-node 6
+						(build-balanced-tree (list-head '(3) 1))
+						(build-balanced-tree (list-tail '(3) 2))))
+		(make-tree-node 12
+				(make-tree-node 10
+						(build-balanced-tree (list-head '(9) 1))
+						(build-balanced-tree (list-tail '(11) 2)))
+				(make-tree-node 14
+						(build-balanced-tree (list-head '(13) 1))
+						(build-balanced-tree (list-tail '(15) 2)))))
+						
 
 				
 
