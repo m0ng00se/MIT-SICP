@@ -161,13 +161,25 @@
 ;; If we omit representing the null leaf nodes, this last 
 ;; structure looks something like the following:
 ;;
-;;         (4)      
-;;         / \           
-;;        /   \          
-;;       /     \         
-;;      /       \     
-;;    (2)       (6)   
-;;   /   \      / \    
-;;  /     \    /   \   
-;; (1)    (3) (5)  (7) 
+;;            (4)      
+;;            / \           
+;;           /   \          
+;;          /     \         
+;;         /       \     
+;;       (2)       (6)   
+;;       /  \      / \    
+;;      /    \    /   \   
+;;    (1)    (3) (5)  (7) 
 ;;
+;; It has the form of a binary search tree, so lookups run in 
+;; O(lg n) time. 
+;;
+;; To get a sense for the computational complexity required to 
+;; build the tree, we expand the call graph for constructing a 
+;; 15 (i.e., 2^4-1) element balanced tree:
+;;
+
+(build-balanced-tree '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
+(make-tree-node 8 
+		(build-balanced-tree (list-head '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) 7))
+		(build-balanced-tree (list-tail '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) 8))) ;; cost O(n) to calculate "length"
