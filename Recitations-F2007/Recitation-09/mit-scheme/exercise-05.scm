@@ -132,7 +132,13 @@
 ;; ==> (10 (a) (b) 5)
 
 ;;
-;; Return the height of the sub-tree rooted at "tree":
+;; Return the height of the sub-tree rooted at "tree".
+;;
+;; This procedure assumes that the state variable 
+;; representing the height of the node has been set 
+;; and maintained correctly. It also guards against null
+;; pointer exceptions by checking to see if the tree is
+;; null, in which case it returns a height of 0.
 ;;
 (define (tree-height tree)
   (cond ((empty-tree? tree) 0)
