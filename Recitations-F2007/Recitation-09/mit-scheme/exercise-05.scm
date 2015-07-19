@@ -69,8 +69,10 @@
 
 ;;
 ;; Implementing an AVL tree is generally easier if we use tree nodes that 
-;; keep a running record of their height in the tree. We adjust our data
-;; structures accordingly:
+;; keep a running record of their height in the tree. A tree node will thus 
+;; look something like the following:
+;;
+;;  '(node-value left-subtree right-subtree node-height)
 ;;
 (define the-empty-tree '())
 (define empty-tree? null?)
