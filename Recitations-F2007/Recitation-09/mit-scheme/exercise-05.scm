@@ -48,6 +48,10 @@
 ;; [working] -> implement
 
 ;;
+;; +-----------+ 
+;; | AVL TREES |
+;; +-----------+
+;;
 ;; Another relatively simple model for implementing self-balancing trees is 
 ;; an AVL tree, named after its Soviet inventors Georgy Adelson-Velsky and 
 ;; E. M. Landis. AVL trees are generally better balanced than red-black trees, 
