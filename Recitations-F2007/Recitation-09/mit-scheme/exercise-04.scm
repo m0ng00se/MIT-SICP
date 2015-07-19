@@ -225,6 +225,21 @@
 				(make-tree-node 14
 						(build-balanced-tree '(13))
 						(build-balanced-tree '(15))))) ;;; cost ???
+(make-tree-node 8
+		(make-tree-node 4
+				(make-tree-node 2
+						(make-tree-node 1 '() '())
+						(make-tree-node 3 '() '()))  ;; cost O(1)
+				(make-tree-node 6
+						(make-tree-node 5 '() '())
+						(make-tree-node 7 '() '()))) ;; cost O(1)
+		(make-tree-node 12
+				(make-tree-node 10
+						(make-tree-node 9 '() '())
+						(make-tree-node 11 '() '()))   ;; cost O(1)
+				(make-tree-node 14
+						(make-tree-node 13 '() '())
+						(make-tree-node 15 '() '())))) ;; cost O(1)
 						
 
 				
