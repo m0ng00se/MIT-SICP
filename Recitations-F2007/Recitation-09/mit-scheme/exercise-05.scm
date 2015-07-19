@@ -105,11 +105,35 @@
 (define (node-set-height! node height)
   (set-car! (cdr (cdr (cdr node))) height))
 
-;; Create a new tree node with the given value
+;;
+;; Create a new tree node with the given value:
+;;
 (define (tree-new-node value)
   (list value '() '() 1))
 
-;; Return the height of the sub-tree rooted at "tree"
+;;
+;; Some unit tests:
+;;
+(define n1 (tree-new-node 10))
+;; ==> (10 () () 1)
+(node-value n1)
+;; ==> 10
+(node-left n1)
+;; ==> ()
+(node-right n1)
+;; ==> ()
+(node-height n1)
+;; ==> 1
+(node-set-left! n1 '(a))
+;; ==> (10 (a) () 1)
+(node-set-right! n1 '(b))
+;; ==> (10 (a) (b) 1)
+(node-set-height! n1 5)
+;; ==> (10 (a) (b) 5)
+
+;;
+;; Return the height of the sub-tree rooted at "tree":
+;;
 (define (tree-height tree)
   (cond ((empty-tree? tree) 0)
 	(else
