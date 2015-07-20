@@ -169,6 +169,26 @@
 
 ;; (working) -> explain
 (define (tree-insert value tree)
+
+  ;; Copy src node to dst node
+  (define (node-copy src dst)
+    (node-set-value! dst (node-value src))
+    (node-set-left! dst (node-left src))
+    (node-set-right! dst (node-right src))
+    (node-set-height! dst (node-height src)))
+
+  ;; BST insertion, modifying tree in-place
+  (define (tree-insert-bst)
+    (cond ((empty-tree? tree)
+	   (let ((new-node (tree-new-node value)))
+	     (node-copy new-node tree)))
+	  (else
+	   '())))
+
+  ;; Run tree insection procedure
+  (tree-insert-bst))
+
+
   (define (tree-insert-proc)
     (cond ((empty-tree? tree)
 	   (let ((new-node (tree-new-node value)))
