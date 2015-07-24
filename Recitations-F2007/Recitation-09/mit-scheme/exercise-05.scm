@@ -123,7 +123,6 @@
 ;; ==> (1 () ())
 (define node-3 (make-node 3))
 ;; ==> (3 () ())
-
 (node-height node-1)
 ;; ==> 1
 (node-height node-3)
@@ -131,50 +130,23 @@
 
 (define node-2 (make-tree 2 node-1 node-3)
 ;; ==> (2 (1 () ()) (3 () ()))
+(node-height node-2)
+;; ==> 2
 
-
-;;
-;; Create a new tree node with the given value:
-;;
-(define (tree-new-node value)
-  (list value '() '()))
-
-;;
-;; Some unit tests:
-;;
-(define n1 (tree-new-node 10))
-;; ==> (10 () ())
-(node-value n1)
-;; ==> 10
-(node-left n1)
-;; ==> ()
-(node-right n1)
-;; ==> ()
-(node-height '())
-;; ==>
-(node-height n1)
+(define node-6 (make-node 6))
+;; ==> (6 () ())
+(define node-5 (make-tree 5 node-2 node-6))
+;; ==> (5 (2 (1 () ()) (3 () ())) (6 () ()))
+(node-height node-6) 
 ;; ==> 1
-(node-set-value! n1 12)
-;; ==> (12 () () 1)
-(node-set-left! n1 '(a))
-;; ==> (12 (a) () 1)
-(node-set-right! n1 '(b))
-;; ==> (12 (a) (b) 1)
-(node-set-height! n1 5)
-;; ==> (12 (a) (b) 5)
+(node-height node-5)
+;; ==> 3
 
 ;;
-;; Return the height of the sub-tree rooted at "tree".
+;; With these procedures in place, we can implement the left- and 
+;; right-rotation procedures:
 ;;
-;; This procedure assumes that the state variable representing the height 
-;; of the node has been set and maintained correctly. It also guards against 
-;; null pointer exceptions by checking to see if the tree is null, in which 
-;; case it returns a height of 0.
-;;
-(define (tree-height tree)
-  (cond ((empty-tree? tree) 0)
-	(else
-	 (node-height tree))))
+
 
 ;; 
 ;; This is the "workhorse" method of the AVL data structure.
