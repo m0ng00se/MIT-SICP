@@ -146,7 +146,7 @@
 	(node-t3 (node-right node-y)))
     (let ((node-t1 (node-left node-x))
 	  (node-t2 (node-right node-x)))
-      (let ((node-y-prime (make-tree (node-value node-y) node-t2 node-t1)))
+      (let ((node-y-prime (make-tree (node-value node-y) node-t2 node-t3)))
 	(let ((node-x-prime (make-tree (node-value node-x) node-t1 node-y-prime)))
 	  node-x-prime)))))
 
