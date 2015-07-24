@@ -108,18 +108,6 @@
 	    (+ (max (node-height left) (node-height right)) 1)))))
 
 ;;
-;; Implementing an AVL tree will be easier if we allow ourselves the 
-;; luxury of updating the left and right branches in-place. Again, we
-;; guard against nulls to make the implementation of recursion easier:
-;;
-(define (node-set-left! node left)
-  (if (null? node) '()
-      (set-car! (cdr node) left)))
-(define (node-set-right! node right)
-  (if (null? node) '()
-      (set-car! (cdr (cdr node)) right)))
-
-;;
 ;; Some unit tests:
 ;;
 (node-height the-empty-tree)
@@ -148,35 +136,30 @@
 (node-height node-5)
 ;; ==> 3
 
-(define node-100 (make-node 100))
-;; ==> (100 () ())
-(define node-200 (make-node 200))
-;; ==> (200 () ())
-(define node-300 (make-node 300))
-;; ==> (300 () ())
-(node-set-left! node-200 node-100)
-;; ==> (200 (100 () ()) ())
-(node-set-right! node-200 node-300)
-;; ==> (200 (100 () ()) (300 () ()))
-
 ;;
 ;; With these procedures in place, we can implement the left- and 
 ;; right-rotation procedures. We will follow the labeling that was
 ;; used in the diagrams above for the sake of clarity:
 ;;
-(define (tree-rotate-right! node-y)
-  (let ((node-x (node-left node-y)))
-    (let ((node-t2 (node-right node-x)))
-      (node-set-left! node-y node-2)
-      (node-set-right! node-x node-y)
-      node-x)))
+(define (tree-rotate-right node-y)
+  (let ((node-x (node-left node-y))
+	(node-t3 (node-right node-y)))
+    (let ((node-t1 (node-left node-x))
+	  (node-t2 (node-right node-x)))
+      (let ((node-y-prime (make-tree (node-value node-y) node-t2 node-t1)))
+	(let ((node-x-prime (make-tree (node-value node-x) node-t1 node-y-prime)))
+	  node-x-prime)))))
 
-(define (tree-rotate-left! node-x)
-  (let ((node-y (node-right node-x)))
-    (let ((node-t2 (node-left node-y)))
-      (node-set-right! node-x node-t2)
-      (node-set-left! node-y node-x)
-      node-y)))
+(define (tree-rotate-left node-x)
+  (let ((node-t1 (node-left node-x))
+	(node-y (node-right node-x)))
+    (let ((node-t2 (node-left node-y))
+	  (node-t3 (node-right node-y)))
+      (let ((node-x-prime (make-tree (node-value node-x) node-t1 node-t2)))
+	(let ((node-y-prime (make-tree (node-value node-y) node-x-prime node-t3)))
+	  node-y-prime)))))
+	    
+
 
 ;; 
 ;; This is the "workhorse" method of the AVL data structure.
