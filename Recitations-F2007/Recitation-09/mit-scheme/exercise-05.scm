@@ -83,12 +83,19 @@
 (define (make-node value)
   (make-tree value '() '()))
 
+;;
+;; Guard against nulls in these selectors so we can 
+;; implement recursion more easily:
+;;
 (define (node-value node)
-  (car node))
+  (if (null? node) '()
+      (car node)))
 (define (node-left node)
-  (cadr node))
+  (if (null? node) '()
+      (cadr node)))
 (define (node-right node)
-  (caddr node))
+  (if (null? node) '()
+      (caddr node)))
 
 ;;
 ;; Calculate the height of a node recursively:
@@ -102,12 +109,15 @@
 
 ;;
 ;; Implementing an AVL tree will be easier if we allow ourselves the 
-;; luxury of updating the left and right branches in-place:
+;; luxury of updating the left and right branches in-place. Again, we
+;; guard against nulls to make the implementation of recursion easier:
 ;;
 (define (node-set-left! node left)
-  (set-car! (cdr node) left))
+  (if (null? node) '()
+      (set-car! (cdr node) left)))
 (define (node-set-right! node right)
-  (set-car! (cdr (cdr node)) right))
+  (if (null? node) '()
+      (set-car! (cdr (cdr node)) right)))
 
 ;;
 ;; Some unit tests:
