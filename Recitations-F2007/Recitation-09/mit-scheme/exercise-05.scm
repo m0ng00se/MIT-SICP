@@ -159,6 +159,25 @@
 	(let ((node-y-prime (make-tree (node-value node-y) node-x-prime node-t3)))
 	  node-y-prime)))))
 	    
+;;
+;; Unit tests:
+;;
+(define node-t1 (make-node 't1))
+;; ==> (t1 () ())
+(define node-t2 (make-node 't2))
+;; ==> (t2 () ())
+(define node-t3 (make-node 't3))
+;; ==> (t3 () ())
+(define node-x (make-tree 'x node-t1 node-2))
+;; ==> (x (t1 () ()) (t2 () ()))
+(define node-y (make-tree 'y node-x node-t3))
+;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
+
+(define tree-1 node-y)
+;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
+(node-height tree-1)
+;; ==> 3
+(tree-rotate-right tree-1)
 
 
 ;; 
