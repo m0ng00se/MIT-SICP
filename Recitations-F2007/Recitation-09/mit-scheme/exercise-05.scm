@@ -102,7 +102,7 @@
       (let ((left (node-left node))
 	    (right (node-right node)))
 	(if (and (null? left) (null? right)) 1
-	    (max (node-height left) (node-height right))))))
+	    (+ (max (node-height left) (node-height right)) 1)))))
 
 ;;
 ;; Implementing an AVL tree will be easier if we allow ourselves the 
