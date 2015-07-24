@@ -177,8 +177,15 @@
 ;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
 (node-height tree-1)
 ;; ==> 3
-(tree-rotate-right tree-1)
 
+(define tree-2 (tree-rotate-right tree-1))
+;; ==> (x (t1 () ()) (y (t2 () ()) (t3 () ())))
+(tree-rotate-left tree-2)
+;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
+
+;;
+;; [[FAILS THE DOUBLE ROTATION TEST]]
+;;
 
 ;; 
 ;; This is the "workhorse" method of the AVL data structure.
