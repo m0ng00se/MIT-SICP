@@ -75,15 +75,8 @@
 ;;
 
 ;;
-;; Implementing an AVL tree is generally easier if we use tree nodes that 
-;; keep a running record of their height in the tree. A tree node will thus 
-;; look something like the following:
-;;
-;;  '(node-value left-subtree right-subtree node-height)
-;;
-;; This data structure is also much easier to implement if we allow ourselves
-;; the convenience of mutating the state of tree node as the insertion procedure
-;; runs.
+;; Implementing an AVL tree is generally easier if we allow ourselves the 
+;; luxury of mutating the state of a tree node as the insertion procedure runs.
 ;;
 (define the-empty-tree '())
 (define empty-tree? null?)
@@ -96,7 +89,16 @@
 (define (node-right node)
   (caddr node))
 (define (node-height node)
-  (cadddr node))
+  (cond ((null? node) 
+	 0)
+	((and 
+	  (null? (node-left node)) 
+	  (null? (node-right node)))
+	 1)
+	(else 
+	 (max 
+	  (node-height (node-left node)) 
+	  (node-height (node-right node))))))
 
 (define (node-set-value! node value)
   (set-car! node value))
@@ -104,8 +106,6 @@
   (set-car! (cdr node) left))
 (define (node-set-right! node right)
   (set-car! (cdr (cdr node)) right))
-(define (node-set-height! node height)
-  (set-car! (cdr (cdr (cdr node))) height))
 
 ;;
 ;; Create a new tree node with the given value:
