@@ -74,10 +74,6 @@
 ;;      T1 T2       Left Rotation         T2 T3
 ;;
 
-;;
-;; [EXPLAIN MORE ABOUT AVL ROTATION]
-;;
-
 (define the-empty-tree '())
 (define empty-tree? null?)
 (define tree? list?)
@@ -156,7 +152,7 @@
 ;;
 ;; With these procedures in place, we can implement the left- and 
 ;; right-rotation procedures. We will follow the labeling that was
-;; used in the diagrams above:
+;; used in the diagrams above for the sake of clarity:
 ;;
 (define (tree-rotate-right! node-y)
   (let ((node-x (node-left node-y)))
