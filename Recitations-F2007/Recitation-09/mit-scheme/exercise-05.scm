@@ -75,9 +75,9 @@
 ;;
 
 ;;
-;; Implementing an AVL tree is generally easier if we allow ourselves the 
-;; luxury of mutating the state of a tree node as the insertion procedure runs.
+;; [EXPLAIN MORE ABOUT AVL ROTATION]
 ;;
+
 (define the-empty-tree '())
 (define empty-tree? null?)
 (define tree? list?)
@@ -88,20 +88,22 @@
   (cadr node))
 (define (node-right node)
   (caddr node))
-(define (node-height node)
-  (cond ((null? node) 
-	 0)
-	((and 
-	  (null? (node-left node)) 
-	  (null? (node-right node)))
-	 1)
-	(else 
-	 (max 
-	  (node-height (node-left node)) 
-	  (node-height (node-right node))))))
 
-(define (node-set-value! node value)
-  (set-car! node value))
+;;
+;; Calculate the height of the node recursively:
+;;
+(define (node-height node)
+  (let ((left (node-left node))
+	(right (node-right node)))
+    (cond ((null? node) 0)
+	  ((and (null? left) (null? right)) 1)
+	  (else 
+	   (max (node-height left) (node-height right))))))
+
+;;
+;; Implementing an AVL tree will be easier if we allow ourselves the 
+;; luxury of updating the left and right branches in-place:
+;;
 (define (node-set-left! node left)
   (set-car! (cdr node) left))
 (define (node-set-right! node right)
@@ -111,19 +113,21 @@
 ;; Create a new tree node with the given value:
 ;;
 (define (tree-new-node value)
-  (list value '() '() 1))
+  (list value '() '()))
 
 ;;
 ;; Some unit tests:
 ;;
 (define n1 (tree-new-node 10))
-;; ==> (10 () () 1)
+;; ==> (10 () ())
 (node-value n1)
 ;; ==> 10
 (node-left n1)
 ;; ==> ()
 (node-right n1)
 ;; ==> ()
+(node-height '())
+;; ==>
 (node-height n1)
 ;; ==> 1
 (node-set-value! n1 12)
