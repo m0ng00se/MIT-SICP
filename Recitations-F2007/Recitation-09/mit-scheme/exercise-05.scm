@@ -84,8 +84,8 @@
   (make-tree value '() '()))
 
 ;;
-;; Guard against nulls in these selectors so we can 
-;; implement recursion more easily:
+;; Guard against nulls in these selectors so we can implement recursion 
+;; more easily:
 ;;
 (define (node-value node)
   (if (null? node) '()
