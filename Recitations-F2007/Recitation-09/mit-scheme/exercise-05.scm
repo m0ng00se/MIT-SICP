@@ -82,6 +82,11 @@
 (define empty-tree? null?)
 (define tree? list?)
 
+(define (make-tree value left right)
+  (list value left right))
+(define (make-node value)
+  (make-tree value '() '()))
+
 (define (node-value node)
   (car node))
 (define (node-left node)
