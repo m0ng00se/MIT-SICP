@@ -88,23 +88,23 @@
 ;; more easily:
 ;;
 (define (node-value node)
-  (if (null? node) '()
+  (if (empty-tree? node) '()
       (car node)))
 (define (node-left node)
-  (if (null? node) '()
+  (if (empty-tree? node) '()
       (cadr node)))
 (define (node-right node)
-  (if (null? node) '()
+  (if (empty-tree? node) '()
       (caddr node)))
 
 ;;
 ;; Calculate the height of a node recursively:
 ;;
 (define (node-height node)
-  (if (null? node) 0
+  (if (empty-tree? node) 0
       (let ((left (node-left node))
 	    (right (node-right node)))
-	(if (and (null? left) (null? right)) 1
+	(if (and (empty-tree? left) (empty-tree? right)) 1
 	    (+ (max (node-height left) (node-height right)) 1)))))
 
 ;;
@@ -144,20 +144,28 @@
 (define (tree-rotate-right node-y)
   (let ((node-x (node-left node-y))
 	(node-t3 (node-right node-y)))
-    (let ((node-t1 (node-left node-x))
-	  (node-t2 (node-right node-x)))
-      (let ((node-y-prime (make-tree (node-value node-y) node-t2 node-t3)))
-	(let ((node-x-prime (make-tree (node-value node-x) node-t1 node-y-prime)))
-	  node-x-prime)))))
+    ;;
+    ;; Return the tree itself if the left branch is null:
+    ;;
+    (if (empty-tree? node-x) node-y
+	(let ((node-t1 (node-left node-x))
+	      (node-t2 (node-right node-x)))
+	  (let ((node-y-prime (make-tree (node-value node-y) node-t2 node-t3)))
+	    (let ((node-x-prime (make-tree (node-value node-x) node-t1 node-y-prime)))
+	      node-x-prime))))))
 
 (define (tree-rotate-left node-x)
   (let ((node-t1 (node-left node-x))
-	(node-y (node-right node-x)))
-    (let ((node-t2 (node-left node-y))
-	  (node-t3 (node-right node-y)))
-      (let ((node-x-prime (make-tree (node-value node-x) node-t1 node-t2)))
-	(let ((node-y-prime (make-tree (node-value node-y) node-x-prime node-t3)))
-	  node-y-prime)))))
+	(node-y (node-right node-x)))    
+    ;;
+    ;; Return the tree itself if the right branch is null:
+    ;;
+    (if (empty-tree? node-y) node-x
+	(let ((node-t2 (node-left node-y))
+	      (node-t3 (node-right node-y)))
+	  (let ((node-x-prime (make-tree (node-value node-x) node-t1 node-t2)))
+	    (let ((node-y-prime (make-tree (node-value node-y) node-x-prime node-t3)))
+	      node-y-prime))))))
 	    
 ;;
 ;; Unit tests:
