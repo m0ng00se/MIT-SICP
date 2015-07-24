@@ -95,7 +95,7 @@
   (caddr node))
 
 ;;
-;; Calculate the height of the node recursively:
+;; Calculate the height of a node recursively:
 ;;
 (define (node-height node)
   (if (null? node) 0
@@ -112,6 +112,26 @@
   (set-car! (cdr node) left))
 (define (node-set-right! node right)
   (set-car! (cdr (cdr node)) right))
+
+;;
+;; Some unit tests:
+;;
+(node-height the-empty-tree)
+;; ==> 0
+
+(define node-1 (make-node 1))
+;; ==> (1 () ())
+(define node-3 (make-node 3))
+;; ==> (3 () ())
+
+(node-height node-1)
+;; ==> 1
+(node-height node-3)
+;; ==> 1
+
+(define node-2 (make-tree 2 node-1 node-3)
+;; ==> (2 (1 () ()) (3 () ()))
+
 
 ;;
 ;; Create a new tree node with the given value:
