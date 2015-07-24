@@ -142,11 +142,35 @@
 (node-height node-5)
 ;; ==> 3
 
+(define node-100 (make-node 100))
+;; ==> (100 () ())
+(define node-200 (make-node 200))
+;; ==> (200 () ())
+(define node-300 (make-node 300))
+;; ==> (300 () ())
+(node-set-left! node-200 node-100)
+;; ==> (200 (100 () ()) ())
+(node-set-right! node-200 node-300)
+;; ==> (200 (100 () ()) (300 () ()))
+
 ;;
 ;; With these procedures in place, we can implement the left- and 
-;; right-rotation procedures:
+;; right-rotation procedures. We will follow the labeling that was
+;; used in the diagrams above:
 ;;
+(define (tree-rotate-right! node-y)
+  (let ((node-x (node-left node-y)))
+    (let ((node-t2 (node-right node-x)))
+      (node-set-left! node-y node-2)
+      (node-set-right! node-x node-y)
+      node-x)))
 
+(define (tree-rotate-left! node-x)
+  (let ((node-y (node-right node-x)))
+    (let ((node-t2 (node-left node-y)))
+      (node-set-right! node-x node-t2)
+      (node-set-left! node-y node-x)
+      node-y)))
 
 ;; 
 ;; This is the "workhorse" method of the AVL data structure.
