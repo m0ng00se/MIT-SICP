@@ -98,12 +98,11 @@
 ;; Calculate the height of the node recursively:
 ;;
 (define (node-height node)
-  (let ((left (node-left node))
-	(right (node-right node)))
-    (cond ((null? node) 0)
-	  ((and (null? left) (null? right)) 1)
-	  (else 
-	   (max (node-height left) (node-height right))))))
+  (if (null? node) 0
+      (let ((left (node-left node))
+	    (right (node-right node)))
+	(if (and (null? left) (null? right)) 1
+	    (max (node-height left) (node-height right))))))
 
 ;;
 ;; Implementing an AVL tree will be easier if we allow ourselves the 
