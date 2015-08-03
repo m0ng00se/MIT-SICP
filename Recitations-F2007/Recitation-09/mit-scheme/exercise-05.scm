@@ -190,10 +190,26 @@
 ;; ==> (x (t1 () ()) (y (t2 () ()) (t3 () ())))
 (tree-rotate-left tree-2)
 ;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
+tree-1
+;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
 
 ;;
-;; [[FAILS THE DOUBLE ROTATION TEST]]
+;; So rotating the tree to the right and left returns the same tree.
 ;;
+
+(tree-rotate-right tree-1)
+;; ==> (x (t1 () ()) (y (t2 () ()) (t3 () ())))
+(tree-rotate-right (tree-rotate-right tree-1))
+;; ==> (t1 () (x () (y (t2 () ()) (t3 () ()))))
+(tree-rotate-right (tree-rotate-right (tree-rotate-right tree-1)))
+;; ==> (t1 () (x () (y (t2 () ()) (t3 () ()))))
+
+(tree-rotate-left tree-2)
+;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
+(tree-rotate-left (tree-rotate-left tree-2))
+;; ==> (t3 (y (x (t1 () ()) (t2 () ())) ()) ())
+(tree-rotate-left (tree-rotate-left (tree-rotate-left tree-2)))
+;; ==> (t3 (y (x (t1 () ()) (t3 () ())) ()) ())
 
 ;; 
 ;; This is the "workhorse" method of the AVL data structure.
@@ -213,6 +229,27 @@
   (cond ((empty-tree? tree) 0)
 	(else
 	 (- (tree-balance (node-left tree)) (tree-balance (node-right tree))))))
+
+;;
+;; [EXPLAIN THE FOUR CASES]
+;;
+
+;;
+;; With this machinery in place, we can define the tree-insert procedure
+;; for AVL trees.
+;;
+(define (tree-insert value tree)
+  (if (empty-tree? tree) (make-node value)
+      (let ((key (node-value tree)))
+	(if (< value key)
+	    (tree-insert value (node-left tree))
+	    (tree-insert value (node-right tree))))))
+
+
+
+  (cond ((empty-tree? tree) (make-node value))
+	
+
 
 ;; (working) -> explain
 (define (tree-insert value tree)
