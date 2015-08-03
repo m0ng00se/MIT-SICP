@@ -309,6 +309,8 @@ tree-1
 		    (make-tree current
 			       (node-left b-tree)
 			       (bst-insert value (node-right b-tree)))))))))
+
+  ;; Perform standard BST insert
   (let ((bst-tree (bst-insert value tree)))
     bst-tree))
 
