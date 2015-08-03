@@ -294,7 +294,40 @@ tree-1
 ;; With this machinery in place, we can define the tree-insert procedure
 ;; for AVL trees.
 ;;
+
+;;
+;; We implement the insertion procedure as follows:
+;;
 (define (tree-insert value tree)
+  (define (bst-insert b-value b-tree)
+    (cond ((empty-tree? b-tree)
+	   (make-node b-value))
+	  (else
+	   (let ((current (node-value b-tree)))
+	     (cond ((= b-value current) b-tree)
+		   ((< b-value current)
+		    (make-tree current
+			       (bst-insert value (node-left b-tree))
+			       (node-right b-tree)))
+		   ((> b-value current)
+		    (make-tree current
+			       (node-left b-tree)
+			       (b-insert value (node-right b-tree)))))))))
+  (let ((bst-tree (bst-insert value tree)))
+    bst-tree))
+
+		    
+    (cond ((empty-tree? tree)
+	   (make-node value))
+	  (else
+	   (let ((current (node-value tree)))
+	     (cond ((= value current) tree)
+		   ((< value current)
+		    (b
+    '())
+  (let ((bst-tree (bst-insert)))
+    bst-tree))
+
   (if (empty-tree? tree) (make-node value)
       (let ((key (node-value tree)))
 	(if (< value key)
