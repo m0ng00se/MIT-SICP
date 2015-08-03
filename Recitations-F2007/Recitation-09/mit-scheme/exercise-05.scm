@@ -261,28 +261,28 @@ tree-1
 ;;
 ;;  (b) Left-Right Rotation
 ;; 
-;;         z                              z                                 x
-;;        / \                            / \                              /   \
-;;       y  T4    Left Rotation (y) ->  x   T4   Right Rotation (z) ->   y     z 
-;;      / \                            / \                              / \   / \
-;;    T1   x                          y   T3                           T1 T2 T3 T4
+;;         z                              z                                  x
+;;        / \                            / \                               /   \
+;;       y  T4    Left Rotation (y) ->  x   T4   Right Rotation (z) ->   y       z 
+;;      / \                            / \                              / \     / \
+;;    T1   x                          y   T3                           T1 T2   T3 T4
 ;;        / \                        / \  
 ;;       T2 T3                     T1  T2
 ;;   
 ;;  (c) Left Rotation
 ;;
-;;     z                                   y
-;;    / \                                /   \ 
-;;   T1  y      Left Rotation (z) ->    z     x
-;;      / \                            / \   / \ 
-;;     x  T4                          T1 T2 T3 T4
+;;     z                                    y
+;;    / \                                 /   \ 
+;;   T1  y      Left Rotation (z) ->    z       x
+;;      / \                            / \     / \ 
+;;     x  T4                          T1 T2   T3 T4
 ;;    / \ 
 ;;   T2 T3 
 ;;
 ;;  (d) Right-Left Rotation
 ;; 
 ;;     z                               z                              x 
-;;    / \                             / \                          /     \
+;;    / \                             / \                           /   \
 ;;   T1  y   Right Rotation (y) ->   T1  x     Left Rotation ->   z       y
 ;;      / \                             / \                      / \     / \ 
 ;;     x  T4                          T2   y                    T1 T2   T3 T4
