@@ -231,8 +231,64 @@ tree-1
 	 (- (tree-balance (node-left tree)) (tree-balance (node-right tree))))))
 
 ;;
-;; [EXPLAIN THE FOUR CASES]
+;; Armed with this procedures, we can now proceed to implement the AVL algorithm.
+;; 
+;; To insert a new node "w" into the tree, perform the following steps:
+;;  
+;;  (1) Perform standard BST insert for the node "w";
+;;  (2) Starting from "w", travel up and find the first unbalanced node, "z".
+;;      Let "y" be the child of "z" that comes on the path from w->z and 
+;;      let "x" be the grandchild of "z" that comes on the path w->z.
+;;  (3) Re-balance the tree by performing the appropriate rotations on the 
+;;      subtree rooted at "z", there are four cases to consider:
 ;;
+;;      a. "y" is the left child of "z" and "x" is the left child of "y" 
+;       b. "y" is the left child of "z" and "x" is the right child of "y"
+;;      c. "y" is the right child of "z" and "x" is the right child of "y"
+;;      d. "y" is the right child of "z" and "x" is the left child of "y"
+;;
+;; We handle these four cases in the following manner:
+;;
+;;  (a) Right Rotation
+;;
+;;           z                                   y
+;;          / \                                /   \
+;;         y  T4    Right Rotation (z) ->    x       z 
+;;        / \                               / \     / \
+;;       x  T3                             T1 T2   T3 T4
+;;      / \ 
+;;    T1  T2 
+;;
+;;  (b) Left-Right Rotation
+;; 
+;;         z                              z                                 x
+;;        / \                            / \                              /   \
+;;       y  T4    Left Rotation (y) ->  x   T4   Right Rotation (z) ->   y     z 
+;;      / \                            / \                              / \   / \
+;;    T1   x                          y   T3                           T1 T2 T3 T4
+;;        / \                        / \  
+;;       T2 T3                     T1  T2
+;;   
+;;  (c) Left Rotation
+;;
+;;     z                                   y
+;;    / \                                /   \ 
+;;   T1  y      Left Rotation (z) ->    z     x
+;;      / \                            / \   / \ 
+;;     x  T4                          T1 T2 T3 T4
+;;    / \ 
+;;   T2 T3 
+;;
+;;  (d) Right-Left Rotation
+;; 
+;;     z                               z                              x 
+;;    / \                             / \                          /     \
+;;   T1  y   Right Rotation (y) ->   T1  x     Left Rotation ->   z       y
+;;      / \                             / \                      / \     / \ 
+;;     x  T4                          T2   y                    T1 T2   T3 T4
+;;    / \                                 / \
+;;   T2 T3                               T3 T4 
+;;    
 
 ;;
 ;; With this machinery in place, we can define the tree-insert procedure
