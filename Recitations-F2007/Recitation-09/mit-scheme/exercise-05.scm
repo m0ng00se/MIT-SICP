@@ -312,104 +312,13 @@ tree-1
 		   ((> b-value current)
 		    (make-tree current
 			       (node-left b-tree)
-			       (b-insert value (node-right b-tree)))))))))
+			       (bst-insert value (node-right b-tree)))))))))
   (let ((bst-tree (bst-insert value tree)))
     bst-tree))
-
-		    
-    (cond ((empty-tree? tree)
-	   (make-node value))
-	  (else
-	   (let ((current (node-value tree)))
-	     (cond ((= value current) tree)
-		   ((< value current)
-		    (b
-    '())
-  (let ((bst-tree (bst-insert)))
-    bst-tree))
-
-  (if (empty-tree? tree) (make-node value)
-      (let ((key (node-value tree)))
-	(if (< value key)
-	    (tree-insert value (node-left tree))
-	    (tree-insert value (node-right tree))))))
-
-
-
-  (cond ((empty-tree? tree) (make-node value))
-	
-
-
-;; (working) -> explain
-(define (tree-insert value tree)
-
-  ;; Copy src node to dst node
-  (define (node-copy src dst)
-    (node-set-value! dst (node-value src))
-    (node-set-left! dst (node-left src))
-    (node-set-right! dst (node-right src))
-    (node-set-height! dst (node-height src)))
-
-  ;; BST insertion, modifying tree in-place
-  (define (tree-insert-bst)
-    (cond ((empty-tree? tree)
-	   (let ((new-node (tree-new-node value)))
-	     (node-copy new-node tree)))
-	  (else
-	   '())))
-
-  ;; Run tree insection procedure
-  (tree-insert-bst))
-
-
-  (define (tree-insert-proc)
-    (cond ((empty-tree? tree)
-	   (let ((new-node (tree-new-node value)))
-	     (node-set-value! tree (node-value new-node))
-	     (node-set-left! tree (node-left new-node))
-	     (node-set-right! tree (node-right new-node))
-	     (node-set-height! tree (node-height new-node))))
-	  ((< value (
-    '())
-  (let ((new-tree (tree-insert-proc)))
-    new-tree))
-  
-  (define (tree-insert-proc)
-    (cond ((empty-tree? tree) (tree-new-node value))
-	  ((< value (node-value tree)) (tree-insert value (node-left tree)))
-	  ((> value (node-value tree)) (tree-insert value (node-right tree)))
-	  (else
-	   tree)))
-  (let ((new-tree (tree-insert-proc)))
-    new-tree))
-
-
-;;
-;; These trees have the properties that they "re-balance" their own nodes 
-;; dynamically as nodes are added to or removed from the tree. More information
-;; on AVL tres can be found on Google and Wikipedia.
-;;
-;; We will redefine "tree-insert" to function as an AVL tree.
-;;
-;; We give an implementation of AVL trees as follows:
-;;
-
-;;
-;; AVL trees work by keeping the tree "as balanced" as possible at each node.
-;; We define a "balance factor" at each node, which is (-1) x (weight of left branch) + 
-;; (+1) x (weight of right branch). A balance factor of -1, 0, or 1 is considered
-;; "balanced". Otherwise, we need to readjust the height of the tree.
-;;
-;; The first thing we need is a way to compute the height of the tree at a given node:
-;;
-(define (compute-height tree)
-  (let ((h 0))
-    (if (not (empty-tree (node-left tree)))
-	(if (> 
-  
 
 ;;
 ;; This information is derived (loosely) from the implementation found here:
 ;;
 ;; http://planet.racket-lang.org/package-source/oesterholt/datastructs.plt/1/0/html/datastructs-avl.html#top
+;; http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
 ;;
