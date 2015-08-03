@@ -292,11 +292,7 @@ tree-1
 
 ;;
 ;; With this machinery in place, we can define the tree-insert procedure
-;; for AVL trees.
-;;
-
-;;
-;; We implement the insertion procedure as follows:
+;; for AVL trees as follows:
 ;;
 (define (tree-insert value tree)
   (define (bst-insert b-value b-tree)
