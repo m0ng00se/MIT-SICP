@@ -294,36 +294,35 @@ tree-1
 ;; With this machinery in place, we can define the tree-insert procedure
 ;; for AVL trees as follows:
 ;;
-
-;; ;
-;; TODO --> add "node-balance"
-;;
 (define (tree-insert value tree)
   ;; AVL-adjustment procedure
   (define (avl-adjust-node node)
-    
     (let ((balance (node-balance node))
 	  (key (node-value node))
 	  (key-left (node-value (node-left node)))
 	  (key-right (node-value (node-right node))))
-      ;; (TODO: enumerate the cases)
-      (cond (((and (> balance 1) (< key key-left)) 
-	      (tree-rotate-right node)))
-	    (((and (> balance 1) (> key key-left))
-	      (let ((new-node (make-tree key
-					 (tree-rotate-left (node-left node))
-					 (node-right node))))
-		(tree-rotate-right new-node))))
-	    (((and (< balance -1) (> key key-right))
-	      (tree-rotate-left node)))
-	    (((and (< balance -1) (< key key-right)) 
-	      (let ((new-node (make-tree key
-					 (node-left node)
-					 (tree-rotate-right (node-right node)))))
-		(tree-rotate-left new-node))))
-	    (else
-	     node))))
-
+      (cond 
+       ;; case (a) 
+       ((and (> balance  1) (< key key-left)) 
+	(tree-rotate-right node))
+       ;; case (c)
+       ((and (< balance -1) (> key key-right)) 
+	(tree-rotate-left node))
+       ;; case (b)
+       ((and (> balance  1) (> key key-left)) 
+	(let ((new-node (make-tree key
+				   (tree-rotate-left (node-left node))
+				   (node-right node))))
+	  (tree-rotate-right new-node)))
+       ;; case (d)
+       ((and (< balance -1) (< key key-right)) 
+	(let ((new-node (make-tree key
+				   (node-left node)
+				   (tree-rotate-right (node-right node)))))
+	  (tree-rotate-left new-node)))
+       (else
+	node))))
+  
   ;; BST-insert with post-insert AVL adjustment
   (cond ((empty-tree? tree)
 	 (make-node value))
@@ -340,28 +339,6 @@ tree-1
 					 (node-left tree)
 					 (tree-insert value (node-right tree)))))
 		    (avl-adjust-node node))))))))
-
-
-
-(define (tree-insert value tree)
-  (define (bst-insert b-value b-tree)
-    (cond ((empty-tree? b-tree)
-	   (make-node b-value))
-	  (else
-	   (let ((current (node-value b-tree)))
-	     (cond ((= b-value current) b-tree)
-		   ((< b-value current)
-		    (make-tree current
-			       (bst-insert value (node-left b-tree))
-			       (node-right b-tree)))
-		   ((> b-value current)
-		    (make-tree current
-			       (node-left b-tree)
-			       (bst-insert value (node-right b-tree)))))))))
-
-  ;; Perform standard BST insert
-  (let ((bst-tree (bst-insert value tree)))
-    bst-tree))
 
 ;;
 ;; This information is derived (loosely) from the implementation found here:
