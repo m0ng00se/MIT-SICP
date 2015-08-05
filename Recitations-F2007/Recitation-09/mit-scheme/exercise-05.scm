@@ -108,6 +108,11 @@
 	    (+ (max (node-height left) (node-height right)) 1)))))
 
 ;;
+;; "Typedef" convenience procedure:
+;;
+(define tree-height node-height)
+
+;;
 ;; Some unit tests:
 ;;
 (node-height the-empty-tree)
@@ -229,6 +234,39 @@ tree-1
   (cond ((empty-tree? tree) 0)
 	(else
 	 (- (node-height (node-left tree)) (node-height (node-right tree))))))
+
+(define node-a (make-node 'a))
+(define node-b (make-tree 'b the-empty-tree node-a))
+(define node-c (make-tree 'c the-empty-tree node-b))
+(define node-d (make-tree 'd the-empty-tree nodec))
+
+(define tree-d node-d)
+;; ==> 
+(tree-height tree-d)
+;; ==>
+(tree-balance tree-d)
+;; ==>
+
+(define tree-c (tree-rotate-left tree-d))
+;; ==>
+(tree-height tree-c)
+;; ==>
+(tree-balance tree-c)
+;; ==>
+
+(define tree-b (tree-rotate-left tree-c))
+;; ==>
+(tree-height tree-b)
+;; ==>
+(tree-balance tree-b)
+;; ==>
+
+(define tree-a (tree-rotate-left tree-a))
+;; ==>
+(tree-height tree-a)
+;; ==> 
+(tree-balance tree-a)
+;; ==>
 
 ;;
 ;; Armed with this procedures, we can now proceed to implement the AVL algorithm.
