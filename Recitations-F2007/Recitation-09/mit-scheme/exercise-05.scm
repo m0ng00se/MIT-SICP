@@ -305,15 +305,15 @@ tree-1
        ;; case (a) 
        ((and (> balance  1) (< key key-left)) 
 	(tree-rotate-right node))
-       ;; case (c)
-       ((and (< balance -1) (> key key-right)) 
-	(tree-rotate-left node))
        ;; case (b)
        ((and (> balance  1) (> key key-left)) 
 	(let ((new-node (make-tree key
 				   (tree-rotate-left (node-left node))
 				   (node-right node))))
 	  (tree-rotate-right new-node)))
+       ;; case (c)
+       ((and (< balance -1) (> key key-right)) 
+	(tree-rotate-left node))
        ;; case (d)
        ((and (< balance -1) (< key key-right)) 
 	(let ((new-node (make-tree key
