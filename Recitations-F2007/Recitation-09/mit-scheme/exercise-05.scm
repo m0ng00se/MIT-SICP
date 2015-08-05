@@ -228,7 +228,7 @@ tree-1
 (define (tree-balance tree)
   (cond ((empty-tree? tree) 0)
 	(else
-	 (- (tree-balance (node-left tree)) (tree-balance (node-right tree))))))
+	 (- (node-height (node-left tree)) (node-height (node-right tree))))))
 
 ;;
 ;; Armed with this procedures, we can now proceed to implement the AVL algorithm.
@@ -294,6 +294,55 @@ tree-1
 ;; With this machinery in place, we can define the tree-insert procedure
 ;; for AVL trees as follows:
 ;;
+
+;; ;
+;; TODO --> add "node-balance"
+;;
+(define (tree-insert value tree)
+  ;; AVL-adjustment procedure
+  (define (avl-adjust-node node)
+    
+    (let ((balance (node-balance node))
+	  (key (node-value node))
+	  (key-left (node-value (node-left node)))
+	  (key-right (node-value (node-right node))))
+      ;; (TODO: enumerate the cases)
+      (cond (((and (> balance 1) (< key key-left)) 
+	      (tree-rotate-right node)))
+	    (((and (> balance 1) (> key key-left))
+	      (let ((new-node (make-tree key
+					 (tree-rotate-left (node-left node))
+					 (node-right node))))
+		(tree-rotate-right new-node))))
+	    (((and (< balance -1) (> key key-right))
+	      (tree-rotate-left node)))
+	    (((and (< balance -1) (< key key-right)) 
+	      (let ((new-node (make-tree key
+					 (node-left node)
+					 (tree-rotate-right (node-right node)))))
+		(tree-rotate-left new-node))))
+	    (else
+	     node))))
+
+  ;; BST-insert with post-insert AVL adjustment
+  (cond ((empty-tree? tree)
+	 (make-node value))
+	(else
+	 (let ((current-value (node-value tree)))
+	   (cond ((= value current-value) tree)
+		 ((< value current-value)
+		  (let ((node (make-tree current-value
+					 (tree-insert value (node-left tree))
+					 (node-right tree))))
+		    (avl-adjust-node node)))
+		 ((> value current-value)
+		  (let ((node (make-tree current-value
+					 (node-left tree)
+					 (tree-insert value (node-right tree)))))
+		    (avl-adjust-node node))))))))
+
+
+
 (define (tree-insert value tree)
   (define (bst-insert b-value b-tree)
     (cond ((empty-tree? b-tree)
