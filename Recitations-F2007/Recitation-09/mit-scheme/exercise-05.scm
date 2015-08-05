@@ -238,35 +238,35 @@ tree-1
 (define node-a (make-node 'a))
 (define node-b (make-tree 'b the-empty-tree node-a))
 (define node-c (make-tree 'c the-empty-tree node-b))
-(define node-d (make-tree 'd the-empty-tree nodec))
+(define node-d (make-tree 'd the-empty-tree node-c))
 
 (define tree-d node-d)
-;; ==> 
+;; ==> (d () (c () (b () (a () ()))))
 (tree-height tree-d)
-;; ==>
+;; ==> 4
 (tree-balance tree-d)
-;; ==>
+;; ==> -3 
 
 (define tree-c (tree-rotate-left tree-d))
-;; ==>
+;; ==> (c (d () ()) (b () (a () ())))
 (tree-height tree-c)
-;; ==>
+;; ==> 3
 (tree-balance tree-c)
-;; ==>
+;; ==> -1
 
 (define tree-b (tree-rotate-left tree-c))
-;; ==>
+;; ==> (b (c (d () ())) (a () ()))
 (tree-height tree-b)
-;; ==>
+;; ==> 3 
 (tree-balance tree-b)
-;; ==>
+;; ==> 1
 
-(define tree-a (tree-rotate-left tree-a))
-;; ==>
+(define tree-a (tree-rotate-left tree-b))
+;; ==> (a (b (c (d () ()) ()) ()) ())
 (tree-height tree-a)
-;; ==> 
+;; ==> 4
 (tree-balance tree-a)
-;; ==>
+;; ==> 3
 
 ;;
 ;; Armed with this procedures, we can now proceed to implement the AVL algorithm.
