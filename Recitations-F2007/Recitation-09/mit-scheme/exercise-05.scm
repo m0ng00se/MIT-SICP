@@ -176,7 +176,7 @@
 ;; ==> (t2 () ())
 (define node-t3 (make-node 't3))
 ;; ==> (t3 () ())
-(define node-x (make-tree 'x node-t1 node-2))
+(define node-x (make-tree 'x node-t1 node-t2))
 ;; ==> (x (t1 () ()) (t2 () ()))
 (define node-y (make-tree 'y node-x node-t3))
 ;; ==> (y (x (t1 () ()) (t2 () ())) (t3 () ()))
