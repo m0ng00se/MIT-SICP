@@ -302,19 +302,19 @@ tree-1
 	  (key-left (node-value (node-left node)))
 	  (key-right (node-value (node-right node))))
       (cond 
-       ;; case (a) 
+       ;; Case (a) 
        ((and (> balance  1) (< key key-left)) 
 	(tree-rotate-right node))
-       ;; case (b)
+       ;; Case (b)
        ((and (> balance  1) (> key key-left)) 
 	(let ((new-node (make-tree key
 				   (tree-rotate-left (node-left node))
 				   (node-right node))))
 	  (tree-rotate-right new-node)))
-       ;; case (c)
+       ;; Case (c)
        ((and (< balance -1) (> key key-right)) 
 	(tree-rotate-left node))
-       ;; case (d)
+       ;; Case (d)
        ((and (< balance -1) (< key key-right)) 
 	(let ((new-node (make-tree key
 				   (node-left node)
