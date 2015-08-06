@@ -335,7 +335,7 @@ tree-1
 (define (tree-insert value tree)
   ;; AVL-adjustment procedure
   (define (avl-adjust-node node)
-    (let ((balance (node-balance node))
+    (let ((balance (tree-balance node))
 	  (key (node-value node))
 	  (key-left (node-value (node-left node)))
 	  (key-right (node-value (node-right node))))
@@ -377,6 +377,79 @@ tree-1
 					 (node-left tree)
 					 (tree-insert value (node-right tree)))))
 		    (avl-adjust-node node))))))))
+
+;;
+;; Unit Tests:
+;;
+(define t1 (tree-insert 1 the-empty-tree))
+;; ==> (1 () ())
+(tree-height t1)
+;; ==> 1
+(tree-balance t1)
+;; ==> 0
+
+(define t2 (tree-insert 2 t1))
+;; ==> (1 () (2 () ()))
+(tree-height t2)
+;; ==> 1
+(tree-balance t2)
+;; ==> -1
+
+(define t3 (tree-insert 3 t2))
+;; ==> (2 (1 () ()) (3 () ()))
+(tree-height t3)
+;; ==> 2
+(tree-balance t3)
+;; ==> 0
+
+(define t4 (tree-insert 4 t3))
+;; ==> (2 (1 () ()) (3 () (4 () ())))
+(tree-height t4)
+;; ==> 3
+(tree-balance t4)
+;; ==> -1
+
+(define t5 (tree-insert 5 t4))
+;; ==> (2 (1 () ()) (4 (3 () ()) (5 () ())))
+(tree-height t5)
+;; ==> 3
+(tree-balance t5)
+;; ==> -1
+
+(define t6 (tree-insert 6 t5))
+;; ==> (3 (2 (1 () ()) ()) (4 () (5 () (6 () ()))))
+(tree-height t6)
+;; ==> 4
+(tree-balance t6)
+;; ==> -1
+
+(define t7 (tree-insert 7 t6))
+;; ==> (3 (2 (1 () ()) ()) (5 (4 () ()) (6 () (7 () ()))))
+(tree-height t7)
+;; ==> 4
+(tree-balance t7)
+;; ==> -1
+
+(define t8 (tree-insert 8 t7))
+;; ==> (3 (2 (1 () ()) ()) (5 (4 () ()) (7 (6 () ()) (8 () ()))))
+(tree-height t8)
+;; ==> 4
+(tree-balance t8)
+;; ==> -1
+
+(define t9 (tree-insert 9 t8))
+;; ==> (5 (3 (2 (1 () ()) ()) (4 () ())) (6 () (7 () (8 () (9 () ())))))
+(tree-height t9)
+;; ==> 5
+(tree-balance t9)
+;; ==> -1
+
+(define t10 (tree-insert 10 t9))
+;; ==> (5 (3 (2 (1 () ()) ()) (4 () ())) (7 (6 () ()) (8 () (9 () (10 () ())))))
+(tree-height t10)
+;; ==> 5
+(tree-balance t10)
+;; ==> -1
 
 ;;
 ;; This information is derived (loosely) from the implementation found here:
