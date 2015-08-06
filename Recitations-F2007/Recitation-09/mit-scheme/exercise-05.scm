@@ -391,7 +391,7 @@ tree-1
 (define t2 (tree-insert 2 t1))
 ;; ==> (1 () (2 () ()))
 (tree-height t2)
-;; ==> 1
+;; ==> 2
 (tree-balance t2)
 ;; ==> -1
 
