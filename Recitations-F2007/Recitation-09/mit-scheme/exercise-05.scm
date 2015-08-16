@@ -59,18 +59,67 @@
 (define empty-tree? null?)
 (define tree? list?)
 
+(define (tree-node tree)
+  (if (empty-tree? tree) '()
+      (car tree)))
+(define (tree-left tree)
+  (if (empty-tree? tree) '()
+      (cadr tree)))
+(define (tree-right tree)
+  (if (empty-tree? tree) '()
+      (caddr tree)))
+
 ;;
-;; We will modify our definition of a node to include both values and colors.
-;; The default color will be "red" and the setting for color must be mutable:
+;; We modify our definition of a node to include values, colors and a pointer
+;; to the parent. The default color will be "red" and the settings for both 
+;; color and parent must be mutable:
 ;;
 (define (make-node value)
-  (list value 'red))
+  (list value 'red '()))
 (define (node-value node)
-  (car node))
+  (if (null? node) '()
+      (car node)))
 (define (node-color node)
-  (cadr node))
+  (if (null? node) '()
+      (cadr node)))
+(define (node-parent node)
+  (if (null? node) '()
+      (caddr node)))
+
 (define (set-node-color! node color)
-  (set-car! (cdr node) color))
+  (cond ((not (null? node))
+	 (set-car! (cdr node) color))))
+(define (set-node-parent! node parent)
+  (cond ((not (null? node))
+	 (set-car! (cdr (cdr node)) parent))))
+
+;;
+;; We need the following accessors to obtain the grandparent and uncle nodes:
+;;
+(define (node-grandparent node)
+  (cond ((empty-tree? node) '())
+	((empty-tree? (node-parent node)) '())
+	(else
+	 (node-parent (node-parent node)))))
+
+(define (node-uncle node)
+  (let ((grandparent (node-grandparent node))
+	(parent (node-parent node)))
+    (cond ((empty-tree? grandparent) '())
+	  (else
+	   (let ((left (
+  (let ((parent (node-parent node))
+	(grandparent (node-pgrand
+  (let ((grandparent (node-grandparent node)))
+    (cond ((empty-tree? grandparent) '())
+	  (else
+	   
+  
+(define (node-grandparent node)
+  (cond ((empty-tree? node)
+  '())
+(define (node-uncle node)
+  '())
 
 ;;
 ;; We need to be able to rotate the tree right and left. We will import 
