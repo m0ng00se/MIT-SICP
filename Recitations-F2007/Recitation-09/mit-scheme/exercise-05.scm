@@ -36,9 +36,22 @@
 ;; leaf. The result is that the tree is roughly height-balanced.
 ;;
 
+;;
+;; Insertion into a red-black tree is standard BST insertion of a 
+;; red node (called N). Once the insertion has completed, the tree 
+;; needs to be rebalanced according to five (5) special cases:
+;;
+;;  (1) N is the root node (i.e., the first node of a red-black tree);
+;;  (2) N's parent is black;
+;   (3) N's parent (P) and uncle (U) are red;
+;;  (4) N is added to the right or left child of grandparent, or 
+;; 
+;; (working);
+;;
+
 
 ;;
-;; Define the standard tree predicates the procedures:
+;; We begin with the standard tree predicates the procedures:
 ;;
 (define (make-tree node left right)
   (list node left right))
