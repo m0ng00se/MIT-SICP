@@ -1,51 +1,68 @@
+;; 
+;; +-----------------+
+;; | RED-BLACK TREES |
+;; +-----------------+
+;; 
+
+;; 
+;; (Explanation of Red-Black trees)
+;; (node that the structure of a node is different here)
 ;;
-;; Working definitions
+
 ;;
+;; Define the standard tree predicates the procedures:
+;;
+(define (make-tree node left right)
+  (list node left right))
 (define the-empty-tree '())
 (define empty-tree? null?)
 (define tree? list?)
 
-(define (make-tree-node-color value color left-subtree right-subtree)
-  (list value color left-subtree right-subtree))
-(define (make-tree-node-red value left-subtree right-subtree)
-  (make-tree-node-color value 'red left-subtree right-subtree))
-(define (make-tree-node-black value left-subtree right-subtree)
-  (make-tree-node-color value 'black left-subtree right-subtree))
-
+;;
+;; We will modify our definition of a node to include both values and colors.
+;; The default color will be "red" and the setting for color must be mutable:
+;;
+(define (make-node value)
+  (list value 'red))
 (define (node-value node)
   (car node))
 (define (node-color node)
   (cadr node))
-(define (node-left node)
-  (caddr node))
-(define (node-right node)
-  (cadddr node))
-
-(define (tree-lookup value tree)
-  (cond ((not (tree? tree)) #f)
-	((empty-tree? tree) #f)
-	(else
-	 (let ((current-value (node-value tree))
-	       (left (node-left tree))
-	       (right (node-right tree)))
-	   (cond ((= current-value value) #t)
-		 ((and (> current-value value) (not (empty-tree? left)))
-		  (tree-lookup value left))
-		 ((and (< current-value value) (not (empty-tree? right)))
-		  (tree-lookup value right))
-		 (else #f))))))
+(define (set-node-color! node color)
+  (set-car! (cdr node) color))
 
 ;;
-;; Exercise 5
-;; 
-;; [WORKING]
+;; [AVL rotations]
 ;;
+(define (tree-rotate-right node-y)
+  (let ((node-x (node-left node-y))
+	(node-t3 (node-right node-y)))
+    ;;
+    ;; Return the tree itself if the left branch is null:
+    ;;
+    (if (empty-tree? node-x) node-y
+	(let ((node-t1 (node-left node-x))
+	      (node-t2 (node-right node-x)))
+	  (let ((node-y-prime (make-tree (node-value node-y) node-t2 node-t3)))
+	    (let ((node-x-prime (make-tree (node-value node-x) node-t1 node-y-prime)))
+	      node-x-prime))))))
 
-;;
-;; One simple model for implementing self-balancing trees is a red-black tree.
-;;
+(define (tree-rotate-left node-x)
+  (let ((node-t1 (node-left node-x))
+	(node-y (node-right node-x)))    
+    ;;
+    ;; Return the tree itself if the right branch is null:
+    ;;
+    (if (empty-tree? node-y) node-x
+	(let ((node-t2 (node-left node-y))
+	      (node-t3 (node-right node-y)))
+	  (let ((node-x-prime (make-tree (node-value node-x) node-t1 node-t2)))
+	    (let ((node-y-prime (make-tree (node-value node-y) node-x-prime node-t3)))
+	      node-y-prime))))))
 
-;; [working] -> implement
+(define (tree-insert value tree)
+  '())
+
 
 ;;
 ;; +-----------+ 
@@ -81,7 +98,7 @@
 (define (make-tree value left right)
   (list value left right))
 (define (make-node value)
-  (make-tree value '() '()))
+  (make-tree value the-empty-tree the-empty-tree))
 
 ;;
 ;; Guard against nulls in these selectors so we can implement recursion 
@@ -127,7 +144,7 @@
 (node-height node-3)
 ;; ==> 1
 
-(define node-2 (make-tree 2 node-1 node-3)
+(define node-2 (make-tree 2 node-1 node-3))
 ;; ==> (2 (1 () ()) (3 () ()))
 (node-height node-2)
 ;; ==> 2
@@ -450,6 +467,58 @@ tree-1
 ;; ==> 5
 (tree-balance t10)
 ;; ==> -1
+
+(define avl-tree t10)
+
+;;
+;; Finally, define a lookup procedure that can be used to retrieve information
+;; from the tree:
+;;
+(define (tree-lookup value tree)
+  (cond ((not (tree? tree)) #f)
+	((empty-tree? tree) #f)
+	(else
+	 (let ((current-value (node-value tree))
+	       (left (node-left tree))
+	       (right (node-right tree)))
+	   (cond ((= current-value value) #t)
+		 ((and (> current-value value) (not (empty-tree? left)))
+		  (tree-lookup value left))
+		 ((and (< current-value value) (not (empty-tree? right)))
+		  (tree-lookup value right))
+		 (else #f))))))
+
+(tree-lookup 1 avl-tree)
+;; ==> #t
+(tree-lookup 2 avl-tree)
+;; ==> #t
+(tree-lookup 3 avl-tree)
+;; ==> #t
+(tree-lookup 4 avl-tree)
+;; ==> #t
+(tree-lookup 5 avl-tree)
+;; ==> #t
+(tree-lookup 6 avl-tree)
+;; ==> #t
+(tree-lookup 7 avl-tree)
+;; ==> #t
+(tree-lookup 8 avl-tree)
+;; ==> #t
+(tree-lookup 9 avl-tree)
+;; ==> #t
+(tree-lookup 10 avl-tree)
+;; ==> #t
+
+(tree-lookup 0 avl-tree)
+;; ==> #f
+(tree-lookup -1 avl-tree)
+;; ==> #f
+(tree-lookup 11 avl-tree)
+;; ==> #f
+
+;;
+;; We do not consider deletion operations for either Red-Black or AVL trees in this analysis.
+;;
 
 ;;
 ;; This information is derived (loosely) from the implementation found here:
