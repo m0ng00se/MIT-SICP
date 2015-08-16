@@ -3,11 +3,39 @@
 ;; | RED-BLACK TREES |
 ;; +-----------------+
 ;; 
-
-;; 
-;; (Explanation of Red-Black trees)
-;; (node that the structure of a node is different here)
+;; A red-black tree is a binary search tree (BST) with an extra bit of
+;; information per node, its color, which can be either red or black.
+;; As nodes are added to the tree, the color bit is used to dynamically
+;; balance the tree so that it retains a height of roughly lg(n).
 ;;
+;; The red-black tree was invented in 1972 by Rudolf Bayer and named the
+;; "symmetric binary B-tree" but acquired its modern name in a paper in 
+;; 1978 by Leonidas Guibas and Robert Sedgewick entitled "A Dichromatic 
+;; Framework for Balanced Trees". The color "red" was chosen because it 
+;; was the best-looking color produced by the color laser printer 
+;; available to the authors at Xerox PARC.
+;;
+
+;;
+;; A red-black tree is a binary search tree that meets the following 
+;; conditions:
+;;
+;;  (1) A node is either red or black;
+;;  (2) The root is black;
+;;  (3) All leaves are black (i.e., all leaves are the same color 
+;;      as the root);
+;;  (4) Every red node must have two black child nodes, and therefore
+;;      it must have a black parent. In other words, there cannot be 
+;;      two or more consecutive red nodes.
+;;  (5) Every path from a given node to any of its descendant NIL nodes
+;;      contains the same number of black nodes.
+;;
+;; Taken together, these constraint enforce a critical property of 
+;; red-black trees: the path from the root to the farthest leaf is 
+;; no more than twice as long as the path from the root to the nearest
+;; leaf. The result is that the tree is roughly height-balanced.
+;;
+
 
 ;;
 ;; Define the standard tree predicates the procedures:
@@ -32,7 +60,8 @@
   (set-car! (cdr node) color))
 
 ;;
-;; [AVL rotations]
+;; We need to be able to rotate the tree right and left. We will import 
+;; the rotation procedures that are defined below for AVL trees:
 ;;
 (define (tree-rotate-right node-y)
   (let ((node-x (node-left node-y))
