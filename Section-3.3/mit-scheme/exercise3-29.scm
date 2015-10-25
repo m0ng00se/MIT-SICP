@@ -273,6 +273,3 @@
 ;; We set the inverter delay to 3, and the and-gate delay 2, so the total
 ;; propagation delay of D(or) = D(and) + 2 * D(inv) is validated by this test.
 ;;
-
-
-
