@@ -80,7 +80,7 @@
 ;; ==> 2
 
 ;;
-;; Now hook the wires using an or-gate, and attach a probe to c:
+;; Now hook the wires using an or-gate, and attach a probe to wire c:
 ;;
 (or-gate a b c)
 ;; ==> 'ok
