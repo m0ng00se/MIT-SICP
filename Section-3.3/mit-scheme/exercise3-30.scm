@@ -11,8 +11,66 @@
 
 ;;
 ;; Import the or-gate from Exercise 3.28, and the and-gate and 
-;; inverter from Exercise 3.29.
+;; inverter from Exercise 3.29:
 ;;
+(define (logical-or i1 i2)
+  (define (error-handler)
+    (error "Invalid signal" i1 i2))
+  (if (and (or (= i1 0) (= i1 1))
+	   (or (= i2 0) (= i2 1)))
+      (cond ((or  (= i1 1) (= i2 1)) 1)
+	    ((and (= i1 0) (= i2 0)) 0)
+	    (else
+	     (error-handler)))
+      (error-handler)))
+
+(define (or-gate i1 i2 output)
+  (define (or-action-procedure)
+    (let ((new-value 
+	   (logical-or (get-signal i1) (get-signal i2))))
+      (after-delay or-gate-delay
+		   (lambda ()
+		     (set-signal! output new-value)))))
+  (add-action! i1 or-action-procedure)
+  (add-action! i2 or-action-procedure)
+  'ok)
+
+(define (logical-and i1 i2)
+  (define (error-handler)
+    (error "Invalid signal" i1 i2))
+  (if (and (or (= i1 0) (= i1 1))
+	   (or (= i2 0) (= i2 1)))
+      (cond ((and (= i1 1) (= i2 1)) 1)
+	    ((or (= i1 0) (= i2 0)) 0)
+	    (else
+	     (error-handler)))
+      (error-handler)))
+
+(define (and-gate a1 a2 output)
+  (define (and-action-procedure)
+    (let ((new-value
+	   (logical-and (get-signal a1) (get-signal a2))))
+      (after-delay and-gate-delay
+		   (lambda ()
+		     (set-signal! output new-value)))))
+  (add-action! a1 and-action-procedure)
+  (add-action! a2 and-action-procedure)
+  'ok)
+
+(define (logical-not s)
+  (cond ((= s 0) 1)
+	((= s 1) 0)
+	(else
+	 (error "Invalid signal" s))))
+
+(define (inverter input output)
+  (define (invert-input)
+    (let ((new-value (logical-not (get-signal input))))
+      (after-delay inverter-delay
+		   (lambda ()
+		     (set-signal! output new-value)))))
+  (add-action! input invert-input)
+  'ok)
 
 ;;
 ;; First we must define and half-adder and full-adder procedures:
