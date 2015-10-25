@@ -182,3 +182,36 @@
 (set-signal! a2 0)
 (propagate) 
 ;; ==> done
+
+;;
+;; Unit test the inverter, and reset the agenda:
+;;
+(define i1 (make-wire))
+(define i2 (make-wire))
+
+(set-current-time! the-agenda 0)
+(current-time the-agenda)
+;; ==> 0
+
+(inverter i1 i2)
+;; ==> ok
+
+(get-signal i1)
+;; ==>
+(get-signal i2)
+;; ==>
+
+(probe 'i2 i2)
+;; ==> i2 0 New-value = 0
+
+(set-signal! i1 1)
+(propagate)
+;; ==> i2 3 New-value = 1
+
+(get-signal i1)
+;; ==>
+(get-signal i2)
+;; ==>
+
+(set-sign
+
