@@ -50,6 +50,14 @@
 ;; S is 1 whenever precisely one of A and B is 1 (exclusive-or), and C is 1 
 ;; whenever both A and B are 1 (logical-and). 
 ;;
+;; The half-adder defines a mechanism for adding two bits, A and B, 
+;; to obtain a 2-bit number as specified by the sum and carry bits:
+;;
+;;  1 + 1 ==> 10
+;;  1 + 0 ==> 01
+;;  0 + 1 ==> 01
+;;  0 + 0 ==> 00 
+;;
 ;; The logic table for a full-adder looks like the following:
 ;;
 ;; +---+---+-------+----+----+---+-----+--------+
@@ -65,6 +73,19 @@
 ;; | 0 | 0 |   0   |  0 |  0 | 0 |  0  |   0    |
 ;; +---+---+-------+----+----+---+-----+--------+
 ;;
+;; The full-adder defines a mechanism for adding two bits, A and B, 
+;; together with a carry bit, to obtain a 2-bit number as specified
+;; by the sum and carry-out bits:
+;;
+;;  1 + 1 + (1) ==> 11
+;;  1 + 1 + (0) ==> 10
+;;  1 + 0 + (1) ==> 10
+;;  1 + 0 + (0) ==> 01
+;;  0 + 1 + (1) ==> 10 
+;;  0 + 1 + (0) ==> 01
+;;  0 + 0 + (1) ==> 01
+;;  0 + 0 + (0) ==> 00
+;; 
 
 (define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b c-in s)
