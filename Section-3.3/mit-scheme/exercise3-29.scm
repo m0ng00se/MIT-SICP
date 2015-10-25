@@ -35,6 +35,11 @@
 ;;
 
 ;;
+;; Import the circuit library:
+;;
+(load "circuit.scm")
+
+;;
 ;; Define the or-gate:
 ;;
 (define (or-gate i1 i2 output)
