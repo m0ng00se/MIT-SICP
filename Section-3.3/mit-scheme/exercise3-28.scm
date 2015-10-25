@@ -74,6 +74,79 @@
 (define c (make-wire))
 
 ;;
-;; Now hook them up using an or-gate:
+;; To beta-test this design, we need to define an or-gate-delay:
+;;
+(define or-gate-delay 2)
+;; ==> 2
+
+;;
+;; Now hook the wires using an or-gate, and attach a probe to c:
 ;;
 (or-gate a b c)
+;; ==> 'ok
+(probe 'c c)
+;; ==> c 0 New-value = 0
+
+;;
+;; Get the current signals on the wire:
+;;
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 0
+(get-signal c)
+;; ==> 0
+
+;;
+;; Update the signals on the wire and propagate the signal:
+;;
+(set-signal! a 1)
+(propagate)
+;; ==> c 2 New-value = 1
+
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 0
+(get-signal c)
+;; ==> 1
+
+;;
+;; Note that changing the signal on b at this point does not not 
+;; modify the signal at c, so the probe does not change:
+;;
+(set-signal! b 1)
+(propagate)
+;; ==> done
+
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 1
+(get-signal c)
+;; ==> 1
+
+;;
+;; Neither does changing the value of a at this point modify the signal at c:
+;;
+(set-signal! a 0)
+(propagate)
+;; ==> done
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 1
+(get-signal c)
+;; ==> 1
+
+(set-signal! b 0)
+(propagate)
+;; ==> c 8 New-value = 0
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 0
+(get-signal c)
+;; ==> 0
