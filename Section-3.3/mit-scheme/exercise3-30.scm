@@ -10,8 +10,7 @@
 (load "circuit.scm")
 
 ;;
-;; Import the or-gate from Exercise 3.28, and the and-gate and 
-;; inverter from Exercise 3.29:
+;; Import the or-gate from Exercise 3.28:
 ;;
 (define (logical-or i1 i2)
   (define (error-handler)
@@ -35,6 +34,9 @@
   (add-action! i2 or-action-procedure)
   'ok)
 
+;;
+;; Import the and-gate from Exercise 3.29:
+;;
 (define (logical-and i1 i2)
   (define (error-handler)
     (error "Invalid signal" i1 i2))
@@ -57,6 +59,9 @@
   (add-action! a2 and-action-procedure)
   'ok)
 
+;;
+;; Import the inverter from Exercise 3.29:
+;;
 (define (logical-not s)
   (cond ((= s 0) 1)
 	((= s 1) 0)
@@ -73,7 +78,7 @@
   'ok)
 
 ;;
-;; First we must define and half-adder and full-adder procedures:
+;; We define the half-adder procedure:
 ;;
 (define (half-adder a b s c)
   (let ((d (make-wire))
@@ -82,15 +87,6 @@
     (and-gate a b c)
     (inverter c e)
     (and-gate d e s)
-    'ok))
-
-(define (full-adder a b c-in sum c-out)
-  (let ((s (make-wire))
-	(c1 (make-wire))
-	(c2 (make-wire)))
-    (half-adder b c-in s c1)
-    (half-adder a s sum c2)
-    (or-gate c1 c2 c-out)
     'ok))
 
 ;;
@@ -116,6 +112,19 @@
 ;;  0 + 1 ==> 01
 ;;  0 + 0 ==> 00 
 ;;
+
+;;
+;; We next define the full-adder procedure:
+;;
+(define (full-adder a b c-in sum c-out)
+  (let ((s (make-wire))
+        (c1 (make-wire))
+        (c2 (make-wire)))
+    (half-adder b c-in s c1)
+    (half-adder a s sum c2)
+    (or-gate c1 c2 c-out)
+    'ok))
+
 ;; The logic table for a full-adder looks like the following:
 ;;
 ;; +---+---+-------+----+----+---+-----+--------+
