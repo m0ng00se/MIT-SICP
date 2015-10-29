@@ -247,32 +247,41 @@
 ;;
 ;; Finally we're ready to unit test the or-gate and see what the propagation delay is:
 ;;
-(define a (make-wire))
-(define b (make-wire))
-(define c (make-wire))
-(define d (make-wire))
-(define e (make-wire))
-(define f (make-wire))
+(define o1 (make-wire))
+(define o2 (make-wire))
+(define o3 (make-wire))
 
-(inverter a c)
-(inverter b d)
-(and-gate c d e)
-(inverter e f)
-
-;;
-;; Reset the agenda:
-;;
 (set-current-time! the-agenda 0)
-(probe 'f f)
-;; ==> f 0 New-value = 0
+(current-time the-agenda)
+;; ==> 0
 
-(set-signal! a 1)
-(propagate)
-;; ==> f 8 New-value  = 1
+(or-gate o1 o2 o3)
+;; ==> ok
 
-(set-signal! a 0)
+(probe 'o3 o3)
+;; ==> o3 0 New-value = 0
+
+(set-signal! o1 1)
 (propagate)
-;; ==> f 16 New-value = 0 
+;; ==> o3 8 New-value = 1
+
+(get-signal o1)
+;; ==> 1
+(get-signal o2)
+;; ==> 0
+(get-signal o3)
+;; ==> 1
+
+(set-signal! o1 0)
+(propagate)
+;; ==> o3 16 New-value = 0
+
+(get-signal o1)
+;; ==> 0
+(get-signal o2)
+;; ==> 0
+(get-signal o3)
+;; ==> 0
 
 ;;
 ;; We set the inverter delay to 3, and the and-gate delay 2, so the total
