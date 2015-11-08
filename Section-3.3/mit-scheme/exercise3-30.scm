@@ -514,6 +514,70 @@
 ;; The behavior we observe in this experiment is consistent with this analysis.
 ;;
 
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 0
+(get-signal c-in)
+;; ==> 1
+(get-signal sum)
+;; ==> 0
+(get-signal c-out)
+;; ==> 1
+
+;;
+;; This arrangement of signals indicates that 1 + 0 + 1 = 10.
+;;
+
+(set-signal! a 0)
+(propagate)
+;; c-out 80 New-value = 0
+;; sum 80 New-value 1
+
+;;
+;; The time delays at SUM and C-OUT are consistent w/ our analysis above.
+;;
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 0
+(get-signal c-in)
+;; ==> 1
+(get-signal sum)
+;; ==> 1
+(get-signal c-out)
+;; ==> 0
+
+;;
+;; This arrangement of signals indicates that 0 + 0 + 1 = 01.
+;;
+
+(set-signal! c-in 0)
+(propagate)
+;; sum 96 New-value: 0
+
+;; 
+;; The change at C-IN drives a change at C1 after one half-adder-carry-delay, 
+;; or 3 time units; the change at C1 in turn drives a change at C-OUT after 
+;; one or-gate-delay, or 3 time units. A total of 6 time units elapse between 
+;; the change in signal at C-IN and when the change propagates to C-OUT.
+;;
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 0
+(get-signal c-in)
+;; ==> 0
+(get-signal sum)
+;; ==> 0
+(get-signal c-out)
+;; ==> 0
+
+;; 
+;; This arrangement of signals indicates that 0 + 0 + 0 = 00.
+;;
 
 (define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b c-in s)
