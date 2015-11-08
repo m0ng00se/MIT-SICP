@@ -579,6 +579,9 @@
 ;; This arrangement of signals indicates that 0 + 0 + 0 = 00.
 ;;
 
+;;
+;; We can define the ripple carry adder as followS:
+;;
 (define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b c-in s)
     (let ((a1 (car a))
@@ -599,14 +602,3 @@
 
   (ripple-carry-adder-iter a-list b-list c s-list))
   
-
-(define (ripple-carry-adder A B S c)
-  (let ((a1 (car A))
-	(b1 (car B))
-	(s1 (car S)))
-    (if (and (not (null? a1))
-	     (not (null? b1))
-	     (not (null? c1)))
-	(let ((fa (full-adder a1 b1 c s1 c-out)
-	'()
-	'())))
