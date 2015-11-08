@@ -263,6 +263,36 @@
     'ok))
 
 ;;
+;; The logic table for a full-adder looks like the following:
+;;
+;; +---+---+-------+----+----+---+-----+--------+
+;; | A | B | C(in) | C1 | C2 | S | Sum | C(out) |
+;; +---+---+-------+----+----+---+-----+--------+
+;; | 1 | 1 |   1   |  1 |  0 | 0 |  1  |   1    |
+;; | 1 | 1 |   0   |  0 |  1 | 1 |  0  |   1    |
+;; | 1 | 0 |   1   |  0 |  1 | 1 |  0  |   1    |
+;; | 1 | 0 |   0   |  0 |  0 | 0 |  1  |   0    |
+;; | 0 | 1 |   1   |  1 |  0 | 0 |  0  |   1    |
+;; | 0 | 1 |   0   |  0 |  0 | 1 |  1  |   0    |
+;; | 0 | 0 |   1   |  0 |  0 | 1 |  1  |   0    |
+;; | 0 | 0 |   0   |  0 |  0 | 0 |  0  |   0    |
+;; +---+---+-------+----+----+---+-----+--------+
+;;
+;; The full-adder defines a mechanism for adding two bits, A and B, 
+;; together with a carry bit, to obtain a 2-bit number as specified
+;; by the sum and carry-out bits:
+;;
+;;  1 + 1 + (1) ==> 11
+;;  1 + 1 + (0) ==> 10
+;;  1 + 0 + (1) ==> 10
+;;  1 + 0 + (0) ==> 01
+;;  0 + 1 + (1) ==> 10 
+;;  0 + 1 + (0) ==> 01
+;;  0 + 0 + (1) ==> 01
+;;  0 + 0 + (0) ==> 00
+;; 
+
+;;
 ;; Run some unit tests for the full-adder:
 ;;
 
@@ -328,35 +358,6 @@
 ;;               one or-gate delay later. Using the constants we have defined
 ;;               here, this will occur 3 + 5 = 8 time units later.
 ;;
-
-;; The logic table for a full-adder looks like the following:
-;;
-;; +---+---+-------+----+----+---+-----+--------+
-;; | A | B | C(in) | C1 | C2 | S | Sum | C(out) |
-;; +---+---+-------+----+----+---+-----+--------+
-;; | 1 | 1 |   1   |  1 |  0 | 0 |  1  |   1    |
-;; | 1 | 1 |   0   |  0 |  1 | 1 |  0  |   1    |
-;; | 1 | 0 |   1   |  0 |  1 | 1 |  0  |   1    |
-;; | 1 | 0 |   0   |  0 |  0 | 0 |  1  |   0    |
-;; | 0 | 1 |   1   |  1 |  0 | 0 |  0  |   1    |
-;; | 0 | 1 |   0   |  0 |  0 | 1 |  1  |   0    |
-;; | 0 | 0 |   1   |  0 |  0 | 1 |  1  |   0    |
-;; | 0 | 0 |   0   |  0 |  0 | 0 |  0  |   0    |
-;; +---+---+-------+----+----+---+-----+--------+
-;;
-;; The full-adder defines a mechanism for adding two bits, A and B, 
-;; together with a carry bit, to obtain a 2-bit number as specified
-;; by the sum and carry-out bits:
-;;
-;;  1 + 1 + (1) ==> 11
-;;  1 + 1 + (0) ==> 10
-;;  1 + 0 + (1) ==> 10
-;;  1 + 0 + (0) ==> 01
-;;  0 + 1 + (1) ==> 10 
-;;  0 + 1 + (0) ==> 01
-;;  0 + 0 + (1) ==> 01
-;;  0 + 0 + (0) ==> 00
-;; 
 
 (define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b c-in s)
