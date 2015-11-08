@@ -229,7 +229,7 @@
 ;; This arrangement of signals indicates that 0 + 1 = 01.
 ;;
 
-(get-signal! b 0)
+(set-signal! b 0)
 (propagate)
 ;; ==> s 32 New-value 0
 
@@ -324,9 +324,39 @@
 (get-signal c-out)
 ;; ==> 0
 
-(get-signal! a 1)
+(set-signal! a 1)
 (propagate)
 ;; ==> sum 8 New-value = 1
+
+;;
+;; Setting the signal at A to 1 causes the signal at SUM to go to 1 as well,
+;; after a delay of 8 time units. A time-analysis of how signals propagate
+;; within the full-adder is as follows:
+;;
+;;  Signal A: Changing the signal at A causes a change in the signal at SUM
+;;            one half-adder-sum-delay later; using the constants we have 
+;;            defined here, this will occur 8 time-units later. Likewise, 
+;;            changing the signal at A causes the signal at C-OUT to change
+;;            one half-adder-carry-delay, plus one or-gate-delay later.
+;;            Using the constants we have defined here, this will occur
+;;            3 + 5 = 8 time units later. 
+;;
+;;  Signal B: Changing the signal at B causes a change in the signal at SUM
+;;            two half-adder-sum-delays later; using the constants we have
+;;            defined here, this will occur 16 time-units later. Likewise, 
+;;            changing the signal at B causes the signal at C-OUT to change
+;;            one half-adder-sum-delay, plus one-half-adder-carry-delay,
+;;            plus one or-gate-delay later. Using the constants we have 
+;;            defined here, this will occur 8 + 3 + 5 = 16 time units later.
+;;
+;;  Signal C-IN: Changing the signal at C-IN causes a change in the signal 
+;;               at SUM to occur two half-adder-sum-delays later; using the 
+;;               constants we have defined here, this will occur 16 time-units
+;;               later. Likewise, changing the signal at C-IN will cause the 
+;;               signal at C-OUT to change one half-adder-carry-delay, plus
+;;               one or-gate delay later. Using the constants we have defined
+;;               here, this will occur 3 + 5 = 8 time units later.
+;;
 
 (get-signal a)
 ;; ==> 1
