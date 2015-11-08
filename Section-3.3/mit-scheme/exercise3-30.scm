@@ -475,9 +475,9 @@
 ;; sum 72 New-value = 0
 
 ;;
-;; Looking at the internal definition for the full-adder, when the 
-;; signals at A, B and C-IN are all 1, the signals on the internal
-;; components have the following values:
+;; Looking at the definition for the full-adder, when the signals at 
+;; A, B and C-IN are all 1, the signals on the internal components 
+;; have the following values:
 ;;
 ;;  S:  0
 ;;  C1: 1
@@ -491,45 +491,23 @@
 ;; or 5 time units later. Hence, changing the signal at B from 1 to 0 
 ;; drives the signal at C-OUT to 0 after 8 time units, or time = 64.
 ;;
-;; However, changing the signal at B to 0 drives the signal at S, which 
-;; is the input to the second half-adder, to 1. This in turn drives the 
-;; signal at SUM to 0 and the signal at C-OUT to 1. The change in signal 
+;; However, changing the signal at B to 0 also drives the signal at S, 
+;; which is the input to the second half-adder, to 1. This in turn drives 
+;; the signal at SUM to 0 and the signal at C-OUT to 1. The change in signal 
 ;; at S occurs 8 time units after the signal at B has changed. This in 
-;; turn drives a change in the signal at SUM another 8 time units after,
-;; and also drives a change in C2 after 3 time units, followed by another 
-;; change in the signal at C-OUT after 5 more time units, or a total 
-;; of 8 time units later.
+;; turn drives a change in the signal at SUM another 8 time units after 
+;; that, or in other words, the signal at SUM changes to 0 a total of 
+;; 16 time-units after the signal at B was changed to 0.
+;;
+;; Likewise, changing the signal at B to 0 drives the signal at S to 1
+;; after 8 time units. The change at S in turn drives the signal at SUM
+;; to 0 after an additional 8 time units. So changing the signal at B from
+;; 1 to 0 changes the signal to SUM to 0 after 16 time units, and changes
+;; the signal at C-OUT to 1 after 16 time units.
+;;
+;; The behavior we observe in this experiment is consistent with this analysis.
 ;;
 
-;;
-;; Setting the signal at A to 1 causes the signal at SUM to go to 1 as well,
-;; after a delay of 8 time units. A time-analysis of how signals propagate
-;; within the full-adder is as follows:
-;;
-;;  Signal A: Changing the signal at A causes a change in the signal at SUM
-;;            one half-adder-sum-delay later; using the constants we have 
-;;            defined here, this will occur 8 time-units later. Likewise, 
-;;            changing the signal at A causes the signal at C-OUT to change
-;;            one half-adder-carry-delay, plus one or-gate-delay later.
-;;            Using the constants we have defined here, this will occur
-;;            3 + 5 = 8 time units later. 
-;;
-;;  Signal B: Changing the signal at B causes a change in the signal at SUM
-;;            two half-adder-sum-delays later; using the constants we have
-;;            defined here, this will occur 16 time-units later. Likewise, 
-;;            changing the signal at B causes the signal at C-OUT to change
-;;            one half-adder-sum-delay, plus one-half-adder-carry-delay,
-;;            plus one or-gate-delay later. Using the constants we have 
-;;            defined here, this will occur 8 + 3 + 5 = 16 time units later.
-;;
-;;  Signal C-IN: Changing the signal at C-IN causes a change in the signal 
-;;               at SUM to occur two half-adder-sum-delays later; using the 
-;;               constants we have defined here, this will occur 16 time-units
-;;               later. Likewise, changing the signal at C-IN will cause the 
-;;               signal at C-OUT to change one half-adder-carry-delay, plus
-;;               one or-gate delay later. Using the constants we have defined
-;;               here, this will occur 3 + 5 = 8 time units later.
-;;
 
 (define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b c-in s)
