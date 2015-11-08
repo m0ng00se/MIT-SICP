@@ -295,7 +295,6 @@
 ;;
 ;; Run some unit tests for the full-adder:
 ;;
-
 (define a (make-wire))
 (define b (make-wire))
 (define c-in (make-wire))
@@ -328,6 +327,149 @@
 (get-signal! a 1)
 (propagate)
 ;; ==> sum 8 New-value = 1
+
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 0
+(get-signal c-in)
+;; ==> 0
+(get-signal sum)
+;; ==> 1
+(get-signal c-out)
+;; ==> 0
+
+;;
+;; This arrangement of signals indicates that 1 + 0 + 0 = 01.
+;;
+
+(set-signal! b 1)
+(propagate)
+;; ==> c-out 24 New-value = 1
+;; ==> sum 24 New-value = 0
+
+;;
+;; The time delays at SUM and C-OUT are consistent w/ our previous analysis.
+;;
+
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 1
+(get-signal c-in)
+;; ==> 0
+(get-signal sum)
+;; ==> 0
+(get-signal c-out)
+;; ==> 1
+
+;;
+;; This arrangement of signals indicates that 1 + 1 + 0 = 10.
+;;
+
+(set-signal! a 0)
+(propagate)
+;; ==> c-out 32 New-value = 0
+;; ==> sum 32 New-value = 1
+
+;; 
+;; The time delays at SUM and C-OUT are consistent w/ our previous analysis.
+;;
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 1
+(get-signal c-in)
+;; ==> 0
+(get-signal sum)
+;; ==> 1
+(get-signal c-out)
+;; ==> 0
+
+;;
+;; This arrangement of signals indicates that 0 + 1 + 0 = 01.
+;;
+
+(set-signal! c-in 1)
+(propagate)
+;; ==> c-out 40 New-value = 1
+;; ==> sum 48 New-value = 0
+
+;;
+;; The time delays at SUM and C-OUT are consistent w/ our previous analysis.
+;;
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 1
+(get-signal c-in)
+;; ==> 1
+(get-signal sum)
+;; ==> 0
+(get-signal c-out)
+;; ==> 1
+
+;;
+;; This arrangement of signals indicates that 0 + 1 + 1 = 10.
+;;
+
+(set-signal! a 1)
+(propagate)
+;; sum 56 New-value = 1
+
+;; 
+;; The time delays at SUM is consistent w/ our previous analysis.
+;;
+
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 1
+(get-signal c-in)
+;; ==> 1
+(get-signal sum)
+;; ==> 1
+(get-signal c-out)
+;; ==> 1
+
+;;
+;; This arrangement of signals indicates that 1 + 1 + 1 = 11.
+;;
+
+(set-signal! b 0)
+(propagate)
+;; c-out 64 New-value = 0
+;; c-out 72 New-value = 1
+;; sum 72 New-value = 0
+
+;;
+;; Looking at the internal definition for the full-adder, when the 
+;; signals at A, B and C-IN are all 1, the signals on the internal
+;; components have the following values:
+;;
+;;  S:  0
+;;  C1: 1
+;;  C2: 0
+;;  
+;; This in turn drives the signals at SUM and C-OUT to both be 1.
+;;
+;; When the signal at B is changed from 1 to 0, this drives the signal
+;; at C1 to 0 one half-adder-carry-delay, or 3 time units later. This 
+;; change in turn drives the signal at C-OUT to 0 one or-gate-delay, 
+;; or 5 time units later. Hence, changing the signal at B from 1 to 0 
+;; drives the signal at C-OUT to 0 after 8 time units, or time = 64.
+;;
+;; However, changing the signal at B to 0 drives the signal at S, which 
+;; is the input to the second half-adder, to 1. This in turn drives the 
+;; signal at SUM to 0 and the signal at C-OUT to 1. The change in signal 
+;; at S occurs 8 time units after the signal at B has changed. This in 
+;; turn drives a change in the signal at SUM another 8 time units after,
+;; and also drives a change in C2 after 3 time units, followed by another 
+;; change in the signal at C-OUT after 5 more time units, or a total 
+;; of 8 time units later.
+;;
 
 ;;
 ;; Setting the signal at A to 1 causes the signal at SUM to go to 1 as well,
