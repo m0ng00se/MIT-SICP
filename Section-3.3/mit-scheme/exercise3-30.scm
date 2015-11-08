@@ -476,34 +476,40 @@
 
 ;;
 ;; Looking at the definition for the full-adder, when the signals at 
-;; A, B and C-IN are all 1, the signals on the internal components 
-;; have the following values:
+;; A, B and C-IN are all 1, the signals on the internal wires have 
+;; the following values:
 ;;
 ;;  S:  0
 ;;  C1: 1
 ;;  C2: 0
-;;  
-;; This in turn drives the signals at SUM and C-OUT to both be 1.
+;; 
+;; These internal values, in turn, drive the signals at SUM and C-OUT
+;; to both be 1. 
 ;;
-;; When the signal at B is changed from 1 to 0, this drives the signal
-;; at C1 to 0 one half-adder-carry-delay, or 3 time units later. This 
-;; change in turn drives the signal at C-OUT to 0 one or-gate-delay, 
-;; or 5 time units later. Hence, changing the signal at B from 1 to 0 
-;; drives the signal at C-OUT to 0 after 8 time units, or time = 64.
+;; When the signal at B is changes from 1 to 0, this drives the signal
+;; at C1 to 0 one half-adder-carry-delay; this change in turn drives the 
+;; signal at C-OUT to 0 after one or-gate-delay. Using the constants we 
+;; have defined here, this will occur 3 + 5 = 8 time units later, or at 
+;; time = 64.
 ;;
 ;; However, changing the signal at B to 0 also drives the signal at S, 
-;; which is the input to the second half-adder, to 1. This in turn drives 
-;; the signal at SUM to 0 and the signal at C-OUT to 1. The change in signal 
-;; at S occurs 8 time units after the signal at B has changed. This in 
-;; turn drives a change in the signal at SUM another 8 time units after 
-;; that, or in other words, the signal at SUM changes to 0 a total of 
-;; 16 time-units after the signal at B was changed to 0.
+;; which is the input to the second half-adder, to 1; this in turn drives 
+;; the signal at SUM to 0. The change at S occurs one half-adder-sum-delay,
+;; or 8 time units, after the signal change at B occurred; the change at SUM
+;; occurs one half-adder-sum-delay, or 8 time units, after the signal change
+;; at S occurred. Hence, a total of 8 + 8 = 16 time units elapse between 
+;; when the signal at B changes and the change propagates to SUM. We observe
+;; the signal change at SUM at time = 72. 
 ;;
-;; Likewise, changing the signal at B to 0 drives the signal at S to 1
-;; after 8 time units. The change at S in turn drives the signal at SUM
-;; to 0 after an additional 8 time units. So changing the signal at B from
-;; 1 to 0 changes the signal to SUM to 0 after 16 time units, and changes
-;; the signal at C-OUT to 1 after 16 time units.
+;; Likewise, driving the signal at S to 1 will in turn drive the signal at 
+;; C2 from 0 to 1; this, in turn, drives the signal at C-OUT to 1. The change
+;; at C2 will occur one half-adder-carry-delay, or 3 time units, after the 
+;; signal at S changes; the change at C-OUT will occur one or-gate-delay, or
+;; 5 time units, after the signal at C2 changes. Hence, the change a C-OUT 
+;; will occur 3 + 5 = 8 time units after the signal at S changes, and the 
+;; signal at S changed 8 time units after the signal at B changed. Hence, 
+;; changing the signal at B from 1 to 0 drives the signal at C-OUT to 1 a 
+;; total of 16 time units later, or at time = 72.
 ;;
 ;; The behavior we observe in this experiment is consistent with this analysis.
 ;;
