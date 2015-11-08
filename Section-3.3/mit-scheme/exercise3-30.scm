@@ -113,6 +113,130 @@
 ;;  0 + 0 ==> 00 
 ;;
 
+;; 
+;; Run some unit tests using the half-adder:
+;;
+(define a (make-wire))
+(define b (make-wire))
+(define s (make-wire))
+(define c (make-wire))
+
+(define inverter-delay 2)
+(define and-gate-delay 3)
+(define or-gate-delay 5)
+
+(probe 's s)
+;; ==> 0 New-value = 0
+(probe 'c c)
+;; ==> 0 New-value = 0
+
+(half-adder a b s c)
+;; ==> ok
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 0
+(get-signal s)
+;; ==> 0
+(get-signal c)
+;; ==> 0
+
+(set-signal! a 1)
+(propagate)
+;; ==> s 8 New-value 1
+
+;;
+;; Setting the signal on a to 1 causes the s signal to go to 1 as well,
+;; after a delay of 8 time units. Inside the half-adder, the signals 
+;; propagate with the following delays:
+;;
+;;  Signal D: changes after 1 or-gate-delay, or 5 units;
+;;  Signal C: changes after 1 and-gate-delay, or 3 units;
+;;  Signal E: changes after 1 and-gate-delay + 1 inverter-delay, or 3+2 = 5 units;
+;;  Signal S: the inputs to S are D and E, and both of these signals 
+;;            change after 5 units, the signal at S changes at 1 and-date-delay
+;;            after this, or an additional 3 units after. The delay for the 
+;;            signal at S to change is therefore 5 + 3 = 8 units;
+;; 
+;; This matches the time delay we measure in the signal at S; note that
+;; the signal at C did not change in this propagation.
+;;
+
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 0
+(get-signal s)
+;; ==> 1
+(get-signal c)
+;; ==> 0
+
+;;
+;; This arrangement of signals is tantamount to saying that 1 + 0 = 01. 
+;;
+
+(set-signal! b 1)
+(propagate)
+;; ==> c 11 New-value = 1
+;; ==> s 16 New-value = 0
+
+;;
+;; The signal at s changes at time = 16, or 8 units after the signal 
+;; at b changed to 1. This correlates w/ our above calculation of a 
+;; time delay of 8 units for changes in the signal at a or b to reach
+;; s. According to the above calculation, the signal at c changes 
+;; 1 and-gate-delay after the signals at a and b change, or 3 time
+;; units later. In the above experiment, the signal at c changed at
+;; time = 11, or 3 units after the signal at b changed to 1, which 
+;; again is consistent w/ our analysis.
+;;
+
+(get-signal a)
+;; ==> 1
+(get-signal b)
+;; ==> 1
+(get-signal s)
+;; ==> 0
+(get-signal c)
+;; ==> 1
+
+;;
+;; This arrangement of signals is tantamount to saying that 1 + 1 = 10.
+;;
+
+(set-signal! a 0)
+(propagate)
+;; c 19 New-value = 0
+;; s 24 New-value = 1
+
+;; 
+;; The time delays at c and s are consistent w/ our previous analysis.
+;;
+
+(get-signal a)
+;; ==> 0
+(get-signal b)
+;; ==> 1
+(get-signal s)
+;; ==> 1
+(get-signal c)
+;; ==> 0
+
+;;
+;; This arrangement of signals is tantamount to saying that 0 + 1 = 01.
+;;
+
+(get-signal! b 0)
+(propagate)
+;; ==> s 32 New-value 0
+
+;;
+
+
+;;
+;;
+
 ;;
 ;; We next define the full-adder procedure:
 ;;
