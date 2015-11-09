@@ -107,10 +107,13 @@
 ;; The half-adder defines a mechanism for adding two bits, A and B, 
 ;; to obtain a 2-bit number as specified by the sum and carry bits:
 ;;
-;;  1 + 1 ==> 10
-;;  1 + 0 ==> 01
-;;  0 + 1 ==> 01
-;;  0 + 0 ==> 00 
+;; +--------------+
+;; | A | B | | CS |
+;; +--------------+
+;;   1 + 1 ==> 10
+;;   1 + 0 ==> 01
+;;   0 + 1 ==> 01
+;;   0 + 0 ==> 00 
 ;;
 
 ;; 
