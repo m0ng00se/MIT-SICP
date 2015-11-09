@@ -93,16 +93,16 @@
 ;; The logic table for a half-adder looks like the following:
 ;;
 ;; +---+---+---+---+---+---+
-;; | A | B | D | E | S | C |
+;; | A | B | D | E | C | S |
 ;; +---+---+---+---+---+---+
-;; | 1 | 1 | 1 | 0 | 0 | 1 |
-;; | 1 | 0 | 1 | 1 | 1 | 0 |
-;; | 0 | 1 | 1 | 1 | 1 | 0 |
+;; | 1 | 1 | 1 | 0 | 1 | 0 |
+;; | 1 | 0 | 1 | 1 | 0 | 1 |
+;; | 0 | 1 | 1 | 1 | 0 | 1 |
 ;; | 0 | 0 | 0 | 1 | 0 | 0 |
 ;; +---+---+---+---+---+---+
 ;;
-;; S is 1 whenever precisely one of A and B is 1 (exclusive-or), and C is 1 
-;; whenever both A and B are 1 (logical-and). 
+;; C is 1 whenever both A and B are 1 (logical-and), and S is 1 whenever 
+;; precisely one of A and B is 1 (exclusive-or).
 ;;
 ;; The half-adder defines a mechanism for adding two bits, A and B, 
 ;; to obtain a 2-bit number as specified by the sum and carry bits:
