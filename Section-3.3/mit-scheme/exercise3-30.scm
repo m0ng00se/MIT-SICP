@@ -156,9 +156,9 @@
 ;;
 ;;  Signal D: changes after 1 or-gate-delay, or 5 units;
 ;;  Signal C: changes after 1 and-gate-delay, or 3 units;
-;;  Signal E: changes after 1 and-gate-delay + 1 inverter-delay, or 3+2 = 5 units;
+;;  Signal E: changes after 1 and-gate-delay + 1 inverter-delay, or 3 + 2 = 5 units;
 ;;  Signal S: the inputs to S are D and E, and both of these signals 
-;;            change after 5 units, so the signal at S changes at 1 and-date-delay
+;;            change after 5 units, so the signal at S changes at 1 and-gate-delay
 ;;            after this, or an additional 3 units after. The delay for the signal
 ;;            at S to change is therefore 5 + 3 = 8 units;
 ;; 
@@ -186,15 +186,18 @@
 
 ;;
 ;; The signal at S changes at time = 16, or 8 units after the signal 
-;; at B changed to 1. This correlates with our analysis above where
-;; it takes a time delay of 8 units for changes in the signal at either 
-;; A or B to reach S. 
-;; 
-;; Likewise, according to the above analysis, the signal at C changes 1 
-;; and-gate-delay after the signals at A or B change, or 3 time units 
-;; later. In the above experiment, the signal at C changed at time = 11 
-;; units, or 3 units after the signal at B changed to 1, which is again 
-;; consistent with our analysis.
+;; at B changed to 1. Likewise, the signal at C changes 1 and-gate-delay,
+;; or 3 time units, at time = 11, after the signal at B changes.
+;;
+;; This is consistent with our analysis above:
+;;
+;;  Signal D: changes after 1 or-gate-delay, or 5 units;
+;;  Signal C: changes after 1 and-gate-delay, or 3 units;
+;;  Signal E: changes after 1 and-gate-delay + 1 inverter-delay, or 3 + 2 = 5 units;
+;;  Signal S: the inputs to S are D and E, and both of these signals
+;;            change after 5 units, so the signal at S changes at 1 and-fate-delay
+;;            after this, or an additional 3 units later. The delay for the signal
+;;            at S to change is therefore 5 + 3 = 8 units.
 ;;
 
 (get-signal a)
