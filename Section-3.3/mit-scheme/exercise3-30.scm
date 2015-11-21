@@ -491,7 +491,7 @@
 ;; sum 56 New-value = 1
 
 ;; 
-;; The time delays at SUM is consistent w/ our previous analysis.
+;; The time delays at SUM are consistent w/ our previous analysis.
 ;;
 
 (get-signal a)
@@ -516,43 +516,36 @@
 ;; sum 72 New-value = 0
 
 ;;
-;; Looking at the definition for the full-adder, when the signals at 
-;; A, B and C-IN are all 1, the signals on the internal wires have 
-;; the following values:
+;; A time analysis of how these signals propagate within the 
+;; full adder is shown below:
 ;;
-;;  S:  0
-;;  C1: 1
-;;  C2: 0
-;; 
-;; These internal values, in turn, drive the signals at SUM and C-OUT
-;; to both be 1. 
-;;
-;; When the signal at B is changes from 1 to 0, this drives the signal
-;; at C1 to 0 one half-adder-carry-delay; this change in turn drives the 
-;; signal at C-OUT to 0 after one or-gate-delay. Using the constants we 
-;; have defined here, this will occur 3 + 5 = 8 time units later, or at 
-;; time = 64.
-;;
-;; However, changing the signal at B to 0 also drives the signal at S, 
-;; which is the input to the second half-adder, to 1; this in turn drives 
-;; the signal at SUM to 0. The change at S occurs one half-adder-sum-delay,
-;; or 8 time units, after the signal change at B occurred; the change at SUM
-;; occurs one half-adder-sum-delay, or 8 time units, after the signal change
-;; at S occurred. Hence, a total of 8 + 8 = 16 time units elapse between 
-;; when the signal at B changes and the change propagates to SUM. We observe
-;; the signal change at SUM at time = 72. 
-;;
-;; Likewise, driving the signal at S to 1 will in turn drive the signal at 
-;; C2 from 0 to 1; this, in turn, drives the signal at C-OUT to 1. The change
-;; at C2 will occur one half-adder-carry-delay, or 3 time units, after the 
-;; signal at S changes; the change at C-OUT will occur one or-gate-delay, or
-;; 5 time units, after the signal at C2 changes. Hence, the change a C-OUT 
-;; will occur 3 + 5 = 8 time units after the signal at S changes, and the 
-;; signal at S changed 8 time units after the signal at B changed. Hence, 
-;; changing the signal at B from 1 to 0 drives the signal at C-OUT to 1 a 
-;; total of 16 time units later, or at time = 72.
-;;
-;; The behavior we observe in this experiment is consistent with this analysis.
+;;  Signal S:     Changes to 1 at 1 half-adder-sum-delay after 
+;;                the signal at B changes, which is 8 units.
+;;  Signal C1:    Changes to 0 at 1 half-adder-carry-delay after
+;;                the signal at B changes, which is 3 units.
+;;  Signal C2:    Changes to 1 at 1 half-adder-carry-delay after
+;;                the signal at S changes, which is 3 units; hence, 
+;;                the signal at C2 changes 8+3 = 11 units after the 
+;;                the signal at B changes.
+;;  Signal SUM:   Changes to 0 at 1 half-adder-sum-delay after 
+;;                the signal at S changes, which is 8 units; hence
+;;                the signal at SUM changes 8+8 = 16 units after 
+;;                the signal at B changes, or at t = 72.
+;;  Signal C-OUT: Changes value at 1 or-gate-delay after the signals 
+;;                at inputs C1 or C2 change, which is 5 units. When 
+;;                the inputs A, B and C-IN are all 1, the values of 
+;;                C1 and C2 are 1 and 0, respectively, and hence the 
+;;                value of C-OUT, which is the logical-or of C1 and
+;;                C2, is 1. When the signal at B changes to 0, it 
+;;                drives the signal at C1 to change to 0 after 3 units, 
+;;                which turn drives the signal at C-OUT to change to 0 
+;;                after an additional or-gate-delay, or 5 units; hence, 
+;;                after 3+5 = 8 units, or at t = 64, the signal at C-OUT 
+;;                changes to 0.
+;;                Likewise, setting B to 0 drives the signal at C2 to 
+;;                change to 1 after 11 units, so that an additional 5 
+;;                units later, or after 11+5 = 16 units, or at t = 72, 
+;;                the signal at C-OUT goes back to 1.
 ;;
 
 (get-signal a)
