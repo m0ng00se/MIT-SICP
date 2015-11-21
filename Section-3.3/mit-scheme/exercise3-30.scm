@@ -185,19 +185,23 @@
 ;; ==> s 16 New-value = 0
 
 ;;
-;; The signal at S changes at time = 16, or 8 units after the signal 
-;; at B changed to 1. Likewise, the signal at C changes 1 and-gate-delay,
-;; or 3 time units, at time = 11, after the signal at B changes.
+;; Setting the signal on B to 1 causes the signal at C to go to 1, 
+;; and the signal at S to go from 1 to 0. A time-analysis of how 
+;; signals propagate within the half-adder is as follows:
 ;;
-;; This is consistent with our analysis above:
-;;
-;;  Signal D: changes after 1 or-gate-delay, or 5 units;
-;;  Signal C: changes after 1 and-gate-delay, or 3 units;
-;;  Signal E: changes after 1 and-gate-delay + 1 inverter-delay, or 3 + 2 = 5 units;
-;;  Signal S: the inputs to S are D and E, and both of these signals
-;;            change after 5 units, so the signal at S changes at 1 and-fate-delay
-;;            after this, or an additional 3 units later. The delay for the signal
-;;            at S to change is therefore 5 + 3 = 8 units.
+;;  Signal D: remains at 1, since D is the logical-or of inputs 
+;;            A and B, which are both 1;
+;;  Signal C: changes to 1, since C is the logical-and of inputs
+;;            A and B, which are both 1; the change occurs after 
+;;            1 and-gate-delay, or 3 units, or at t = 11;
+;;  Signal E: changes to 0, since E is the logical-not of C; the 
+;;            change occurs after 1 and-gate-delay + 1 inverter-
+;;            delay, or 3+2 = 5 units, or t = 13;
+;;  Signal S: changes to 0, since S is the logical-and of inputs 
+;;            D and E; the signal at D did not change, and the 
+;;            signal at E changes to 0 at t(E) = 5 units, hence 
+;;            the signal at S changes at t(E)+1 and-gate-delay, 
+;;            or after 5+3 = 8 units, or t = 16;
 ;;
 
 (get-signal a)
@@ -310,6 +314,11 @@
 (define inverter-delay 2)
 (define and-gate-delay 3)
 (define or-gate-delay 5)
+
+;; Clear out agenda
+(define the-agenda (make-agenda))
+(current-time the-agenda)
+;; ==> 0
 
 (probe 'sum sum)
 ;; ==> 0 New-value = 0
