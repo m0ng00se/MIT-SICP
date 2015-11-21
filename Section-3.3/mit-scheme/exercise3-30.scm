@@ -377,7 +377,29 @@
 ;; ==> sum 24 New-value = 0
 
 ;;
-;; The time delays at SUM and C-OUT are consistent w/ our previous analysis.
+;; A time-analysis of how these signals propagate within the full
+;; adder is as follows:
+;;
+;;  Signal S:     changes to 1 after 1 half-adder-sum-delay, which using the 
+;;                gate delays we have defined here, is 8 units;
+;;  Signal C1:    does not change;
+;;  Signal C2:    changes to 1 at 1 half-adder-carry-delay after the signal
+;;                at input S has changed to 1; using the gate delays we have
+;;                defined here, 1 half-adder-carry-delay occurs at 3 units, 
+;;                so the signal at C2 changes 11 units after the signal at 
+;;                B changed;
+;;  Signal SUM:   changes to 0 at 1 half-adder-sum-delay after the signal 
+;;                at input S has changed to 1; using the gate delays we have
+;;                defined here, 1 half-adder-sum-delay occurs at 8 units, 
+;;                so the signal at SUM changes 16 units after the signal at 
+;;                B changes, or at t = 24.
+;;  Signal C-OUT: changes to 1 since C-OUT is the logical-or of C1 and C2;
+;;                change occurs at 1 or-gate-delay after the signal at C2
+;;                changes; the signal at C-OUT changes at 1 half-adder-sum-
+;;                delay + 1 half-adder-carry-delay + 1 or-gate-delay after 
+;;                the signal at B changes, or using the gate delays we have
+;;                defined here, at 8+5+3 = 16 units after the signal at B
+;;                changes, or at t = 24.
 ;;
 
 (get-signal a)
@@ -423,6 +445,9 @@
 (propagate)
 ;; ==> c-out 40 New-value = 1
 ;; ==> sum 48 New-value = 0
+
+;;
+;; 
 
 ;;
 ;; The time delays at SUM and C-OUT are consistent w/ our previous analysis.
