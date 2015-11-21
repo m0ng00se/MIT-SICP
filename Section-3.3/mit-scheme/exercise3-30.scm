@@ -417,7 +417,17 @@
 ;; ==> sum 32 New-value = 1
 
 ;; 
-;; The time delays at SUM and C-OUT are consistent w/ our previous analysis.
+;; We showed above that changing the signal at A will propagate to SUM
+;; after 8 units. 
+;;
+;; To calculate the time it takes a signal change at A to propagate to 
+;; C-OUT, note that the signal change at A will drive a signal change at
+;; C2 after 1 half-adder-carry-delay, or 3 units. Likewise, the signal
+;; change at C2 will drive a signal change at C-OUT after 1 or-gate-delay, 
+;; or 5 units. 
+;;
+;; Hence, the total time for the signal change at A to propagate to C-OUT 
+;; is 5+3 = 8 units, consistent with the experiment above.
 ;;
 
 (get-signal a)
