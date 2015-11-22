@@ -154,13 +154,13 @@
 ;; after a delay of 8 time units. A time-analysis of how signals propagate 
 ;; within the half-adder is as follows:
 ;;
-;;  Signal D: changes after 1 or-gate-delay, or 5 units;
-;;  Signal C: changes after 1 and-gate-delay, or 3 units;
-;;  Signal E: changes after 1 and-gate-delay + 1 inverter-delay, or 3 + 2 = 5 units;
-;;  Signal S: the inputs to S are D and E, and both of these signals 
+;;  Signal D: Changes after 1 or-gate-delay, or 5 units.
+;;  Signal C: Changes after 1 and-gate-delay, or 3 units.
+;;  Signal E: Changes after 1 and-gate-delay + 1 inverter-delay, or 3 + 2 = 5 units.
+;;  Signal S: The inputs to S are D and E, and both of these signals 
 ;;            change after 5 units, so the signal at S changes at 1 and-gate-delay
 ;;            after this, or an additional 3 units after. The delay for the signal
-;;            at S to change is therefore 5 + 3 = 8 units;
+;;            at S to change is therefore 5 + 3 = 8 units.
 ;; 
 ;; This matches the time delay we measure in the signal at S in the above.
 ;; Note that the signal at C did not change in this experiment.
@@ -189,19 +189,19 @@
 ;; and the signal at S to go from 1 to 0. A time-analysis of how 
 ;; signals propagate within the half-adder is as follows:
 ;;
-;;  Signal D: remains at 1, since D is the logical-or of inputs 
-;;            A and B, which are both 1;
-;;  Signal C: changes to 1, since C is the logical-and of inputs
+;;  Signal D: Remains at 1, since D is the logical-or of inputs 
+;;            A and B, which are both 1.
+;;  Signal C: Changes to 1, since C is the logical-and of inputs
 ;;            A and B, which are both 1; the change occurs after 
-;;            1 and-gate-delay, or 3 units, or at t = 11;
-;;  Signal E: changes to 0, since E is the logical-not of C; the 
+;;            1 and-gate-delay, or 3 units, or at t = 11.
+;;  Signal E: Changes to 0, since E is the logical-not of C; the 
 ;;            change occurs after 1 and-gate-delay + 1 inverter-
-;;            delay, or 3+2 = 5 units, or t = 13;
-;;  Signal S: changes to 0, since S is the logical-and of inputs 
+;;            delay, or 3+2 = 5 units, or t = 13.
+;;  Signal S: Changes to 0, since S is the logical-and of inputs 
 ;;            D and E; the signal at D did not change, and the 
 ;;            signal at E changes to 0 at t(E) = 5 units, hence 
 ;;            the signal at S changes at t(E)+1 and-gate-delay, 
-;;            or after 5+3 = 8 units, or t = 16;
+;;            or after 5+3 = 8 units, or t = 16.
 ;;
 
 (get-signal a)
@@ -348,12 +348,12 @@
 ;; since SUM is the sum of the input signals S and A. A time-analysis of how
 ;; signals propagate within the full-adder is as follows:
 ;;
-;;  Signal S:     does not change;
-;;  Signal C1:    does not change;
-;;  Signal C2:    does not change;
-;;  Signal SUM:   changes to 1 after 1 half-adder-sum-delay, which using the 
-;;                gate delays we have defined here, is 8 units;
-;;  Signal C-OUT: does not change;
+;;  Signal S:     Does not change.
+;;  Signal C1:    Does not change.
+;;  Signal C2:    Does not change.
+;;  Signal SUM:   Changes to 1 after 1 half-adder-sum-delay, which using the 
+;;                gate delays we have defined here, is 8 units.
+;;  Signal C-OUT: Does not change.
 ;;
 
 (get-signal a)
@@ -380,16 +380,16 @@
 ;; A time-analysis of how these signals propagate within the full
 ;; adder is as follows:
 ;;
-;;  Signal S:     changes to 1 after 1 half-adder-sum-delay, which is 8 units;
-;;  Signal C1:    does not change;
-;;  Signal C2:    changes to 1 at 1 half-adder-carry-delay after the signal
+;;  Signal S:     Changes to 1 after 1 half-adder-sum-delay, which is 8 units.
+;;  Signal C1:    Does not change.
+;;  Signal C2:    Changes to 1 at 1 half-adder-carry-delay after the signal
 ;;                at input S has changed to 1, which is 3 units, so the signal
-;;                at C2 changes 8+3 = 11 units after the signal at B changes;
-;;  Signal SUM:   changes to 0 at 1 half-adder-sum-delay after the signal 
+;;                at C2 changes 8+3 = 11 units after the signal at B changes.
+;;  Signal SUM:   Changes to 0 at 1 half-adder-sum-delay after the signal
 ;;                at input S has changed to 1, which is 8 units; so the signal 
 ;;                at SUM changes 8+8 = 16 units after the siganl at B changes, 
-;;                or at t = 24;
-;;  Signal C-OUT: changes to 1 since C-OUT is the logical-or of C1 and C2, and
+;;                or at t = 24.
+;;  Signal C-OUT: Changes to 1 since C-OUT is the logical-or of C1 and C2, and
 ;;                and the change occurs 1 or-gate-delay after the signal at C2
 ;;                has chaged, which is 5 units; hence, the signal at C-OUT
 ;;                changes (8+3)+5 = 16 units after the signal at B has changed,
@@ -454,21 +454,21 @@
 ;; A time-analysis of how these signals propagate within the full
 ;; adder is as follows:
 ;;
-;;  Signal S:     changes to 0 after 1 half-adder-sum-delay, which is
-;;                8 units;
-;;  Signal C1:    changes to 1 after 1 half-adder-carry-delay, which is 
-;;                3 units; 
-;;  Signal C2:    does not change;
-;;  Signal SUM:   changes to 0 at 1 half-adder-sum-delay after the signal
+;;  Signal S:     Changes to 0 after 1 half-adder-sum-delay, which is
+;;                8 units.
+;;  Signal C1:    Changes to 1 after 1 half-adder-carry-delay, which is 
+;;                3 units. 
+;;  Signal C2:    Does not change.
+;;  Signal SUM:   Changes to 0 at 1 half-adder-sum-delay after the signal
 ;;                at S has changed, which is 8 units; hence, the signal 
 ;;                at SUM changes 8+8 = 16 units after the signal at C has
-;;                changed, or at time t = 48;
-;;  Signal C-OUT: changes to 1 at 1 or-gate-delay after the input signals
+;;                changed, or at time t = 48.
+;;  Signal C-OUT: Changes to 1 at 1 or-gate-delay after the input signals
 ;;                C1 and C2 have obtained their final value; the signal 
 ;;                C1 changes value 3 units after the signal at C changed, 
 ;;                and the signal C2 does not change; hence, the signal at 
 ;;                C-OUT changes at 3+5 = 8 units after the signal at C 
-;;                has changed, or at t = 40;
+;;                has changed, or at t = 40.
 ;;
 
 (get-signal a)
