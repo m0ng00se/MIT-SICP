@@ -163,7 +163,7 @@
 ;;            at S to change is therefore 5 + 3 = 8 units.
 ;; 
 ;; This matches the time delay we measure in the signal at S in the above.
-;; Note that the signal at C did not change in this experiment.
+;; Note that the signal at C did not change in this simulation.
 ;;
 
 (get-signal a)
@@ -427,7 +427,7 @@
 ;; or 5 units. 
 ;;
 ;; Hence, the total time for the signal change at A to propagate to C-OUT 
-;; is 5+3 = 8 units, consistent with the experiment above.
+;; is 5+3 = 8 units, consistent with the simulation above.
 ;;
 
 (get-signal a)
@@ -673,10 +673,22 @@
 ;; last - the logical-or of A and B (i.e., input D) or the logical-not of the 
 ;; logical-and of A and B (i.e., input E):
 ;;
-(define c-half-adder-delay or-gate-delay)
+(define c-half-adder-delay and-gate-delay)
 (define s-half-adder-delay (+ and-gate-delay
 			      (max or-gate-delay
 				   (+ and-gate-delay inverter-delay))))
+
+;;
+;; Using the values we have defined, these expressions evaluate to the following:
+;;
+c-half-adder-delay
+;; ==> 3
+s-half-adder-delay 
+;; ==> 8
+
+;;
+;; This is consistent with the results of the simulations we run above.
+;;
 
 ;;
 ;; The full-adder circuit is designed to drive two output signals, SUM and C-OUT,
@@ -741,6 +753,39 @@
       c-out-full-adder-delay
       (+ c-out-full-adder-delay
 	 (c-ripple-delay (- n 1)))))
+
+;;
+;; These expressions can be rewritten more succinctly as:
+;;
+(define (s-ripple-delay n)
+  (+ sum-full-adder-delay (* (- n 1) c-out-full-adder-delay)))
+
+(define (c-ripple-delay n)
+  (* n c-out-full-adder-delay))
+
+;; 
+;; We can expression sum-full-adder-delay and c-out-full-adder-delay in terms
+;; of delays for and-gates, or-gates and inverters as follows:
+;;
+(define sum-full-adder-delay 
+
+(define c-out-full-adder-delay (+ or-gate-delay
+				  c2-full-adder-delay))
+(define c-out-full-adder-delay (+ or-gate-delay
+				  (+ s-full-adder-delay 
+				     c-half-adder-delay)))
+(define c-out-full-adder-delay (+ or-gate-delay
+				  (+ s-half-adder-delay
+				     c-half-adder-delay)))
+(define c-out-full-adder-delay (+ or-gate-delay
+				  (+ and-gate-delay
+				     (max or-gate-delay
+					  (+ and-gate-delay inverter-delay))
+				     or-gate-delay)))
+
+
+;; We can reduce the expressions for sum-full-adder-delay and c-out-full-adder-delay
+;; 
 
 ;;
 ;; For a n-bit ripple carry adder, the signal at S(n) cannot be calculated until the 
