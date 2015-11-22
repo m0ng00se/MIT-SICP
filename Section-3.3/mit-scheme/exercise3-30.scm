@@ -150,7 +150,7 @@
 ;; ==> s 8 New-value 1
 
 ;;
-;; Setting the signal on A to 1 causes the signal at S to go to 1 as well,
+;; Setting the signal on A to 1 drives the signal at S to go to 1 as well,
 ;; after a delay of 8 time units. A time-analysis of how signals propagate 
 ;; within the half-adder is as follows:
 ;;
