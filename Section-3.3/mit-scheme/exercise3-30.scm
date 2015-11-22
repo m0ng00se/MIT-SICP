@@ -642,36 +642,59 @@
 ;; the final output carry signal, although we can probe all n sum signals. 
 ;;
 
-
-;; [WORKING]
-
 ;;
-;; We can calculate the time delay that it takes for a signal to propagate 
-;; all the way down an n-bit ripple carry adder as follows:
-;;
-;; The half-adder circuit is designed to drive two output signals, S and C, 
+;; The half-adder circuit is desigend to drive two output signs, S and C,
 ;; from two input signals, A and B. The half-adder also contains two internal
-;; wires, D and E; D is the logical-and of A and B, while E is the logical-not
-;; of C. The output signal S, in turn, is driven from the logical-and of D
-;; and E. 
+;; wires, D and E:
 ;;
-;; The signal change propagates to C one and-gate-delay after the signals at
-;; A and/or B have changed. 
+;;  Signal D: Logical-or of A and B.
+;;  Signal E: Logical-not of C.
 ;;
-;; The signal change propagates to D one or-gate-delay after the signals at 
-;; A and/or B have changed. Likewise, the signal change propagates to E one
-;; and-date-delay plus one inverter-delay after the signals at A and/or B have
-;; changed. The signal change propagates to S one and-gate-delay after the 
-;; signals at D and/or E have changed. 
+;; The output signals S and C are defined as:
 ;;
-;; Hence, for a half-adder, the propagation delays look like:
+;;  Signal S: Logical-and of D and E.
+;;  Signal C: Logical-and of A and B.
 ;;
-;;  C(1/2)_time = or-gate-delay
-;;  S(1/2)_time = MAX(or-gate-delay, and-gate-delay + inverter-delay) + and-gate-delay
+;; An analysis of the time it takes for a singal to propagate all the way 
+;; down an n-bit ripple carry adder is as follows:
+;;
+;;  Signal C: The signal change propagates to C at 1 and-gate-delay after the 
+;;            input signals at A and/or B have changed.
+;;  Signal D: The signal change propagates to D at 1 or-gate-delay after the 
+;;            input signals at A and/or B have changed.
+;;  Signal E: The signal change propagates to E at 1 and-gate-delay (signal C) 
+;;            plus 1 inverter-delay after the input signals at A and/or B have 
+;;            changed.
+;;  Signal S: The signal change propagates to S at 1 and-gate-delay after the 
+;;            input signals at D and/or E have changed.
+;;
+;; The output signal propagation delays for the half-adder are given below. 
+;; Note that the maximum propagation delay at S is gated by which signal arrives
+;; last - the logical-or of A and B (i.e., input D) or the logical-not of the 
+;; logical-and of A and B (i.e., input E):
+;;
+(define c-half-adder-delay or-gate-delay)
+(define s-half-adder-delay (+ and-gate-delay
+			      (max or-gate-delay
+				   (+ and-gate-delay inverter-delay))))
+
 ;;
 ;; The full-adder circuit is designed to drive two output signals, SUM and C-OUT,
 ;; from three input signals, A, B and C-IN. The full-adder also contains three 
-;; internal wires, S, C1 and C2; C1 is the half-adder carry signal from B and C-IN;
+;; internal wires, S, C1 and C2:
+;; 
+;;  Signal S:  Half-adder sum signal of B and C-IN.
+;;  Signal C1: Half-adder carry signal of B and C-IN.
+;;  Signal C2: Half-adder carry signal of A and S.
+;;
+;; The output signals SUM and C-OUT are defined as:
+;;
+;;  Signal SUM:   Half-adder sum signal of A and S.
+;;  Signal C-OUT: Logical-or of C1 and C2.
+;;
+
+ C1 is the half-adder carry signal from B and C-IN;
+
 ;; S is the half-adder sum signal from B and C-IN; and C2 is the half-adder carry 
 ;; signal from A and S. C-OUT, in turn, is driven from the logical-or of C2 and 
 ;; C1; and SUM is the half-adder sum driven from A and S.
