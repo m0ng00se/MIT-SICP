@@ -729,10 +729,23 @@ s-half-adder-delay
 				       c2-full-adder-delay)))
 
 ;;
-;; Note for in the case of the propagation delay at C-OUT, we will always
-;; have c2-full-adder-delay >= c1-full-adder-delay, so we can just write:
+;; In the case of the propagation delay at C-OUT, we will always have 
+;; c2-full-adder-delay >= c1-full-adder-delay, so we can just write:
 ;;
 (define c-out-full-adder-delay (+ or-gate-delay c2-full-adder-delay))
+
+;;
+;; Using the values we have defined, these expressions evaluate to the following:
+;;
+sum-full-adder-delay
+;; ==> 16 
+c-out-full-adder-delay
+;; ==> 16
+
+;; 
+;; These are consistent with the maximum propagation delays that we observed
+;; in the simulations above.
+;;
 
 ;;
 ;; Consider next the n-th full adder in an n-bit ripple carry adder. The values
@@ -764,14 +777,19 @@ s-half-adder-delay
   (* n c-out-full-adder-delay))
 
 ;; 
-;; We can expression sum-full-adder-delay and c-out-full-adder-delay in terms
-;; of delays for and-gates, or-gates and inverters as follows:
+;; We can express sum-full-adder-delay in terms of more basic values, like the 
+;; propagation delays for and-gates, or-gates and inverters. For now, we will 
+;; not reduce the expression for s-half-adder-delay since it contains a "max" conditional:
 ;;
 (define sum-full-adder-delay (+ s-full-adder-delay 
 				s-half-adder-delay))
 (define sum-full-adder-delay (+ s-half-adder-delay
 				s-half-adder-delay))
+(define sum-full-adder-delay (* 2 s-half-adder-delay))
 
+;;
+;; We can perform the same reduction for c-out-full-adder-delay:
+;;
 (define c-out-full-adder-delay (+ or-gate-delay
 				  c2-full-adder-delay))
 (define c-out-full-adder-delay (+ or-gate-delay
@@ -781,23 +799,22 @@ s-half-adder-delay
 				  (+ s-half-adder-delay
 				     c-half-adder-delay)))
 (define c-out-full-adder-delay (+ or-gate-delay
-				  (+ and-gate-delay
-				     (max or-gate-delay
-					  (+ and-gate-delay inverter-delay))
-				     and-gate-delay)))
-
-
-;; We can reduce the expressions for sum-full-adder-delay and c-out-full-adder-delay
-;; 
+				  c-half-adder-delay
+				  s-half-adder-delay))
+(define c-out-full-adder-delay (+ or-gate-delay
+				  and-gate-delay
+				  s-half-adder-delay))
 
 ;;
-;; For a n-bit ripple carry adder, the signal at S(n) cannot be calculated until the 
-;; carry signal from C(n-1) has been propagated. Hence, the total time will be:
-;; (total time is the delay for the carry signal to arrive, plus the full-adder delay 
-;; of getting the sum time).
+;; Using the values we have defined, these expressions evaluate to the following:
 ;;
-;;  SUM(N)_time = N * C-OUT(1)_time + SUM(1)_time 
-;; 
-(define sum-delay (n)
-  (+ (* n c-out-delay)
-     sum-1-delay))
+sum-full-adder-delay
+;; ==> 16
+c-out-full-adder-delay
+;; ==> 16
+
+;;
+;; This is consistent with the answers previously obtained.
+;;
+
+
