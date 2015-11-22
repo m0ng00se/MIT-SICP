@@ -817,4 +817,106 @@ c-out-full-adder-delay
 ;; This is consistent with the answers previously obtained.
 ;;
 
+;;
+;; With these expressions, we can write simplified expressions for s-ripple-delay:
+;;
+(define (s-ripple-delay n)
+  (+ (* 2 s-half-adder-delay)
+     (* (- n 1) (+ or-gate-delay
+		   and-gate-delay
+		   s-half-adder-delay))))
 
+(define (s-ripple-delay n)
+  (+ (* (+ n 1) s-half-adder-delay)
+     (* (- n 1) (+ or-gate-delay and-gate-delay))))
+
+;;
+;; and for c-ripple-delay:
+;;
+(define (c-ripple-delay n)
+  (* n (+ or-gate-delay
+	  and-gate-delay
+	  s-half-adder-delay)))
+
+(define (c-ripple-delay n)
+  (+ (* n s-half-adder-delay)
+     (* n (+ or-gate-delay and-gate-delay))))
+
+;;
+;; Using the values we have defined, these expressions evaluate to the following:
+;;
+(s-ripple-delay 1)
+;; ==> 16
+(s-ripple-delay 2)
+;; ==> 32
+(s-ripple-delay 3)
+;; ==> 48
+
+(c-ripple-delay 1)
+;; ==> 16
+(c-ripple-delay 2)
+;; ==> 32
+(c-ripple-delay 3)
+;; ==> 48
+
+;;
+;; Using the definition for ripple-carry-adder above, we can run a set of 
+;; simulations to test the expressions we have derived above. We will model the 
+;; simulation using a 3-bit ripple carry adder, and run the simulation by starting
+;; with all the inputs set to 0, and then forcing all the inputs to 1 simultaneously, 
+;; thus triggering the "worst case" scenario of maximum propagation delay.
+;;
+
+;; Clear out agenda
+(define the-agenda (make-agenda))
+(current-time the-agenda)
+;; ==> 0
+
+;; Define wires sets
+(define a1 (make-wire))
+(define a2 (make-wire))
+(define a3 (make-wire))
+(define a-inputs (list a1 a2 a3))
+
+(define b1 (make-wire))
+(define b2 (make-wire))
+(define b3 (make-wire))
+(define b-inputs (list b1 b2 b3))
+
+(define s1 (make-wire))
+(define s2 (make-wire))
+(define s3 (make-wire))
+(define s-inputs (list s1 s2 s3))
+
+(define c (make-wire))
+
+;; Set probes
+(probe 's1 s1)
+;; ==> s1 0 New-value = 0
+(probe 's2 s2)
+;; ==> s2 0 New-value = 0
+(probe 's3 s3)
+;; ==> s3 0 New-value = 0
+
+;; Define ripple carry adder
+(ripple-carry-adder a-inputs b-inputs s-inputs c)
+
+(set-signal! a1 1)
+(set-signal! a2 1)
+(set-signal! a3 1)
+
+(set-signal! b1 1)
+(set-signal! b2 1)
+(set-signal! b3 1)
+
+(propagate)
+;; ==> s1 8 New-value = 1
+;; ==> s2 8 New-value = 1
+;; ==> s3 8 New-value = 1
+;; ==> s1 16 New-value = 0
+;; ==> s2 16 New-value = 0
+;; ==> s3 16 New-value = 0
+;; ==> s2 32 New-value = 1
+;; ==> s3 32 New-value = 1
+
+;; [WORKING, not right]
