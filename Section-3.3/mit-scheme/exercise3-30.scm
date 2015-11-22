@@ -692,41 +692,55 @@
 ;;  Signal SUM:   Half-adder sum signal of A and S.
 ;;  Signal C-OUT: Logical-or of C1 and C2.
 ;;
+;; An analysis of the time it takes for a signal to propagate all the way down 
+;; an n-bit ripple carry adder is as follows:
+;;
+;;  Signal S:     The signal change propagates to S at 1 half-adder-sum-delay 
+;;                after the input signals at A and/or B have changed.
+;;  Signal C1:    The signal change propagates to C1 at 1 half-adder-carry-
+;;                delay after the input signals at A and/or B have changed.
+;;  Signal C2:    The signal change propagates to C2 at 1 half-adder-carry-
+;;                delay after the input signals at A and/or S have changed.
+;;  Signal SUM:   The signal change propagates to SUM at 1 half-adder-sum-
+;;                delay after the input signals at A and/or S have changed.
+;;  Signal C-OUT: The signal change propagates to C-OUT at 1 or-gate-delay
+;;                after the input signals at C1 and/or C2 have changed.
+;;
+;; The output signal propagation delays for the full-adder are given below:
+;;
+(define s-full-adder-delay s-half-adder-delay)
+(define c1-full-adder-delay c-half-adder-delay)
+(define c2-full-adder-delay (+ s-full-adder-delay c-half-adder-delay))
+(define sum-full-adder-delay (+ s-full-adder-delay s-half-adder-delay))
+(define c-out-full-adder-delay (+ or-gate-delay
+				  (max c1-full-adder-delay
+				       c2-full-adder-delay)))
 
- C1 is the half-adder carry signal from B and C-IN;
+;;
+;; Note for in the case of the propagation delay at C-OUT, we will always
+;; have c2-full-adder-delay >= c1-full-adder-delay, so we can just write:
+;;
+(define c-out-full-adder-delay (+ or-gate-delay c2-full-adder-delay))
 
-;; S is the half-adder sum signal from B and C-IN; and C2 is the half-adder carry 
-;; signal from A and S. C-OUT, in turn, is driven from the logical-or of C2 and 
-;; C1; and SUM is the half-adder sum driven from A and S.
 ;;
-;; We have:
+;; Consider next the n-th full adder in an n-bit ripple carry adder. The values
+;; taken on by the signals at C(n) and S(n) are gated by the time it takes the 
+;; late-arriving signal from C(n-1) to arrive. 
 ;;
-;;  C1_time = C(1/2)_time 
-;;  S_time = S(1/2)_time 
-;;  C2_time = S(1/2)_time + C(1/2)_time
+;; We can define the propagation delays at S(n) and C(n) in terms of a single-
+;; valued function that takes one argument, n:
 ;;
-;; so that:
-;;
-;;  C-OUT(1)_time = MAX(C1_time, C2_time) + or-gate-delay
-;;  SUM(1)_time = S_time + S(1/2)_time
-;;
-;; Reducing these expressions, we have:
-;;
-;;  C-OUT(1)_time = MAX(C(1/2)_time, S(1/2)_time + C(1/2)_time) + or-gate-delay
-;;  C-OUT(1)_time = MAX(or-gate-delay, MAX(or-gate-delay, and-gate-delay + inverter-delay) + and-gate-delay) + or-gate-delay
-;;
-;;  SUM(1)_time = S(1/2)_time + S(1/2)_time 
-;;  SUM(1)_time = 2 * MAX(or-gate-delay, and-gate-delay + inverter-delay) + 2 * and-gate-delay
-;;
-;; Forming these expressions in Lisp:
-;;
-(define c-out-delay (+ (max 
-			or-gate-delay
-			(max or-gate-delay (+ and-gate-delay inverter-delay)))
-		       or-gate-delay))
+(define (s-ripple-delay n)
+  (if (= n 1)
+      sum-full-adder-delay
+      (+ sum-full-adder-delay
+	 (c-ripple-delay (- n 1)))))
 
-(define sum-1-delay (* 2 (+ (max or-gate-delay (+ and-gate-delay inverter-delay))
-			  and-gate-delay)))
+(define (c-ripple-delay n)
+  (if (= n 1)
+      c-out-full-adder-delay
+      (+ c-out-full-adder-delay
+	 (c-ripple-delay (- n 1)))))
 
 ;;
 ;; For a n-bit ripple carry adder, the signal at S(n) cannot be calculated until the 
