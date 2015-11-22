@@ -720,10 +720,10 @@ s-half-adder-delay
 ;;
 ;; The output signal propagation delays for the full-adder are given below:
 ;;
-(define s-full-adder-delay s-half-adder-delay)
-(define c1-full-adder-delay c-half-adder-delay)
-(define c2-full-adder-delay (+ s-full-adder-delay c-half-adder-delay))
-(define sum-full-adder-delay (+ s-full-adder-delay s-half-adder-delay))
+(define s-full-adder-delay     s-half-adder-delay)
+(define c1-full-adder-delay    c-half-adder-delay)
+(define c2-full-adder-delay    (+ s-full-adder-delay c-half-adder-delay))
+(define sum-full-adder-delay   (+ s-full-adder-delay s-half-adder-delay))
 (define c-out-full-adder-delay (+ or-gate-delay
 				  (max c1-full-adder-delay
 				       c2-full-adder-delay)))
@@ -767,7 +767,10 @@ s-half-adder-delay
 ;; We can expression sum-full-adder-delay and c-out-full-adder-delay in terms
 ;; of delays for and-gates, or-gates and inverters as follows:
 ;;
-(define sum-full-adder-delay 
+(define sum-full-adder-delay (+ s-full-adder-delay 
+				s-half-adder-delay))
+(define sum-full-adder-delay (+ s-half-adder-delay
+				s-half-adder-delay))
 
 (define c-out-full-adder-delay (+ or-gate-delay
 				  c2-full-adder-delay))
@@ -781,7 +784,7 @@ s-half-adder-delay
 				  (+ and-gate-delay
 				     (max or-gate-delay
 					  (+ and-gate-delay inverter-delay))
-				     or-gate-delay)))
+				     and-gate-delay)))
 
 
 ;; We can reduce the expressions for sum-full-adder-delay and c-out-full-adder-delay
