@@ -614,7 +614,7 @@
 ;;
 
 ;;
-;; We can define the ripple carry adder as followS:
+;; We can define the ripple carry adder as follows:
 ;;
 (define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b c-in s)
@@ -625,14 +625,15 @@
 	       (not (null? b1))
 	       (not (null? s1)))
 	  (let ((c-out (make-wire)))
-	    (let ((fa (full-adder a1 b1 c-in s1 c-out)))
-	      (let ((an (cdr a))
-		    (bn (cdr b))
-		    (sn (cdr s)))
-		(if (and (not (null? an))
-			 (not (null? bn))
-			 (not (null? sn)))
-		    (ripple-carry-adder-iter an bn c-out sn))))))))
+	    (full-adder a1 b1 c-in s1 c-out)
+	    (let ((an (cdr a))
+		  (bn (cdr b))
+		  (sn (cdr s)))
+	      (if (and (not (null? an))
+		       (not (null? bn))
+		       (not (null? sn)))
+		  (ripple-carry-adder-iter an bn c-out sn)
+		  'ok))))))
 
   (ripple-carry-adder-iter a-list b-list c s-list))
   
@@ -891,25 +892,25 @@ c-out-full-adder-delay
 (define c (make-wire))
 
 ;; Set probes
-(probe 's1 s1)
+;;(probe 's1 s1)
 ;; ==> s1 0 New-value = 0
-(probe 's2 s2)
+;;(probe 's2 s2)
 ;; ==> s2 0 New-value = 0
-(probe 's3 s3)
+;;(probe 's3 s3)
 ;; ==> s3 0 New-value = 0
 
 ;; Define ripple carry adder
-(ripple-carry-adder a-inputs b-inputs s-inputs c)
+;;(ripple-carry-adder a-inputs b-inputs s-inputs c)
 
 (set-signal! a1 1)
-(set-signal! a2 1)
+(set-signal! a2 0)
 (set-signal! a3 1)
 
-(set-signal! b1 1)
+(set-signal! b1 0)
 (set-signal! b2 1)
-(set-signal! b3 1)
+(set-signal! b3 0)
 
-(propagate)
+;;(propagate)
 ;; ==> s1 8 New-value = 1
 ;; ==> s2 8 New-value = 1
 ;; ==> s3 8 New-value = 1
