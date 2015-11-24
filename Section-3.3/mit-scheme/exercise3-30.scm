@@ -744,7 +744,7 @@ c-out-full-adder-delay
 ;; ==> 16
 
 ;; 
-;; These are consistent with the maximum propagation delays that we observed
+;; These values are consistent with the maximum propagation delays that we observed
 ;; in the simulations above.
 ;;
 
@@ -868,12 +868,12 @@ c-out-full-adder-delay
 ;; thus triggering the "worst case" scenario of maximum propagation delay.
 ;;
 
-;; Clear out agenda
+;; Clear out agenda:
 (define the-agenda (make-agenda))
 (current-time the-agenda)
 ;; ==> 0
 
-;; Define wires sets
+;; Define wires sets:
 (define a1 (make-wire))
 (define a2 (make-wire))
 (define a3 (make-wire))
@@ -891,46 +891,67 @@ c-out-full-adder-delay
 
 (define c-in (make-wire))
 
-(define the-agenda (make-agenda))
-
+;; Configure the probes:
 (probe 's1 s1)
+;; ==> s1 0 New-value = 0
 (probe 's2 s2)
+;; ==> s2 0 New-value = 0
 (probe 's3 s3)
+;; ==> s3 0 New-value = 0
 
+;; Configure ripple carry adder:
 (ripple-carry-adder a-inputs b-inputs c-in s-inputs)
 
-
+;;
+;; Not all signal change propagations will take the maximum amount
+;; of time to propagate down to the n-th full adder. The following
+;; combination of signals should cause the signal at S3 to change 
+;; at the maximum propagation time:
+;;
 (set-signal! a1 1)
 (set-signal! a2 1)
 (set-signal! c-in 1)
 
-;; Set probes
-;;(probe 's1 s1)
-;; ==> s1 0 New-value = 0
-;;(probe 's2 s2)
-;; ==> s2 0 New-value = 0
-;;(probe 's3 s3)
-;; ==> s3 0 New-value = 0
+(propagate)
+;; s1 8 New-value = 1
+;; s2 8 New-value = 1
+;; s1 16 New-value = 0
+;; s2 32 New-value = 0
+;; s3 48 New-value = 1
 
-;; Define ripple carry adder ;; TODO --> REWRITE THIS
-;;(ripple-carry-adder a-inputs b-inputs s-inputs c)
-
-;;(set-signal! a1 1)
-;;(set-signal! a2 0)
-;;(set-signal! a3 1)
-
-;;(set-signal! b1 0)
-;;(set-signal! b2 1)
-;;(set-signal! b3 0)
-
-;;(propagate)
-;; ==> s1 8 New-value = 1
-;; ==> s2 8 New-value = 1
-;; ==> s3 8 New-value = 1
-;; ==> s1 16 New-value = 0
-;; ==> s2 16 New-value = 0
-;; ==> s3 16 New-value = 0
-;; ==> s2 32 New-value = 1
-;; ==> s3 32 New-value = 1
-
-;; [WORKING, not right]
+;;
+;; A time analysis of the propagation delays in the first full adder is as follows.
+;; We indicate an entry with (**) if it was reported in the probe trace above. We 
+;; indicate with (') an entry if it is an internal connection in the full adder:
+;;
+;;  S1:       Changes to 1 at 8 units after, or t = 8, the signal at A1 
+;;            changed to 1 (**).
+;;  SUM-1':   Changes to 1 at 8 units after, or t = 8, the signal at C-IN 
+;;            changed to 1. 
+;;  S1:       Changes to 0 at 8 units after, or t = 16, the signal at SUM-1'
+;;            changed to 1 (**).
+;;  C2-1':    Changes to 1 at 3 units after, or t = 11, the signal at SUM-1'
+;;            changed to 1. 
+;;  C-OUT-1': Changes to 1 at 5 units after, or t = 16, the signal at C2-1' 
+;;            changed to 1. 
+;;
+;; A time analysis of the propagation delays in the second full adder is as follows:
+;;
+;;  S2:       Changes to 1 at 8 units after, or t = 8, the signal at A2 
+;;            changed to 1 (**).
+;;  SUM-2':   Changes to 1 at 8 units after, or t = 24, the signal at C-OUT-1' 
+;;            changed to 1.
+;;  S2:       Changes to 0 at 8 units after, or t = 32, the signal at SUM-2' 
+;;            changed to 1 (**).
+;;  C2-2':    Changes to 1 at 3 units after, or t = 27, the signal at SUM-2' 
+;;            changed to 1.
+;;  C-OUT-2': Changes to 1 at 5 units after, or t = 32, the signal at C2-2'
+;;            changed to 1.
+;;
+;; A time analysis of the propagation delays in the third full adder is as follows:
+;;
+;;  SUM-3': Changes to 1 at 8 units after, or t = 40, the signal at C-OUT-2'
+;;          changed to 1.
+;;  S3:     Changes to 1 at 8 units after, or t = 48, the signal at SUM-3'
+;;          changed to 1.
+;;
