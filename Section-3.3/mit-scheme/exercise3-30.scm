@@ -1003,15 +1003,15 @@ c-out-full-adder-delay
 ;;  C2(3): Changes to 0 at 3 units after, or t = 43, the signal at S(3)
 ;;         changed to 0.
 ;;  S3:    Changes to 1 at 8 units after, or t = 48, the signal at S(3)
-;;         changed to 0.
+;;         changed to 0 (**).
 ;;
 ;; This is consistent with the simulation we run above.
 ;;
 
 ;;
 ;; As a final step, we reduce the expression for s-half-adder-delay, so that we can 
-;; obtain an expression for (s-ripple-delay n) (we will ignore (c-ripple-delay n) 
-;; since we cannot probe the last carry-out signal):
+;; obtain an expression for (s-ripple-delay n) and (c-ripple-delay n). We begin
+;; wtih (s-ripple-delay n):
 ;;
 (define s-half-adder-delay
   (if (> or-gate-delay (+ and-gate-delay inverter-delay))
@@ -1056,3 +1056,4 @@ c-out-full-adder-delay
 ;;
 ;;   D(n) = (n+1) * (2 * and-gate-delay + inverter-delay) + (n-1) * (and-gate-delay + or-gate-delay).
 ;;
+
