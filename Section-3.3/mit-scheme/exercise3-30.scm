@@ -7,7 +7,7 @@
 ;; B3, ..., B(N) are the two binary numbers to be added (each A(k) and B(k) 
 ;; is a 0 or a 1). The circuit generates S1, S2, S3, ..., SN, the n bits of 
 ;; the sum, and C, the carry from the addition. Write a procedure 
-;; ripple-carry-adder that genreates this circuit. The procedure should
+;; ripple-carry-adder that generates this circuit. The procedure should
 ;; take as arguments three lists of n wires each -- and A(k), the B(k) and
 ;; the S(k) -- and also another wire C. The major drawback of the ripple-carry
 ;; adder is the need to wait for the carry signals to propagate. What is
@@ -646,30 +646,26 @@
 ;;
 (define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b s c-in)
-    (let ((a1 (car a))
-	  (b1 (car b))
-	  (s1 (car s)))
-      (let ((an (cdr a))
-	    (bn (cdr b))
-	    (sn (cdr s)))
-	(let ((is-last-element (or (null? an) (null? bn) (null? sn))))
-	  (if is-last-element
-	      (begin
-		;; connect output carry signal to our probe
-		(full-adder a1 b1 c-in s1 c)
-		'ok)
-	      (begin 
-		(let ((c-out (make-wire)))
-		  ;; connect output carry signal to next input carry
-		  (full-adder a1 b1 c-in s1 c-out)
-		  (ripple-carry-adder-iter an bn sn c-out))))))))
+    (let ((a1 (car a)) (an (cdr a))
+	  (b1 (car b)) (bn (cdr b))
+	  (s1 (car s)) (sn (cdr s)))
+      (let ((is-last-element (or (null? an) (null? bn) (null? sn))))
+	(if is-last-element
+	    (begin
+	      ;; connect output carry signal to our probe
+	      (full-adder a1 b1 c-in s1 c)
+	      'ok)
+	    (begin 
+	      (let ((c-out (make-wire)))
+		;; connect output carry signal to next input carry
+		(full-adder a1 b1 c-in s1 c-out)
+		(ripple-carry-adder-iter an bn sn c-out)))))))
   ;; create new wire (signal 0) for initial input carry signal
   (ripple-carry-adder-iter a-list b-list s-list (make-wire)))
-      
-  
+
 ;;
-;; The ripple carry adder allows us to add two n-bit integers, together with 
-;; a carry bit.
+;; To analyze the time-behavior of the ripple carry adder, we first analyze
+;; the time-behavior of the constituent half-adders and full-adders.
 ;;
 
 ;;
@@ -893,8 +889,8 @@ c-out-full-adder-delay
 ;; Using the definition for ripple-carry-adder above, we can run a set of 
 ;; simulations to test the expressions we have derived above. We will model the 
 ;; simulation using a 3-bit ripple carry adder, and run the simulation by starting
-;; with all the inputs set to 0, and then forcing all the inputs to 1 simultaneously, 
-;; thus triggering the "worst case" scenario of maximum propagation delay.
+;; with all the inputs set to 0, and then force an input signal that will drive
+;; both S(n) and C to be 1.
 ;;
 
 ;; Clear out agenda:
@@ -934,53 +930,81 @@ c-out-full-adder-delay
 (ripple-carry-adder a-inputs b-inputs s-inputs c)
 
 ;;
-;; Not all signal change propagations will take the maximum amount
-;; of time to propagate down to the n-th full adder. The following
-;; combination of signals should cause the signal at S3 to change 
-;; at the maximum propagation time:
+;; If we drive S(3) = C = 1, and S(k) for k other than 3, 
+;; the bit pattern will look like (1)100, or in other words, 
+;; it will have the value of 12. We can generate 12 by 
+;; adding 7 + 5. Hence, we will set the input signals on A
+;; to be 7 (i.e., 111) and the input signals on B to be 5 
+;; (i.e., 101):
 ;;
-;;(set-signal! a1 1)
-;;(set-signal! a2 1)
-;;(set-signal! c-in 1)
+(set-signal! a1 1)
+(set-signal! a2 1)
+(set-signal! a3 1)
 
+(set-signal! b1 1)
+(set-signal! b2 0)
+(set-signal! b3 1)
+
+;; Run the simulation:
 ;;(propagate)
-;; s1 8 New-value = 1
-;; s2 8 New-value = 1
-;; s1 16 New-value = 0
-;; s2 32 New-value = 0
-;; s3 48 New-value = 1
+;; ==> s1 8 New-value = 1
+;; ==> s2 8 New-value = 1
+;; ==> s3 8 New-value = 1
+;; ==> c 16 New-value = 1
+;; ==> s3 16 New-value = 0
+;; ==> s1 16 New-value = 0
+;; ==> s2 32 New-value = 0
+;; ==> s3 48 New-value = 1
 
 ;;
 ;; A time analysis of the propagation delays in the first full adder is as follows.
-;; We indicate an entry with (**) if it was reported in the probe trace above. We 
-;; indicate with (') an entry if it is an internal connection in the full adder:
+;; We indicate an entry with (**) if it was reported in the probe trace above:
 ;;
-;;  S1:       Changes to 1 at 8 units after, or t = 8, the signal at A1 
+;;  S1:       Changes to 1 at 8 units, or t = 8, after the signal at A1 
 ;;            changed to 1 (**).
-;;  SUM-1':   Changes to 1 at 8 units after, or t = 8, the signal at C-IN 
+;;  S(1):     Changes to 1 at 8 units, or t = 8, after the signal at B1
 ;;            changed to 1. 
-;;  C2-1':    Changes to 1 at 3 units after, or t = 11, the signal at SUM-1'
+;;  C2(1):    Changes to 1 at 3 units after, or t = 11, the signal at S(1)
 ;;            changed to 1. 
-;;  S1:       Changes to 0 at 8 units after, or t = 16, the signal at SUM-1'
+;;  S1:       Changes to 0 at 8 units after, or t = 16, the signal at S(1)
 ;;            changed to 1 (**).
-;;  C-OUT-1': Changes to 1 at 5 units after, or t = 16, the signal at C2-1' 
+;;  C-OUT(1): Changes to 1 at 5 units after, or t = 16, the signal at C2(1)
 ;;            changed to 1. 
 ;;
 ;; A time analysis of the propagation delays in the second full adder is as follows:
 ;;
 ;;  S2:       Changes to 1 at 8 units after, or t = 8, the signal at A2 
 ;;            changed to 1 (**).
-;;  SUM-2':   Changes to 1 at 8 units after, or t = 24, the signal at C-OUT-1' 
+;;  S(2):     Changes to 1 at 8 units after, or t = 24, the signal at C-OUT(1)
 ;;            changed to 1.
-;;  C2-2':    Changes to 1 at 3 units after, or t = 27, the signal at SUM-2' 
+;;  C2(2):    Changes to 1 at 3 units after, or t = 27, the signal at S(2)
 ;;            changed to 1.
-;;  S2:       Changes to 0 at 8 units after, or t = 32, the signal at SUM-2' 
+;;  S2:       Changes to 0 at 8 units after, or t = 32, the signal at S(2) 
 ;;            changed to 1 (**).
-;;  C-OUT-2': Changes to 1 at 5 units after, or t = 32, the signal at C2-2'
+;;  C-OUT(2): Changes to 1 at 5 units after, or t = 32, the signal at C2(2)
 ;;            changed to 1.
 ;;
 ;; A time analysis of the propagation delays in the third full adder is as follows:
 ;;
+;;  S3:    Changes to 1 at 8 units after, or t = 8, the signal at A3 
+;;         changed to 1 (**).
+;;  S(3):  Changes to 1 at 8 units after, or t = 8, the signal at B3 
+;;         changed to 1.
+;;  C2(3): Changes to 1 at 3 units after, or t = 11, the signal at S(3)
+;;         changed to 1.
+;;  S3:    Changes to 0 at 8 units after, or t = 16, the signal at S(3)
+;;         changed to 1 (**).
+;;  C:     Changes to 1 at 5 untis after, or t = 16, the signal at C2(3)
+;;         changed to 1 (**). 
+;;
+
+;;  C2(3):  Changes to 0 at 3 units 
+;;
+;;  S(3):   Changed to 1 at 8 units after, or t = 40, the signal at C-OUT(2)
+;;          changed to 1.
+;;  C2(3):  Changed to 1 at 3 units after, or t = 43, the input signal at S(3)
+;;          changed to 1.
+;;  
 ;;  SUM-3': Changes to 1 at 8 units after, or t = 40, the signal at C-OUT-2'
 ;;          changed to 1.
 ;;  S3:     Changes to 1 at 8 units after, or t = 48, the signal at SUM-3'
