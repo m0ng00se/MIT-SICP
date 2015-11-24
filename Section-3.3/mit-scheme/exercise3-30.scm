@@ -994,21 +994,16 @@ c-out-full-adder-delay
 ;;         changed to 1.
 ;;  S3:    Changes to 0 at 8 units after, or t = 16, the signal at S(3)
 ;;         changed to 1 (**).
-;;  C:     Changes to 1 at 5 untis after, or t = 16, the signal at C2(3)
+;;  C:     Changes to 1 at 5 units after, or t = 16, the signal at C2(3)
 ;;         changed to 1 (**). 
-;;
-
-;;  C2(3):  Changes to 0 at 3 units 
-;;
-;;  S(3):   Changed to 1 at 8 units after, or t = 40, the signal at C-OUT(2)
-;;          changed to 1.
-;;  C2(3):  Changed to 1 at 3 units after, or t = 43, the input signal at S(3)
-;;          changed to 1.
-;;  
-;;  SUM-3': Changes to 1 at 8 units after, or t = 40, the signal at C-OUT-2'
-;;          changed to 1.
-;;  S3:     Changes to 1 at 8 units after, or t = 48, the signal at SUM-3'
-;;          changed to 1.
+;;  C1(3): Changes to 1 at 3 units after, or t = 35, the signal at C-OUT(2)
+;;         changed to 1.
+;;  S(3):  Changes to 0 at 8 units after, or t = 40, the signal at C-OUT(2)
+;;         changed to 1.
+;;  C2(3): Changes to 0 at 3 units after, or t = 43, the signal at S(3)
+;;         changed to 0.
+;;  S3:    Changes to 1 at 8 units after, or t = 48, the signal at S(3)
+;;         changed to 0.
 ;;
 ;; This is consistent with the simulation we run above.
 ;;
