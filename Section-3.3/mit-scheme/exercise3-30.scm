@@ -1057,3 +1057,46 @@ c-out-full-adder-delay
 ;;   D(n) = (n+1) * (2 * and-gate-delay + inverter-delay) + (n-1) * (and-gate-delay + or-gate-delay).
 ;;
 
+;;
+;; Next we analyze (c-ripple-delay n):
+;;
+(define (c-ripple-delay n)
+  (+ (* n s-half-adder-delay)
+     (* n (+ or-gate-delay and-gate-delay))))
+
+(define (c-ripple-delay n)
+  (+ (* n (if (> or-gate-delay (+ and-gate-delay inverter-delay))
+	      (+ and-gate-delay or-gate-delay)
+	      (+ (* and-gate-delay 2) inverter-delay)))
+     (* n (+ or-gate-delay and-gate-delay))))
+
+;;
+;; Let c-ripple-delay-1 be the delay in the case where or-gate-delay is greater
+;; than (+ and-gate-delay inverter-delay):
+;;
+(define (c-ripple-delay-1 n)
+  (+ (* n (+ and-gate-delay or-gate-delay))
+     (* n (+ and-gate-delay or-gate-delay))))
+
+(define (c-ripple-delay-1 n)
+  (* 2 n (+ and-gate-delay or-gate-delay)))
+
+;; 
+;; Algebraically, this can be expressed as D(n) = 2 * n * (and-gate-delay + or-gate-delay).
+;;
+;; Note that this is the same the expression for s-ripple-delay-1.
+;;
+
+;;
+;; Let c-ripple-delay-2 be the delay in the case where or-gate-delay is less than
+;; or equal to (+ and-gate-delay or-gate-delay):
+;;
+(define (c-ripple-delay-2 n)
+  (+ (* n (+ (* and-gate-delay 2) inverter-delay))
+     (* n (+ and-gate-delay or-gate-delay))))
+
+;;
+;; Algebraically, this can be expressed as:
+;;
+;;  D(n) = n * (((2 * and-gate-delay) + inverter-delay) + (and-gate-delay + or-gate-delay)).
+;;
