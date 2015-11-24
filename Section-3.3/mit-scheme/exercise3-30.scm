@@ -644,31 +644,34 @@
 ;;
 ;; We can define the ripple carry adder as follows:
 ;;
-(define (ripple-carry-adder a-list b-list c s-list)
-  (define (ripple-carry-adder-iter a b c-in s)
+(define (ripple-carry-adder a-list b-list s-clist c)
+  (define (ripple-carry-adder-iter a b s c-in)
     (let ((a1 (car a))
 	  (b1 (car b))
-	  (s1 (car s)))
+	  (s1 (car s))
       (if (and (not (null? a1))
 	       (not (null? b1))
 	       (not (null? s1)))
-	  (let ((c-out (make-wire)))
-	    (full-adder a1 b1 c-in s1 c-out)
-	    (let ((an (cdr a))
-		  (bn (cdr b))
-		  (sn (cdr s)))
-	      (if (and (not (null? an))
-		       (not (null? bn))
-		       (not (null? sn)))
-		  (ripple-carry-adder-iter an bn c-out sn)
-		  'ok)))
-	  (error "Bad inputs: " a1 b1 s1))))
-  (ripple-carry-adder-iter a-list b-list c s-list))
+	  (let ((an (cdr a))
+		(bn (cdr b))
+		(sn (cdr s)))
+	    (let ((is-last-element (or (null? an)
+				       (null? bn)
+				       (null? sn))))
+	      (if is-last-element
+		  (begin
+		    (full-adder a1 b1 c-in s1 c)
+		    'ok)
+		  (begin
+		    (let ((c-out (make-wire)))
+		      (full-adder a1 b1 c-in s1 c-out)
+		      (ripple-carry-adder-iter an bn sn c-out))))))
+	  (error "Bag inputs: " a1 b1 s1)))))
+  (ripple-carry-adder a-list b-list s-list (make-wire)))
   
 ;;
-;; The ripple carry adder allows us to add two n-bit integers, together with
-;; a carry bit. Owing to the way the procedure is designed, we cannot probe 
-;; the final output carry signal, although we can probe all n sum signals. 
+;; The ripple carry adder allows us to add two n-bit integers, together with 
+;; a carry bit.
 ;;
 
 ;;
