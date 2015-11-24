@@ -1,5 +1,5 @@
 ;;
-;; [Exercise 3.30]
+;; Exercise 3.30
 ;;
 ;; Figure 3.27 shows a ripple-carry adder formed by stringing together n 
 ;; full-adders. This is the simplest form of parallel adder for adding 
@@ -14,20 +14,20 @@
 ;; the delay needed to obtain the complete output from an n-bit ripple-carry
 ;; adder, expressed in terms of the delays for and-gates, or-gates and inverters?
 ;;
-;;        A1 B1           A2 B2           A3 B3
-;;        |  |    C1      |  |    C2      |  |    C3
-;;        |  |  +----+    |  |  +----+    |  |  +----
-;;        |  |  |    |    |  |  |    |    |  |  |
-;;      +-+--+--+-+  |  +-+--+--+-+  |  +-+--+--+-+
-;;      |         |  |  |         |  |  |         |
-;;      |         |  |  |         |  |  |         |
-;;      |         |  |  |         |  |  |         |
-;;      |         |  |  |         |  |  |         |
-;;      +-+-----+-+  |  +-+-----+-+  |  +-+-----+-+
-;;        |     |    |    |     |    |    |     |
-;;        |     |    |    |     |    |    |     |
-;; C -----+     |    +----+     |    +----+     |
-;;              S1              S2              S3
+;;        A1 B1               A2 B2               A3 B3
+;;        |  |     C1         |  |     C2         |  |    C3
+;;        |  |  +------+      |  |  +------+      |  |  +----
+;;        |  |  |      |      |  |  |      |      |  |  |
+;;      +-+--+--+-+    |    +-+--+--+-+    |    +-+--+--+-+
+;;      |         |    |    |         |    |    |         |
+;;      |         |    |    |         |    |    |         |
+;;      |         |    |    |         |    |    |         |
+;;      |         |    |    |         |    |    |         |
+;;      +-+-----+-+    |    +-+-----+-+    |    +-+-----+-+
+;;        |     |      |      |     |      |      |     |
+;;        |     |      |      |     |      |      |     |
+;; C -----+     |      +------+     |      +------+     |
+;;              S1                  S2                  S3
 ;;
 
 ;; [WORKING]
