@@ -658,13 +658,14 @@
 		;; connect output carry signal to our probe
 		(full-adder a1 b1 c-in s1 c)
 		'ok)
-	      (begin
+	      (begin 
 		(let ((c-out (make-wire)))
-		  ;; connect output carry to the next input carry
+		  ;; connect output carry signal to next input carry
 		  (full-adder a1 b1 c-in s1 c-out)
-		  (ripple-carry-adder-iter an bn sn c-out))))
-	  (error "Bag inputs: " a1 b1 s1)))))
-  (ripple-carry-adder a-list b-list s-list (make-wire)))
+		  (ripple-carry-adder-iter an bn sn c-out))))))))
+  ;; create new wire (signal 0) for initial input carry signal
+  (ripple-carry-adder-iter a-list b-list s-list (make-wire)))
+      
   
 ;;
 ;; The ripple carry adder allows us to add two n-bit integers, together with 
