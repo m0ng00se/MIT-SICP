@@ -1002,5 +1002,7 @@ c-out-full-adder-delay
      (* (- n 1) (+ and-gate-delay or-gate-delay))))
 
 ;;
-;; Algebraically, this can be expressed as D(n) = (n+1) * (2 * and-gate-delay + inverter-delay) + (n-1) * (and-gate-delay + or-gate-delay).
+;; Algebraically, this can be expressed as:
+;;
+;;   D(n) = (n+1) * (2 * and-gate-delay + inverter-delay) + (n-1) * (and-gate-delay + or-gate-delay).
 ;;
