@@ -918,18 +918,20 @@ c-out-full-adder-delay
 (define s3 (make-wire))
 (define s-inputs (list s1 s2 s3))
 
-(define c-in (make-wire))
+(define c (make-wire))
 
 ;; Configure the probes:
-;;(probe 's1 s1)
+(probe 's1 s1)
 ;; ==> s1 0 New-value = 0
-;;(probe 's2 s2)
+(probe 's2 s2)
 ;; ==> s2 0 New-value = 0
-;;(probe 's3 s3)
+(probe 's3 s3)
 ;; ==> s3 0 New-value = 0
+(probe 'c c)
+;; ==> c 0 New-value = 0
 
 ;; Configure ripple carry adder:
-;;(ripple-carry-adder a-inputs b-inputs c-in s-inputs)
+(ripple-carry-adder a-inputs b-inputs s-inputs c)
 
 ;;
 ;; Not all signal change propagations will take the maximum amount
