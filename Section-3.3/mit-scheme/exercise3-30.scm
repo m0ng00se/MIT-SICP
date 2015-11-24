@@ -644,28 +644,25 @@
 ;;
 ;; We can define the ripple carry adder as follows:
 ;;
-(define (ripple-carry-adder a-list b-list s-clist c)
+(define (ripple-carry-adder a-list b-list s-list c)
   (define (ripple-carry-adder-iter a b s c-in)
     (let ((a1 (car a))
 	  (b1 (car b))
-	  (s1 (car s))
-      (if (and (not (null? a1))
-	       (not (null? b1))
-	       (not (null? s1)))
-	  (let ((an (cdr a))
-		(bn (cdr b))
-		(sn (cdr s)))
-	    (let ((is-last-element (or (null? an)
-				       (null? bn)
-				       (null? sn))))
-	      (if is-last-element
-		  (begin
-		    (full-adder a1 b1 c-in s1 c)
-		    'ok)
-		  (begin
-		    (let ((c-out (make-wire)))
-		      (full-adder a1 b1 c-in s1 c-out)
-		      (ripple-carry-adder-iter an bn sn c-out))))))
+	  (s1 (car s)))
+      (let ((an (cdr a))
+	    (bn (cdr b))
+	    (sn (cdr s)))
+	(let ((is-last-element (or (null? an) (null? bn) (null? sn))))
+	  (if is-last-element
+	      (begin
+		;; connect output carry signal to our probe
+		(full-adder a1 b1 c-in s1 c)
+		'ok)
+	      (begin
+		(let ((c-out (make-wire)))
+		  ;; connect output carry to the next input carry
+		  (full-adder a1 b1 c-in s1 c-out)
+		  (ripple-carry-adder-iter an bn sn c-out))))
 	  (error "Bag inputs: " a1 b1 s1)))))
   (ripple-carry-adder a-list b-list s-list (make-wire)))
   
@@ -923,15 +920,15 @@ c-out-full-adder-delay
 (define c-in (make-wire))
 
 ;; Configure the probes:
-(probe 's1 s1)
+;;(probe 's1 s1)
 ;; ==> s1 0 New-value = 0
-(probe 's2 s2)
+;;(probe 's2 s2)
 ;; ==> s2 0 New-value = 0
-(probe 's3 s3)
+;;(probe 's3 s3)
 ;; ==> s3 0 New-value = 0
 
 ;; Configure ripple carry adder:
-(ripple-carry-adder a-inputs b-inputs c-in s-inputs)
+;;(ripple-carry-adder a-inputs b-inputs c-in s-inputs)
 
 ;;
 ;; Not all signal change propagations will take the maximum amount
@@ -939,11 +936,11 @@ c-out-full-adder-delay
 ;; combination of signals should cause the signal at S3 to change 
 ;; at the maximum propagation time:
 ;;
-(set-signal! a1 1)
-(set-signal! a2 1)
-(set-signal! c-in 1)
+;;(set-signal! a1 1)
+;;(set-signal! a2 1)
+;;(set-signal! c-in 1)
 
-(propagate)
+;;(propagate)
 ;; s1 8 New-value = 1
 ;; s2 8 New-value = 1
 ;; s1 16 New-value = 0
