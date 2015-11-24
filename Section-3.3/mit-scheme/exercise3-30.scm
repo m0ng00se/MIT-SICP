@@ -928,10 +928,10 @@ c-out-full-adder-delay
 ;;            changed to 1 (**).
 ;;  SUM-1':   Changes to 1 at 8 units after, or t = 8, the signal at C-IN 
 ;;            changed to 1. 
-;;  S1:       Changes to 0 at 8 units after, or t = 16, the signal at SUM-1'
-;;            changed to 1 (**).
 ;;  C2-1':    Changes to 1 at 3 units after, or t = 11, the signal at SUM-1'
 ;;            changed to 1. 
+;;  S1:       Changes to 0 at 8 units after, or t = 16, the signal at SUM-1'
+;;            changed to 1 (**).
 ;;  C-OUT-1': Changes to 1 at 5 units after, or t = 16, the signal at C2-1' 
 ;;            changed to 1. 
 ;;
@@ -941,10 +941,10 @@ c-out-full-adder-delay
 ;;            changed to 1 (**).
 ;;  SUM-2':   Changes to 1 at 8 units after, or t = 24, the signal at C-OUT-1' 
 ;;            changed to 1.
-;;  S2:       Changes to 0 at 8 units after, or t = 32, the signal at SUM-2' 
-;;            changed to 1 (**).
 ;;  C2-2':    Changes to 1 at 3 units after, or t = 27, the signal at SUM-2' 
 ;;            changed to 1.
+;;  S2:       Changes to 0 at 8 units after, or t = 32, the signal at SUM-2' 
+;;            changed to 1 (**).
 ;;  C-OUT-2': Changes to 1 at 5 units after, or t = 32, the signal at C2-2'
 ;;            changed to 1.
 ;;
@@ -954,4 +954,53 @@ c-out-full-adder-delay
 ;;          changed to 1.
 ;;  S3:     Changes to 1 at 8 units after, or t = 48, the signal at SUM-3'
 ;;          changed to 1.
+;;
+;; This is consistent with the simulation we run above.
+;;
+
+;;
+;; As a final step, we reduce the expression for s-half-adder-delay, so that we can 
+;; obtain an expression for (s-ripple-delay n) (we will ignore (c-ripple-delay n) 
+;; since we cannot probe the last carry-out signal):
+;;
+(define s-half-adder-delay
+  (if (> or-gate-delay (+ and-gate-delay inverter-delay))
+      (+ and-gate-delay or-gate-delay)
+      (+ (* and-gate-delay 2) inverter-delay)))
+
+(define (s-ripple-delay n)
+  (+ (* (+ n 1) s-half-adder-delay)
+     (* (- n 1) (+ or-gate-delay and-gate-delay))))
+
+(define (s-ripple-delay n)
+  (+ (* (+ n 1) (if (> or-gate-delay (+ and-gate-delay inverter-delay))
+		    (+ and-gate-delay or-gate-delay)
+		    (+ (* and-gate-delay 2) inverter-delay)))
+     (* (- n 1) (+ or-gate-delay and-gate-delay))))
+
+;;
+;; Let s-ripple-delay-1 be the delay in the case where or-gate-delay is greater
+;; than (+ and-gate-delay inverter-delay):
+;;
+(define (s-ripple-delay-1 n)
+  (+ (* (+ n 1) (+ and-gate-delay or-gate-delay))
+     (* (- n 1) (+ and-gate-delay or-gate-delay))))
+
+(define (s-ripple-delay-1 n)
+  (* 2 n (+ and-gate-delay or-gate-delay)))
+
+;;
+;; Algebraically, this can be expressed as D(n) = 2 * n * (and-gate-delay + or-gate-delay).
+;;
+
+;;
+;; Let s-ripple-delay-2 be the delay in the case where or-gate-delay is less than
+;; or equal to (+ and-gate-delay or-gate-delay):
+;; 
+(define (s-ripple-delay-2 n)
+  (+ (* (+ n 1) (+ (* and-gate-delay 2) inverter-delay))
+     (* (- n 1) (+ and-gate-delay or-gate-delay))))
+
+;;
+;; Algebraically, this can be expressed as D(n) = (n+1) * (2 * and-gate-delay + inverter-delay) + (n-1) * (and-gate-delay + or-gate-delay).
 ;;
