@@ -616,7 +616,7 @@
 ;;
 ;; We can define the ripple carry adder as follows:
 ;;
-(define (ripple-carry-adder a-list b-list s-list c)
+(define (ripple-carry-adder a-list b-list c s-list)
   (define (ripple-carry-adder-iter a b c-in s)
     (let ((a1 (car a))
 	  (b1 (car b))
@@ -633,8 +633,8 @@
 		       (not (null? bn))
 		       (not (null? sn)))
 		  (ripple-carry-adder-iter an bn c-out sn)
-		  'ok))))))
-
+		  'ok)))
+	  (error "Bad inputs: " a1 b1 s1))))
   (ripple-carry-adder-iter a-list b-list c s-list))
   
 ;;
@@ -889,7 +889,20 @@ c-out-full-adder-delay
 (define s3 (make-wire))
 (define s-inputs (list s1 s2 s3))
 
-(define c (make-wire))
+(define c-in (make-wire))
+
+(define the-agenda (make-agenda))
+
+(probe 's1 s1)
+(probe 's2 s2)
+(probe 's3 s3)
+
+(ripple-carry-adder a-inputs b-inputs c-in s-inputs)
+
+
+(set-signal! a1 1)
+(set-signal! a2 1)
+(set-signal! c-in 1)
 
 ;; Set probes
 ;;(probe 's1 s1)
@@ -899,16 +912,16 @@ c-out-full-adder-delay
 ;;(probe 's3 s3)
 ;; ==> s3 0 New-value = 0
 
-;; Define ripple carry adder
+;; Define ripple carry adder ;; TODO --> REWRITE THIS
 ;;(ripple-carry-adder a-inputs b-inputs s-inputs c)
 
-(set-signal! a1 1)
-(set-signal! a2 0)
-(set-signal! a3 1)
+;;(set-signal! a1 1)
+;;(set-signal! a2 0)
+;;(set-signal! a3 1)
 
-(set-signal! b1 0)
-(set-signal! b2 1)
-(set-signal! b3 0)
+;;(set-signal! b1 0)
+;;(set-signal! b2 1)
+;;(set-signal! b3 0)
 
 ;;(propagate)
 ;; ==> s1 8 New-value = 1
