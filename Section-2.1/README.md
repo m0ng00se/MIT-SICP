@@ -44,10 +44,10 @@ More generally, the Church numeral **3** represents the action of applying any g
 Interval Arithmetic
 ------------------- 
 
-[![](https://c2.staticflickr.com/2/1518/26127002245_a2124c3d85.jpg)](https://c2.staticflickr.com/2/1518/26127002245_a2124c3d85.jpg)
-
 The section concludes with an extended exercise on interval arithmetic. 
 
 The exercise is presented in the context of designing a system that is able to arithmetically manipulate imprecise  quantities. For example, resistance values are usually known only up to some relatively wide margin of error, such as +/- 10% of the resistor's advertised value. If we wish to calculate the equivalent resistance of an entire circuit made up of such devices, we need to know how to add, substract, multiply and divide quantities whose exact  value may be known only to within some predefined tolerance.
+
+[![](https://c2.staticflickr.com/2/1479/26034614922_ba73ceea68.jpg)](https://c2.staticflickr.com/2/1479/26034614922_ba73ceea68.jpg)
 
 For an interesting paper on interval arithmetic and its applications to floating point representation in a computer, see *Interval Arithmetic: from Principles to Implementation* by T. Hickey, Q. Ju and M.H. van Emden ([Download](http://fab.cba.mit.edu/classes/S62.12/docs/Hickey_interval.pdf))
