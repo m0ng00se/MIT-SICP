@@ -50,4 +50,4 @@ The exercise is presented in the context of designing a system that is able to a
 
 For an interesting paper on interval arithmetic and its applications to floating point representation in a computer, see *Interval Arithmetic: from Principles to Implementation* by T. Hickey, Q. Ju and M.H. van Emden ([Download](http://fab.cba.mit.edu/classes/S62.12/docs/Hickey_interval.pdf))
 
-[![](https://c2.staticflickr.com/2/1518/26127002245_a2124c3d85_z.jpg)](https://c2.staticflickr.com/2/1518/26127002245_a2124c3d85_z.jpg)
+[![](https://c2.staticflickr.com/2/1518/26127002245_a2124c3d85.jpg)](https://c2.staticflickr.com/2/1518/26127002245_a2124c3d85.jpg)
