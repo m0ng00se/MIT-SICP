@@ -152,7 +152,7 @@
 ;; ==> (5 ((3 ((1 1) (1 1))) (3 ((2 3) (3 2)))))
 (branch-length (left-branch m5))
 ;; ==> 3
-(branch-length (right-bracnh m5))
+(branch-length (right-branch m5))
 ;; ==> 5
 (branch-structure (left-branch m5))
 ;; ==> 5
