@@ -59,7 +59,7 @@
 ;; ==> -1/2
 (print-rat (make-rat -1 -2))
 ;; ==> 1/2 
-(print-rat 0 2))
+(print-rat (make-rat 0 2))
 ;; ==> 0/1
 
 ;;
