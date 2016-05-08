@@ -243,9 +243,9 @@
 ;;
 (def r1 (make-rectangle 0 1 1 1))
 ;; ==> #'user/r1
-(upper-left r1)
+(print-point (upper-left r1))
 ;; ==> (0,1)
-(lower-right r1)
+(print-point (lower-right r1))
 ;; ==> (1,0)
 (width r1)
 ;; ==> 1.0
