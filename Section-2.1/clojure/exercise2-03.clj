@@ -88,10 +88,10 @@
   {:doc "Return two point structure representing upper left point, and lower right point of the rectangle."}
   [upper-left-x upper-left-y lower-right-x lower-right-y]
   (cond (and (> lower-right-x upper-left-x) (> upper-left-y lower-right-y))
-         (cons (make-point upper-left-x upper-left-y)
-               (list (make-point lower-right-x lower-right-y)))
-         :else
-         (println "Error: rectangle dimensions are invalid!")))
+        (cons (make-point upper-left-x upper-left-y)
+              (list (make-point lower-right-x lower-right-y)))
+        :else
+        (println "Error: rectangle dimensions are invalid!")))
 
 ;;
 ;; Selectors
