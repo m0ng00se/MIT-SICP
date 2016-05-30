@@ -16,14 +16,14 @@
 ;;
 ;; The following procedures generate a recursive process:
 ;;
-(defn car [n]
+(defn car-1 [n]
   (if (= (rem n 2) 0.0)
-    (+ 1 (car (/ n 2)))
+    (+ 1 (car-1 (/ n 2)))
     0))
 
-(defn cdr [n]
+(defn cdr-1 [n]
   (if (= (rem n 3) 0.0)
-    (+ 1 (cdr (/ n 3)))
+    (+ 1 (cdr-1 (/ n 3)))
     0))
 
 ;;
