@@ -73,11 +73,11 @@
 ;; These should result in something approximating zero:
 ;;
 (div-interval i1 i4)
-;; ==> (0 . 4)
+;; ==> (0. . .4)
 (div-interval i2 i4)
-;; ==> (-4 . 0)
+;; ==> (-.4 . 0.)
 (div-interval i3 i4)
-;; ==> (-4 . 4)
+;; ==> (-.4 . .4)
 
 ;;
 ;; These should trigger divide-by-zero errors:
