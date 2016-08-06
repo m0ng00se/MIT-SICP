@@ -252,6 +252,19 @@
 ;; ==> t
 
 ;;
+;; Case VI Tests:
+;;
+(mul-interval r1 q1)
+;; ==> (-50 20)
+(mul-interval r1 q2)
+;; ==> (-20 8)
+
+(= (mul-interval r1 q1) (mul-interval-old r1 q1))
+;; ==> true
+(= (mul-interval r1 q2) (mul-interval-old r1 q2))
+;; ==> true
+
+;;
 ;; Case VII Tests:
 ;;
 (mul-interval p1 r1)
