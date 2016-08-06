@@ -220,7 +220,7 @@
 ;; Case IV Tests:
 ;;
 (mul-interval q1 p1)
-;; ==> (-40 . 24 )
+;; ==> (-40 . -24)
 (mul-interval q1 p2)
 ;; ==> (-60 . -40)
 (mul-interval q2 p1)
