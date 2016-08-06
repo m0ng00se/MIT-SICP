@@ -1,16 +1,4 @@
 ;;
-;; Exercise 2.8
-;;
-;; Using reasoning similar to Alyssa's, describe how the difference of two intervals
-;; may be computed. Define a corresponding subtraction procedure, called "sub-interval".
-;;
-
-;;
-;; First, for the sake of completeness, let's import our constructor procedures from the
-;; previous exercise, as well as the other interval arithmetic operations defined in the text.
-;;
-
-;;
 ;; Constructor and Selectors
 ;;
 (defn make-interval [a b] (cons a (list b)))
@@ -33,9 +21,9 @@
                    (max p1 p2 p3 p4))))
 
 (defn div-interval [x y]
-  (mul-interval [x]
-                (make-interval (/ 1.0 (upper-bound y)))
-                (make-interval (/ 1.0 (lower-bound y)))))
+  (mul-interval x
+                (make-interval (/ 1.0 (upper-bound y))
+                               (/ 1.0 (lower-bound y)))))
 
 ;;
 ;; Now let us construct the substraction procedure.
