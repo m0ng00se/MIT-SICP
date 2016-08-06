@@ -7,6 +7,14 @@
 ;;
 
 ;;
+;; Load the required constructors and accessors:
+;;
+(load "exercise2-08.scm")
+(load "exercise2-12.scm")
+(define (make-interval a b)
+  (cons a b))
+
+;;
 ;; The first thing I did was look around to see if there are other "interval arithmetic" packages
 ;; in commercial use that may exhibit the same "error" we've just encountered. 
 ;;
@@ -145,6 +153,8 @@
 		(add-interval r1 r2)))
 
 (define (par2 r1 r2)
+  (define (make-interval a b)
+    (cons a b))
   (let ((one (make-interval 1 1)))
     (div-interval one
 		  (add-interval (div-interval one r1)
