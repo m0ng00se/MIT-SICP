@@ -162,6 +162,8 @@
 		(add-interval r1 r2)))
 
 (defun par2 (r1 r2)
+  (defun make-interval (a b)
+    (cons a b))
   (let ((one (make-interval 1 1)))
     (div-interval one
 		  (add-interval (div-interval one r1)
@@ -186,6 +188,8 @@
 ;;
 (par1 x y)
 ;; ==> (0.49090909 . 0.89629629)
+(par2 x y)
+;; ==> (0.6 . 0.7333333333333334)
 (par2-mod x y)
 ;; ==> (0.49090909 . 0.896296296296)
 
