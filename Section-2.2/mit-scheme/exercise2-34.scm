@@ -89,7 +89,6 @@
 (horner-eval -1 (list 10))
 ;; ==> 10
 
-
 ;;
 ;; Model f(x) = 2x+1
 ;;
