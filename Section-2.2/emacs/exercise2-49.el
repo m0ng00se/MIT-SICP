@@ -143,11 +143,11 @@
 ;; create a way to generate segments from these vectors:
 (defun make-segments (vectors)
   (defun make-segments-iter (working total)
-    (if (null (cdr working)
-	      (append total (list (make-segment (car working) (car (car total)))))
-	      (let ((one (car working))
-		    (two (cadr working)))
-		(make-segments-iter (cdr working) (append total (list (make-segment one two))))))))
+    (if (null (cdr working))
+	(append total (list (make-segment (car working) (car (car total)))))
+      (let ((one (car working))
+	    (two (cadr working)))
+	(make-segments-iter (cdr working) (append total (list (make-segment one two)))))))
   (make-segments-iter vectors '()))
 
 (setq segments (make-segments vectors))
