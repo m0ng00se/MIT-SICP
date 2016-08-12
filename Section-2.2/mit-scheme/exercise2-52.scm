@@ -94,7 +94,7 @@
 (define segments (append segments (list s1)))
 (define segments (append segments (list s2)))
 
-(define wave (segments->painter segments)
+(define wave (segments->painter segments))
 (paint wave)
 
 ;; (b) Change the pattern constructed by "corner-split" (for example, by using only one copy of the "up-split" and "right-split" images instead of two)
