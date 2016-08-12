@@ -71,7 +71,7 @@ f
 ;;
 ;; Again, run the unit tests:
 ;;
-(define f (make-frame origin edge1 edge2))
+(setq f (make-frame origin edge1 edge2))
 f
 ;; ==> ((-2 . 1) (-1 . 2) 4 . 3)
 
