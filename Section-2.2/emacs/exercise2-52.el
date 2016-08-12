@@ -1,3 +1,18 @@
+;;
+;; Exercise 2.52
+;;
+;; Make changes to the square limit of "wave" shown in Figure 2.9 by working at each of the levels
+;; described above. In particular:
+;;
+;;  (a) Add some segments to the primitive "wave" painter of Exercise 2.49 (to add a smile, for example).
+;;  (b) Change the pattern constructed by "corner-split" (for example, by using only one copy of the
+;;      "up-split" and "right-split" images instead of two).
+;;  (c) Modify the version of "square-limit" that uses "square-of-four" so as to assemble the corners
+;;      in a different pattern (for example, you might make the big Mr. Rogers look outward frmo each
+;;      corner of the square).
+;;
+
+;; (a) Add some segments to the primitive wave painter of exercise 2.49 (add a smile, for example)
 
 ;; Load procedures from previous exercises:
 (load-file "exercise2-51.el")
@@ -80,7 +95,10 @@
       (below bottom top))))
 
 (defun square-limit (painter n)
-  (let ((combine4 (square-of-four flip-horiz identity rotate180 flip-vert)))
+  (setq combine4 (square-of-four #'flip-horiz #'identity #'rotate180 #'flip-vert))
+  combine4)
+
+  (let ((combine4 (square-of-four #'flip-horiz #'identity #'rotate180 #'flip-vert)))
     (combine4 (corner-split painter n))))
 
 ;;
@@ -88,7 +106,14 @@
 ;; the "square-of-four" procedures are applied:
 ;;
 (defun square-limit (painter n)
-  (let ((combine4 (square-of-four flip-vert rotate180 identity flip-horiz)))
+  ((square-of-four #'flip-vert #'rotate180 #'identity #'flip-horiz) (corner-split painter n)))
+
+  (let ((combine4 (square-of-four #'flip-vert #'rotate180 #'identity #'flip-horiz))
+	(arg (corner-split painter n)))
+    (funcall #'combine4 arg)))
+
+    (combine4 (corner-split painter n))))
+
     (combine4 (corner-split painter n))))
 
 ;;
@@ -96,10 +121,9 @@
 ;;
 (corner-split square 3)
 (identity square)
-(square-of-four square square square square)
+(square-of-four #'square #'square #'square #'square)
 (square-limit square 3)
 
 ;;
 ;; Pictures for all these exercises are given in the accompanying .md file.
 ;;
-       
