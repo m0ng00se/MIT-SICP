@@ -1,3 +1,9 @@
+;;
+;; Exercise 2.50
+;;
+;; Define the transformation "flip-horiz" which flips painters horizontally, and transformations
+;; that rotate painters counterclockwise by 180 degrees and 270 degrees.
+;;
 
 ;; Load previous procedures:
 (load-file "exercise2-49.el")
@@ -34,3 +40,21 @@
 		     (make-vect 0.0 1.0)   ;; new origin
 		     (make-vect 0.0 0.0)   ;; new end of edge 1
 		     (make-vect 1.0 1.0))) ;; new end of edge 2
+
+;;
+;; As a sanity check, make sure that the painters defined in exercise2-49 all "compile":
+;;
+(flip-horiz square)
+(flip-horiz x-marks-the-spot)
+(flip-horiz diamond)
+(flip-horiz wave)
+
+(rotate180 square)
+(rotate180 x-marks-the-spot)
+(rotate180 diamond)
+(rotate180 wave)
+
+(rotate270 square)
+(rotate270 x-marks-the-spot)
+(rotate270 diamond)
+(rotate270 wave)
