@@ -41,6 +41,13 @@
 (defun edge2-frame (f)
   (car (cdr (cdr (cdr f)))))
 
+(defun make-segment (start end)
+  (cons start end))
+(defun start-segment (segment)
+  (car segment))
+(defun end-segment (segment)
+  (cdr segment))
+
 ;;
 ;; The "frame-coord-map" procedure is given as:
 ;;
