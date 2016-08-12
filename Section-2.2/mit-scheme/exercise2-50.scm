@@ -5,6 +5,9 @@
 ;; that rotate painters counterclockwise by 180 degrees and 270 degrees.
 ;;
 
+;; Load procedures previously defined:
+(load "exercise2-49.scm")
+
 ;;
 ;; Procedures from text:
 ;;

@@ -8,6 +8,9 @@
 ;; suitable rotation operations (see Exercise 2.50)
 ;;
 
+;; Load previous procedures:
+(load "exercise2-50.scm")
+
 ;;
 ;; Using the first approach:
 ;;

@@ -37,7 +37,7 @@
 ;;
 
 ;;
-; Define "accumulate" and "accumulate-n":
+;; Define "accumulate" and "accumulate-n":
 ;;
 (define (accumulate op initial sequence)
   (if (null? sequence)
