@@ -5,6 +5,24 @@
 ;; that rotate painters counterclockwise by 180 degrees and 270 degrees.
 ;;
 
+;;
+;; Procedures from text:
+;;
+(define (rotate90 painter)
+  (transform-painter painter
+		     (make-vect 1.0 0.0)
+		     (make-vect 1.0 1.0)
+		     (make-vect 0.0 0.0)))
+
+(define (flip-vert painter)
+  (transform-painter painter
+		     (make-vect 0.0 1.0)
+		     (make-vect 1.0 1.0)
+		     (make-vect 0.0 0.0)))
+
+;;
+;; Answers:
+;;
 (define (flip-horiz painter)
   (transform-painter painter
 		     (make-vect 1.0 0.0)   ;; new origin
