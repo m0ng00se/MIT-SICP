@@ -15,6 +15,7 @@
 ;; (a) Add some segments to the primitive wave painter of exercise 2.49 (add a smile, for example)
 
 ;; Load procedures from previous exercises:
+(require 'cl)
 (load-file "exercise2-51.el")
 
 ;; now define the "smile":
@@ -50,8 +51,8 @@
 ;;
 ;; Sanity check:
 ;;
-(right-split square 3)
-(up-split square 3)
+(right-split wave 3)
+(up-split wave 3)
 
 ;;
 ;; This is the definition of "corner-split" given in the text:
@@ -89,40 +90,34 @@
 (defun identity (x) x)
 
 (defun square-of-four (tl tr bl br)
-  (lambda (painter)
-    (let ((top (beside (tl painter) (tr painter)))
-	  (bottom (beside (bl painter) (br painter))))
-      (below bottom top))))
+  (lexical-let ((tloo tl)
+		(troo tr)
+		(bloo bl)
+		(broo br))
+	       (lambda (p)
+		 (lexical-let ((painter p))
+			      (let ((top (beside (funcall tloo painter) (funcall troo painter)))
+				    (bottom (beside (funcall bloo painter) (funcall broo painter))))
+				(below bottom top))))))
 
 (defun square-limit (painter n)
-  (setq combine4 (square-of-four #'flip-horiz #'identity #'rotate180 #'flip-vert))
-  combine4)
-
-  (let ((combine4 (square-of-four #'flip-horiz #'identity #'rotate180 #'flip-vert)))
-    (combine4 (corner-split painter n))))
+  (lexical-let ((p painter))
+	       (let ((combine4 (square-of-four #'flip-horiz #'identity #'rotate180 #'flip-vert)))
+		 (funcall combine4 (corner-split p n)))))
 
 ;;
 ;; To reverse the way that Einstein "looks" in the picture, we reveres the order in which
 ;; the "square-of-four" procedures are applied:
 ;;
 (defun square-limit (painter n)
-  ((square-of-four #'flip-vert #'rotate180 #'identity #'flip-horiz) (corner-split painter n)))
-
-  (let ((combine4 (square-of-four #'flip-vert #'rotate180 #'identity #'flip-horiz))
-	(arg (corner-split painter n)))
-    (funcall #'combine4 arg)))
-
-    (combine4 (corner-split painter n))))
-
-    (combine4 (corner-split painter n))))
+  (lexical-let ((p painter))
+	       (let ((combine4 (square-of-four #'flip-vert #'rotate90 #'identity #'flip-horiz)))
+		  (funcall combine4 (corner-split p n)))))
 
 ;;
 ;; Sanity check:
 ;;
-(corner-split square 3)
-(identity square)
-(square-of-four #'square #'square #'square #'square)
-(square-limit square 3)
+(square-limit wave 3)
 
 ;;
 ;; Pictures for all these exercises are given in the accompanying .md file.
