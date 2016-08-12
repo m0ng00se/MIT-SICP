@@ -46,6 +46,15 @@
 		     (make-vect 0.0 0.0)))
 
 ;;
+;; flip-vert procedure from the text:
+;;
+(defun flip-vert (painter)
+  (transform-painter painter
+		     (make-vect 0.0 1.0)
+		     (make-vect 1.0 1.0)
+		     (make-vect 0.0 0.0)))
+
+;;
 ;; Answers to the questions:
 ;;
 (defun flip-horiz (painter)
