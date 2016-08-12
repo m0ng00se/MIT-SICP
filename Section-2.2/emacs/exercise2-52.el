@@ -33,6 +33,12 @@
       (below painter (beside smaller smaller)))))
 
 ;;
+;; Sanity check:
+;;
+(right-split square 3)
+(up-split square 3)
+
+;;
 ;; This is the definition of "corner-split" given in the text:
 ;;
 (defun corner-split (painter n)
@@ -84,6 +90,14 @@
 (defun square-limit (painter n)
   (let ((combine4 (square-of-four flip-vert rotate180 identity flip-horiz)))
     (combine4 (corner-split painter n))))
+
+;;
+;; Sanity check:
+;;
+(corner-split square 3)
+(identity square)
+(square-of-four square square square square)
+(square-limit square 3)
 
 ;;
 ;; Pictures for all these exercises are given in the accompanying .md file.
