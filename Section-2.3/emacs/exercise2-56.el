@@ -231,7 +231,7 @@
 ;;
 (defun deriv (expression var)
   ;;
-  ;; Derivativ e of a constant is 0
+  ;; Derivative of a constant is 0
   ;;
   (cond ((numberp expression) 0)
 	
