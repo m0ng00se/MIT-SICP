@@ -70,7 +70,7 @@
 
 (defun addend (s) (cadr s))
 
-(defun augend (s) (caddr s))
+(defun augend (s) (car (cdr (cdr s))))
 
 (defun make-sum (a1 a2)
   (cond ((=number? a1 0) a2)
@@ -104,7 +104,7 @@
 
 (defun multiplier (p) (cadr p))
 
-(defun multiplicand (p) (caddr p))
+(defun multiplicand (p) (car (cdr (cdr p))))
 
 (defun make-product (m1 m2)
   (cond ((or (=number? m1 0) (=number? m2 0)) 0)
@@ -149,7 +149,7 @@
 
 (defun minuend (p) (cadr p))
 
-(defun subtrahend (p) (caddr p))
+(defun subtrahend (p) (car (cdr (cdr p))))
 
 (defun make-difference (s1 s2)
   (cond ((=number? s2 0) s1)
@@ -200,7 +200,7 @@
   (cadr p))
 
 (defun exponent (p)
-  (caddr p))
+  (car (cdr (cdr p))))
 
 (defun make-exponentiation (base exp-value)
   (cond ((and (numberp base) (numberp exp-value)) (expt base exp-value))
