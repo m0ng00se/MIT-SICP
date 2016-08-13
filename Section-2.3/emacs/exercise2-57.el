@@ -258,3 +258,217 @@
 ;; ==> (a b c d)
 (get-number-list x)
 ;; ==> (1 2 3 4)
+
+;;
+;; We also need a more sophisticated procedure, which checks to see whether
+;; the argument list contains only 1 number, and whether that number is the
+;; argument "n":
+;;
+(defun is-n-the-only-number? (n elems)
+  (let ((numbers (get-number-list elems)))
+    (if (null numbers)
+	'()
+      (and (= (car numbers) n) (null (cdr numbers))))))
+
+(is-n-the-only-number? 1 '())
+;; ==> nil
+(is-n-the-only-number? 1 '(1))
+;; ==> t
+(is-n-the-only-number? 1 '(1 a b))
+;; ==> t
+(is-n-the-only-number? 1 '(1 a b 1))
+;; ==> nil
+(is-n-the-only-number? 1 '(1 a b 2))
+;; ==> nil
+(is-n-the-only-number? 3 '(1 a b 2))
+;; ==> nil
+  
+;;
+;; We define "make-sum-n" to take 0 or more arguments (i.e., n arguments):
+;;
+(defun make-sum-n (&rest elems)
+  (cond ((null elems) 0)
+	((null (cdr elems)) (car elems))
+	(t
+	 (let ((numbers (get-number-list elems))
+	       (symbols (get-symbol-list elems)))
+	   (cond ((null symbols) (apply #'+ elems))
+		 ((> (length numbers) 1)
+		  (apply #'make-sum-n
+			 (append symbols
+				 (list (apply #'+ numbers)))))
+		 ((is-n-the-only-number? 0 elems)
+		  (apply #'make-sum-n symbols))
+		 (t
+		  (append '(+) elems)))))))
+
+;;
+;; Let's run some simple unit tests:
+;;
+(make-sum-n 0 0)
+;; ==> 0
+(make-sum-n 8 0 3 0 4 0 5 0)
+;; ==> 20
+(make-sum-n 'x 'y 'z)
+;; ==> (+ x y z)
+(make-sum-n 'x 0 'y)
+;; ==> (+ x y)
+(make-sum-n 'x 0 1 0 3 4 0 'y)
+;; ==> (+ x y 8)
+(make-sum-n 'x 2 3 (make-exponentiation 'y 2) 4)
+;; ==> (+ x (** y 2) 9)
+(make-sum-n)
+;; ==> 0
+(make-sum-n 3)
+;; ==> 3
+(make-sum-n 'a)
+;; ==> a
+(make-sum-n 1 2 3)
+;; ==> 6
+(make-sum-n 1 'a 'b)
+;; ==> (+ 1 a b)
+(make-sum-n 3 'a 'b)
+;; ==> (+ 3 a b)
+(make-sum-n 3 'a 'b 4 'c)
+;; ==> (+ a b c 7)
+(make-sum-n 0 'a 'b)
+;; ==> (+ a b)
+(make-sum-n 0 'a 'b 0)
+;; ==> (+ a b)
+(make-sum-n 'a 'b 'c)
+;; ==> (+ a b c)
+
+;;
+;; We can define "make-product-input" in nearly the identical way:
+;;
+(defun make-product-n (&rest elems)
+  (cond ((null elems) 1)
+	((null (cdr elems)) (car elems))
+	(t
+	 (let ((numbers (get-number-list elems))
+	       (symbols (get-symbol-list elems)))
+	   (cond ((null symbols) (apply #'* elems))
+		 ((> (length numbers) 1)
+		  (apply #'make-product-n
+			 (append symbols
+				 (list (apply #'* numbers)))))
+		 ((is-n-the-only-number? 0 elems) 0)
+		 ((is-n-the-only-number? 1 elems)
+		  (apply #'make-product-n symbols))
+		 (t
+		  (append '(*) elems)))))))
+
+(make-product-n 1 1)
+;; ==> 1
+(make-product-n 10 9 0 1)
+;; ==> 0
+(make-product-n 'x 0 'y 4)
+;; ==> 0
+(make-product-n 'x 'y 'z)
+;; ==> (* x y z)
+(make-product-n 'x 'y 'z 0)
+;; ==> 0
+(make-product-n 1 'x 1 'y 'z)
+;; ==> (* x y z)
+(make-product-n 'x 2 3 (make-exponentiation 'y 2) 4)
+;; ==> (* x (** y 2) 24)
+(make-product-n)
+;; ==> 1
+(make-product-n 3)
+;; ==> 3
+(make-product-n 'a)
+;; ==> a
+(make-product-n 1 2 3)
+;; ==> 6
+(make-product-n 1 'a 'b)
+;; ==> (* a b)
+(make-product-n 3 'a 'b)
+;; ==> (* 3 a b)
+(make-product-n 3 'a 'b 4 'c)
+;; ==> (* a b c 12)
+(make-product-n 0 'a 'b)
+;; ==> 0
+(make-product-n 0 'a 'b 0)
+;; ==> 0
+(make-product-n 1 'a 'b)
+;; ==> (* a b)
+(make-product-n 1 'a 'b 1)
+;; ==> (* a b)
+(make-product-n 'a 'b 'c)
+;; ==> (* a b c)
+
+;;
+;; There is a temptation here to "abstract" out some of the internals of the
+;; two methods, much as we did for "augend" and "multiplicand", but in fact
+;; the fact structures are not completely congruent, so we won't go into that
+;; exercise here.
+;;
+
+;;
+;; At any rate, let's try to recompute the example derivative we had used earlier:
+;;
+(deriv (make-sum-n 'y 'z 5 (make-product-n 2 'x 't 5)) 'x)
+;; ==> (* t 10)
+
+;;
+;; Which, indeed, is a much more readable way of rendering the answer.
+;;
+
+;;
+;; Let's try the example cited in the text:
+;;
+(deriv '(* x y (+ x 3)) 'x)
+;; ==> (+ (* x y) (* y (+ x 3)))
+
+;;
+;; For completeness, let's walk through some of the unit tests we
+;; did in the previous exercise:
+;;
+(deriv 3 'x)
+;; ==> 0
+(deriv 'x 'x)
+;; ==> 1
+(deriv 'x 'y)
+;; ==> 0
+(deriv '(+ x y) 'x)
+;; ==> 1
+(deriv '(+ x y) 'y)
+;; ==> 1
+(deriv '(+ x y) 'z)
+;; ==> 0
+(deriv '(+ (* 2 x) y) 'x)
+;; ==> 2
+(deriv '(+ (* 2 x) y) 'y)
+;; ==> 1
+(deriv '(+ (* x y) y) 'x)
+;; ==> y
+(deriv '(+ (* x y) y) 'y)
+;; ==> (+ x 1)
+(deriv '(- x 1) 'x)
+;; ==> 1
+(deriv '(- y x) 'x)
+;; ==> -1
+(deriv '(* x y) 'x)
+;; ==> y
+(deriv '(** x 3) 'x)
+;; ==> (* 3 (** x 2))
+(deriv '(** x y) 'x)
+;; ==> (* y (** x (- y 1)))
+
+(deriv '(+ x 3) 'x)
+;; ==> 1
+(deriv '(* x y) 'x)
+;; ==> y
+(deriv '(+ (* x y) (+ x 3)) 'x)
+;; ==> (+ y 1)
+(deriv '(+ (* x y) x 3) 'x)
+;; ==> (+ y 1)
+(deriv '(* (* x y) (+ x 3)) 'x)
+;; ==> (+ (* x y) (* y (+ x 3)))
+
+;;
+;; Further references on this problem set are available at:
+;;
+;;  http://wqzhang.wordpress.com/sicp-solutions/
+;;  http://wiki.drewhess.com/wiki/Category:SICP_solutions
+;;
