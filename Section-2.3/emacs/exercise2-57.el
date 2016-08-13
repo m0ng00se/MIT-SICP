@@ -1,0 +1,260 @@
+
+(load-file "differentiation.el")
+
+;;
+;; Let's first verify that the existing procedure doesn't handle list structures
+;; with more than two arguments (not that we would expect it to, but still):
+;;
+(deriv '(+ x x x) 'x)
+;; ==> 2
+
+;;
+;; Indeed, the "deriv" procedure does not appear to "see" the last x in this structure.
+;;
+
+;;
+;; We will first look at modifying the "augend" procedure.
+;;
+;; In its present implementation, "augend" returns a single number (or symbol),
+;; that being, the "second" of the two summands in the addition operation:
+;;
+(defun augend (s) (car (cdr (cdr s))))
+
+(augend '(+ 1 2))
+;; ==> 2
+(augend '(+ a b))
+;; ==> b
+
+;;
+;; This was fine for the previous implementation, but in order to support
+;; arbitary lists of summands, which may be of length greater than 2, this
+;; model breaks down:
+;;
+(setq e1 '(+ 1 2))
+(setq e2 '(+ 1 2 3))
+(setq e3 '(+ 1 2 3 4))
+
+(augend e1)
+;; ==> 2
+(augend e2)
+;; ==> 2
+(augend e3)
+;; ==> 2
+
+;;
+;; Evaluation of (augend e1) still performs the way we would desire and expect,
+;; but in the case of the evaluation of expressions (augend e2) and (augend e2),
+;; we would like to generate a list of the remaining summands, something rather
+;; more like (2 3) and (2 3 4), respectively.
+;;
+
+;;
+;; In order to accomplish this, let's first define a selector which indicates
+;; whether we are dealing with a binary expression (i.e., two terms), or something
+;; different:
+;;
+(defun binary? (expression)
+  (null (cdr (cdr (cdr expression)))))
+
+(binary? e1)
+;; ==> t
+(binary? e2)
+;; ==> nil
+(binary? e3)
+;; ==> nil
+
+;;
+;; So "binary?" works the way we want it to.
+;;
+;; Let's further define selectors that extract (a) the first term in the expression;
+;; (b) the second term in the expression; and (c) a list of all terms in the expression,
+;; except the first one:
+;;
+
+(defun first-term (expression)
+  (car (cdr expression)))
+(defun second-term (expression)
+  (car (cdr (cdr expression))))
+(defun all-but-first-term (expression)
+  (cdr (cdr expression)))
+
+(first-term e1)
+;; ==> 1
+(first-term e2)
+;; ==> 1
+(first-term e3)
+;; ==> 1
+
+(second-term e1)
+;; ==> 2
+(second-term e2)
+;; ==> 2
+(second-term e3)
+;; ==> 2
+
+(all-but-first-term e1)
+;; ==> (2)
+(all-but-first-term e2)
+;; ==> (2 3)
+(all-but-first-term e3)
+;; ==> (2 3 4)
+
+;;
+;; We are ready to put it all together into a new model of "augend":
+;;
+(defun augend (s)
+  (if (binary? s)
+      (second-term s)
+    (cons '+ (all-but-first-term s))))
+
+;;
+;; Running unit tests:
+;;
+(augend e1)
+;; ==> 2
+(augend e2)
+;; ==> (+ 2 3)
+(augend e3)
+;; ==> (+ 2 3 4)
+
+;;
+;; So if the sum is binary, "augend" returns the number/symbol we are seeking.
+;;
+;; If the sum is the a list of arbitrary summands, greater in length than 1,
+;; "augend" returns a new summation object (list) which can be recursively
+;; invoked in succeeding operations.
+;;
+
+;;
+;; We need to modify "multiplicand" in the same way:
+;;
+(defun multiplicand (p)
+  (if (binary? p)
+      (second-term p)
+    (cons '* (all-but-first-term p))))
+
+;;
+;; Running some unit tests:
+;;
+(setq f1 '(* 1 2))
+(setq f2 '(* 1 2 3))
+(setq f3 '(* 1 2 3 4))
+
+(multiplicand f1)
+;; ==> 2
+(multiplicand f2)
+;; ==> (* 2 3)
+(multiplicand f3)
+;; ==> (* 2 3 4)
+
+;;
+;; Note, too, that the structure of "augend" and "multiplicand" is nearly identical.
+;;
+;; This suggests that we can "abstract" their commonality out into a more general procedure:
+;;
+(defun reduce-expression (expression op)
+  (if (binary? expression)
+      (second-term expression)
+    (cons op (all-but-first-term expression))))
+
+(defun augend (s) (reduce-expression s '+))
+(defun multiplicand (p) (reduce-expression p '*))
+
+;;
+;; Let's go back and see whether how our initial use case performs using these modifications:
+;;
+(deriv '(+ x x x) 'x)
+;; ==> 3
+
+;;
+;; Nice! The correct answer..
+;;
+;; Let's try the same thing using multiplication:
+;;
+(deriv '(* x y z) 'x)
+;; ==> (* y z)
+
+;;
+;; Again, correct.
+;;
+;; In fact, this is the only change we need to make to have a fully-functioning symbolic
+;; differentiator, although there are two areas where we might still be able to make
+;; improvements: (1) when inputting information to the differentiatior, there is no way
+;; at present to "mechanically" enter a list with more than two elements. That is to say,
+;; we can write and have the differentiator symbolically evaluate an expression as thus:
+;;
+(deriv '(* x y z) 'x)
+;; ==> '(* y z)
+
+;;
+;; But there is no way to enter an expression like:
+;;
+;; (deriv (make-product 'x 'y 'z) 'x)
+;;
+;; since "make-product" at present still only takes two arguments. Indeed, "make-sum" and
+;; "make-product" do not need to be modified to support the new requirements, since,
+;; given the recursive nature of "deriv", and the recursive manner in which "augend" and
+;; "multiplicand" have been redefined, the two procedures "make-sum" and "make-product"
+;; never need to evaluate more than two expressions at a time to symbolically differentiate
+;; the given expression.
+;;
+;; From a user standpoint, such a facility might be nice. That way, the user doesn't need to
+;; concern themselves with the low-level details of how products or sums are represented
+;; (i.e., as lists, or otherwise), and can simply use the API to generate products, sums, etc.
+;;
+;; The second point, (2), related somewhat to the first one, is that given the current
+;; architecture, it's not difficult to generate "messy" responses from the differentiator.
+;; Indeed, "cleaning up" and "simplifying" the responses generated by the differentiator
+;; could be a full-fledged project on its own, but perhaps there are a few simple things
+;; we can do here to boot-strap that process, and make the differentiator's resulting
+;; output more readable.
+;;
+
+;;
+;; For instance, suppose we try to evaluate the (deliberately obscure) expression:
+;;
+(deriv '(+ y z 5 (* 2 x t 5)) 'x)
+;; ==> (* 2 (* t 5))
+
+;;
+;; The interpreter responds with a "corect", albeit somewhat obscured response.
+;;
+
+;;
+;; Let's try to improve on this state of affairs by redefining "make-sum" and "make-product"
+;; for user input, and in such a way that will "clean up" input going into the differentiator
+;; so as to render the resulting output in a more readable state.
+;;
+;; We won't actually modify "make-sum" and "make-product", since, as indicated above, this
+;; is unnecessary. Given the recursive nature of "deriv", "augend" and "multiplicand", the
+;; two argument "make-sum" and "make-product" procedures will work just fine.
+;;
+;; Rather, we are trying to redefine "sum" and "product" methods for end-user use, and
+;; to do so in a way that cleans up the input for easier reading when the differentiator
+;; terminates.
+;;
+
+;;
+;; We will need several supporting methods: (a) one to extract the symbols from an argument
+;; list; and (b) one to extract the numbers from an argument list.
+;;
+(defun filter (pred seq)
+  (cond ((null seq) '())
+	((funcall pred (car seq))
+	 (cons (car seq)
+	       (filter pred (cdr seq))))
+	(t
+	 (filter pred (cdr seq)))))
+(defun get-symbol-list (elems)
+  (filter (lambda (x) (not (numberp x))) elems))
+(defun get-number-list (elems)
+  (filter (lambda (x) (numberp x)) elems))
+
+;;
+;; Let's test these out:
+;;
+(setq x '(1 2 a b 3 4 c d))
+(get-symbol-list x)
+;; ==> (a b c d)
+(get-number-list x)
+;; ==> (1 2 3 4)
