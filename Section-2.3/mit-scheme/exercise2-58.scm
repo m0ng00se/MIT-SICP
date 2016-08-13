@@ -153,9 +153,9 @@
 (define v3 (make-difference 'x 'y))
 (difference? v3)
 ;; ==> #t
-(minuend v2)
+(minuend v3)
 ;; ==> x
-(subtrahend v2)
+(subtrahend v3)
 ;; ==> y
 
 ;;
