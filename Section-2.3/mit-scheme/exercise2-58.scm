@@ -543,7 +543,7 @@
 ;; ==> x
 (addend '(x + y + z))
 ;; ==> x
-(addend '(x + (y * z))
+(addend '(x + (y * z)))
 ;; ==> x 
 (addend '((x + y) + (z + u)))
 ;; ==> (x + y)
