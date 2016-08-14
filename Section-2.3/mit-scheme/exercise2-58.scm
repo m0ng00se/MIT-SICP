@@ -357,9 +357,9 @@
 ;; 
 ;; Let's run some unit tests:
 ;;
-(lowest-operator '(x * z + y)
+(lowest-operator '(x * z + y))
 ;; ==> +
-(lowest-operator '(x * (z + 1))
+(lowest-operator '(x * (z + 1)))
 ;; ==> *
 
 ;;
