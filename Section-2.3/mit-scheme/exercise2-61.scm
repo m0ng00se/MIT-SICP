@@ -133,6 +133,7 @@
 
 ;;
 ;; Original "unordered" definition for "adjoin-set":
+;;
 (define (adjoin-set x set)
   (if (element-of-set? x set)
       set
