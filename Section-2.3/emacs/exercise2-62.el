@@ -1,4 +1,8 @@
-
+;;
+;; Exercise 2.62
+;;
+;; Give an O(n) implementation of "union-set" for sets represented as ordered lists.
+;;
 
 ;;
 ;; We can follow a similar pattern as was given in the text for "intersection-set":
