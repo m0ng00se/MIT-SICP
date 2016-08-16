@@ -81,9 +81,8 @@
 	       (intersection-set set1 (cdr set2)))))))
 
 ;;
-; Finally, let's define the "union-set" and "intersection-set" procedures:
+;; Finally, let's define the "union-set" and "intersection-set" procedures:
 ;;
-
 (define (union-tree tree1 tree2)
   (list->tree (union-set (tree->list tree1)
 			 (tree->list tree2))))
