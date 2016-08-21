@@ -1,0 +1,83 @@
+
+;;
+;; Again, we first need to import the supporting tree procedures:
+;; 
+(load-file "exercise2-65.el")
+
+;;
+;; Convert a tree to a list:
+;;
+(defun tree->list (tree)
+  (defun copy-to-list (tree result-list)
+    (if (null tree)
+	result-list
+      (copy-to-list (left-branch tree)
+		    (cons (entry tree)
+			  (copy-to-list (right-branch tree)
+					result-list)))))
+  (copy-to-list tree '()))
+
+;;
+;; Convert a list to a tree:
+;;
+(defun list->tree (elements)
+  (car (partial-tree elements (length elements))))
+
+(defun partial-tree (elts n)
+  (if (= n 0)
+      (cons '() elts)
+    (let ((left-size (/ (- n 1) 2)))
+      (let ((left-result (partial-tree elts left-size)))
+	(let ((left-tree (car left-result))
+	      (non-left-elts (cdr left-result))
+	      (right-size (- n (+ left-size 1))))
+	  (let ((this-entry (car non-left-elts))
+		(right-result (partial-tree (cdr non-left-elts) right-size)))
+	    (let ((right-tree (car right-result))
+		  (remaining-elts (cdr right-result)))
+	      (cons (make-tree this-entry left-tree right-tree)
+		    remaining-elts))))))))
+
+;;
+;; In order to unit test, we need a "key" procedure: [WORKING]
+;;
+(defun key (record)
+  (cond ((eq record 1001) 1)
+	((eq record 2001) 2)
+	((eq record 3001) 3)
+	((eq record 4001) 4)
+	((eq record 5001) 5)
+	(t
+	 (error "Record not found! KEY"))))
+
+;;
+;; Let's define a tree of records. The "valid" records are 1001, 2001, 3001, 4001 and 5001.
+;; In our current set of records, let's just use 1001, 3001, 5001:
+;;
+(setq records (list->tree '(1001 3001 5001)))
+
+;;
+;; We can define "lookup" as a recursive procedure:
+;;
+(defun lookup (target records)
+  (if (null records)
+      '()
+    (let ((current-record (entry records)))
+      (let ((current-key (key current-record)))
+	(cond ((= target current-key) current-record)
+	      ((< target current-key) (lookup target (left-branch records)))
+	      ((> target current-key) (lookup target (right-branch records))))))))
+
+;;
+;; Let's see if we can "lookup" the records by key:
+;;
+(lookup 1 records)
+;; ==> 1001
+(lookup 2 records)
+;; ==> nil
+(lookup 3 records)
+;; ==> 3001
+(lookup 4 records)
+;; ==> nil
+(lookup 5 records)
+;; ==> 5001   
