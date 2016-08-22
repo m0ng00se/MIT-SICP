@@ -1,3 +1,9 @@
+;;
+;; Exercise 2.66
+;;
+;; Implement the "lookup" procedure for the case where the set of records is structured as a binary tree,
+;; ordered by the numerical values of the keys.
+;;
 
 ;;
 ;; Again, we first need to import the supporting tree procedures:
