@@ -11,15 +11,15 @@
 (define tree1 (generate-huffman-tree '((a 1) (b 2) (c 4) (d 8) (e 16))))
 
 (encode-symbol 'a tree1)
-;; ==> (1 1 1 1)
+;; ==> (0 0 0 0)
 (encode-symbol 'b tree1)
-;; ==> (1 1 1 0)
+;; ==> (0 0 0 1)
 (encode-symbol 'c tree1)
-;; ==> (1 1 0)
+;; ==> (0 0 1)
 (encode-symbol 'd tree1)
-;; ==> (1 0)
+;; ==> (0 1)
 (encode-symbol 'e tree1)
-;; ==> (0)
+;; ==> (1)
 
 ;;
 ;; The tree looks like this:
