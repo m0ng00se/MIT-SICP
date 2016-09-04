@@ -59,7 +59,7 @@
 ;; ==> (label . value)
 (define d2 (attach-tag 'scheme-number 1))
 ;; ==> 1
-(define d3 (attach-tag 'scheme-nubmer 0.5))
+(define d3 (attach-tag 'scheme-number 0.5))
 ;; ==> 0.5
 
 (type-tag d1)
