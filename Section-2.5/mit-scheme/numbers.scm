@@ -257,6 +257,8 @@
 ;;
 ;; Install the number package
 ;;
+(install-rectangular-package)
+(install-polar-package)
 (install-complex-package)
 
 (define c1 (make-complex-from-real-imag 3 4))
