@@ -148,6 +148,10 @@
   (make-from-mag-ang (/ (magnitude z1) (magnitude z2))
 		          (- (angle z1) (angle z2))))
 
+;; Install complex number packages
+(install-rectangular-package)
+(install-polar-package)
+
 ;;
 ;; There are several things about these procedures that are worth noting.
 ;;
@@ -159,7 +163,7 @@
 ;; The reason for this is the way "apply-generic" maps the procedure
 ;; "type-tag" onto its arguments. Consider, for instance:
 ;;
-(define z1 (make-from-rect-imag 2 3))
+(define z1 (make-from-real-imag 2 3))
 ;; ==> (rectangular 2 . 3)
 (define z2 (make-from-mag-ang 4 5))
 ;; ==> (polar 4 . 5)
@@ -219,7 +223,7 @@
 
 (real-part c1)
 ;; ==> 1
-(imag-part c2)
+(imag-part c1)
 ;; ==> 0
 
 (define pi 3.14159)
