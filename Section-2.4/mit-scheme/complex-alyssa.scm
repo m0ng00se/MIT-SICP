@@ -3,7 +3,7 @@
 ;; She has chosen to use the polar representation.
 ;;
 (define (make-from-real-imag x y) (cons (sqrt (+ (square x) (square y))) (atan y x)))
-(define (make-from-mag-ang r a) (cons r a)
+(define (make-from-mag-ang r a) (cons r a))
 (define (magnitude z) (car z))
 (define (angle z) (cdr z))
 (define (real-part z) (* (magnitude z) (cos (angle z))))
