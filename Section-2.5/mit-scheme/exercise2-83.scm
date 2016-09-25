@@ -219,7 +219,7 @@
 
 (raise (make-rational 1 2))
 ;; ==> 0.5
-(raise (make-ratioanl 4 3))
+(raise (make-rational 4 3))
 ;; ==> 1.33333333333
 (raise (make-rational 5 1))
 ;; ==> 5.
