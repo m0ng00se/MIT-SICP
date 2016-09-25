@@ -25,9 +25,9 @@
       (cdr datum)
     (error "Bad tagged datum -- CONTENTS" datum)))
 
-(defun rectangular (z)
+(defun rectangular? (z)
   (eq (type-tag z) 'rectangular))
-(defun polar (z)
+(defun polar? (z)
   (eq (type-tag z) 'polar))
 
 ;;
@@ -50,30 +50,30 @@
 ;; The four selectors above can now be written as:
 ;;
 (defun real-part (z)
-  (cond ((rectangular z)
+  (cond ((rectangular? z)
 	 (real-part-rectangular (contents z)))
-	((polar z)
+	((polar? z)
 	 (real-part-polar (contents z)))
 	(t
 	 (error "Unknown type -- REAL-PART" z))))
 (defun imag-part (z)
-  (cond ((rectangular z)
+  (cond ((rectangular? z)
 	 (imag-part-rectangular (contents z)))
-	((polar z)
+	((polar? z)
 	 (imag-part-polar (contents z)))
 	(t
 	 (error "Unknown type -- IMAG-PART" z))))
 (defun magnitude (z)
-  (cond ((rectangular z)
+  (cond ((rectangular? z)
 	 (magnitude-rectangular (contents z)))
-	((polar z)
+	((polar? z)
 	 (magnitude-polar (contents z)))
 	(t
 	 (error "Unknown type -- MAGNITUDE" z))))
 (defun angle (z)
-  (cond ((rectangular z)
+  (cond ((rectangular? z)
 	 (angle-rectangular (contents z)))
-	((polar z)
+	((polar? z)
 	 (angle-polar (contents z)))
 	(t
 	 (error "Unknown type -- ANGLE" z))))
