@@ -87,4 +87,3 @@
   (make-from-real-imag-rectangular x y))
 (defun make-from-mag-ang (r a)
   (make-from-mag-ang-polar r a))
-  

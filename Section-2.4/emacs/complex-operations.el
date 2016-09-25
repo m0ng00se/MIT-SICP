@@ -65,4 +65,3 @@
 (setq operation-table (make-table))
 (setq get (funcall operation-table 'lookup-proc))
 (setq put (funcall operation-table 'insert-proc!))
-
