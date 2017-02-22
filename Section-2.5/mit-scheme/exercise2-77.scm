@@ -71,7 +71,7 @@
 (apply-generic 'magnitude '(rectangular 3 . 4))
 ;; type-tags <== (map type-tag (list '(rectangular 3 . 4)))
 ;; type-tags <== '(rectangular)
-;; proc <== (get 'magnitude 'rectangular)
+;; proc <== (get 'magnitude '(rectangular))
 ;; proc <== magnitude [DEFINED IN RECTANGULAR PACKAGE]
 (apply magnitude (map contents '(rectangular 3 . 4)))
 (apply magnitude '((3 . 4)))
