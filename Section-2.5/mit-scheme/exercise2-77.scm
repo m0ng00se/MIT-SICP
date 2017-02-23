@@ -73,15 +73,30 @@
 ;; type-tags <== '(rectangular)
 ;; proc <== (get 'magnitude '(rectangular))
 ;; proc <== magnitude [DEFINED IN RECTANGULAR PACKAGE]
-(apply magnitude (map contents '(rectangular 3 . 4)))
-(apply magnitude '((3 . 4)))
-(magnitude (3 . 4))
-(sqrt (+ (square (real-part (3 . 4)))
-	 (square (imag-part (3 . 4)))))
+;; Define the 'magnitude' proc in the rectangular package:
+(define magnitude-rect
+  (lambda (z)
+    (define (real-part) (car z))
+    (define (imag-part) (cdr z))
+    (sqrt (+ (square (real-part))
+	     (square (imag-part))))))
+;; So that we can continue unwinding the call graph:
+(apply magnitude-rect (map contents (list '(rectangular 3 . 4))))
+(apply magnitude-rect '((3 . 4)))
+(magnitude-rect '(3 . 4))
+((lambda (z)
+   (define (real-part) (car z))
+   (define (imag-part) (cdr z))
+   (sqrt (+ (square (real-part))
+	    (square (imag-part)))))
+ '(3 . 4))
+;; Break out the real-part and imag-part:
+(define real-part 3)
+(define imag-part 4)
 (sqrt (+ (square 3)
 	 (square 4)))
 (sqrt (+ 9 16))
-(sqrt 25)
+(Sqrt 25)
 5
 
 ;;
