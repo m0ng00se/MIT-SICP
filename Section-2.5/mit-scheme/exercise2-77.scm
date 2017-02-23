@@ -93,6 +93,7 @@
 ;; Break out the real-part and imag-part:
 (define real-part 3)
 (define imag-part 4)
+;; So we can finish the calculation:
 (sqrt (+ (square 3)
 	 (square 4)))
 (sqrt (+ 9 16))
