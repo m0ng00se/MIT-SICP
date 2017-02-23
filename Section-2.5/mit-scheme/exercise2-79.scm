@@ -26,12 +26,11 @@
   (put 'div '(scheme-number scheme-number)
     (lambda (x y) (tag (/ x y))))
   
-  ;; =============
-  ;; New Procedure
-  ;; ============= 
+  ;; ==============
+  ;; New Procedures
+  ;; ==============
   (put 'equ? '(scheme-number scheme-number)
-       (lambda (x y) (= x y)))
-  
+       (lambda (x y) (= x y)))  
   (put 'make 'scheme-number
        (lambda (x) (tag x)))
   'done) 
