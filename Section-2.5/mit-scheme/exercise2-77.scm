@@ -97,7 +97,7 @@
 (sqrt (+ (square 3)
 	 (square 4)))
 (sqrt (+ 9 16))
-(Sqrt 25)
+(sqrt 25)
 5
 
 ;;
