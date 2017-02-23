@@ -6,6 +6,8 @@
 ;; numbers, rational numbers, and complex numbers.
 ;;
 
+(load "numbers.scm")
+
 ;; =================
 ;; Generic Procedure
 ;; =================
