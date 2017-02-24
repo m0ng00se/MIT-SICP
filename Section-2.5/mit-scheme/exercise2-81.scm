@@ -29,6 +29,8 @@
 ;; What happens if we call "exp" with two complex numbers as arguments?
 ;;
 
+(load "numbers.scm")
+
 ;;
 ;; First, let's define a "coercion" table:
 ;;
