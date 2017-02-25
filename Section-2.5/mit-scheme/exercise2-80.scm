@@ -290,7 +290,7 @@
 ;; ==> #t
 
 (=zero? (add (make-complex-from-real-imag 1 2) (make-complex-from-real-imag -1 -2)))
-;; ==> #f
+;; ==> #t
 (=zero? (sub (make-complex-from-real-imag 1 2) (make-complex-from-real-imag 1 2)))
 ;; ==> #t
 
