@@ -307,7 +307,7 @@
   ;; error handler
   (define (handle-exception type-tags)
     (error "No method for these types: " (list op type-tags)))
-
+  
   ;; actual procedure
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
