@@ -67,14 +67,17 @@
 	(error "No coercion for these types" type-list)
 	(let ((target-type (car candidate-types)))
 	  (if (can-coerce-type-list-to-target-type type-list target-type)
-	      (apply-generic op (map
-				 (lambda (arg)
-				   (let ((type (type-tag arg)))
-				     (if (equal? type target-type)
-					 arg
-					 ((get-coercion type target-type) arg))))
-				 args))
-	      (attempt-coercion type-list (cdr candidate-types))))))
+	      (let ((new-args (map (lambda (arg)
+				     (let ((type (type-tag arg)))
+				       (if (equal? type target-type)
+					   arg
+					   ((get-coercion type target-type) arg))))
+				   args)))
+		;; if-block prevents infinite loop if the operation is genuinely missing from table
+		(if (equal? args new-args)
+		    (attempt-coercion type-list (cdr candidate-type))
+		    (apply-generic op new-args))
+		(attempt-coercion type-list (cdr candidate-types)))))))
   
   ;; If we find a match in our operations table for the indicated types,
   ;; proceed as normal and apply the procedure. Otherwise, attempt coercion.
