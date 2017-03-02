@@ -71,7 +71,7 @@
 					 ((get-coercion type target-type) arg))))
 				 args))
 	      (attempt-coercion type-list (cdr candidate-types))))))
-
+  
   ;; If we find a match in our operations table for the indicated types,
   ;; proceed as normal and apply the procedure. Otherwise, attempt coercion.
   (let ((type-tags (map type-tag args)))
