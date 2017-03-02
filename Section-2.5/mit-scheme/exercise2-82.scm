@@ -58,6 +58,12 @@
 ;; We modify apply-generic to attempt coercion if an exact match in the operation table is missing:
 ;; 
 (define (apply-generic op . args)
+  ;; TRUE if both argument lists consist of identical types.
+  (define (type-list-identical? arglist1 arglist2)
+    (let ((type-tags-1 (map type-tag arglist1))
+	  (type-tags-2 (map type-tag arglist2)))
+      (equal? type-tags-1 type-tags-2)))
+  
   ;; For each element in candidate-types, see whether the entire
   ;; type-list can be coerced to that type. If so, then re-invoke
   ;; apply-generic, coercing arguments as appropraite. Otherwise,
@@ -74,7 +80,7 @@
 					   ((get-coercion type target-type) arg))))
 				   args)))
 		;; if-block prevents infinite loop if the operation is genuinely missing from table
-		(if (equal? args new-args)
+		(if (type-list-identical? args new-args)
 		    (attempt-coercion type-list (cdr candidate-types))
 		    (apply-generic op new-args))
 		(attempt-coercion type-list (cdr candidate-types)))))))
