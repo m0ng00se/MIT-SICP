@@ -58,6 +58,10 @@
 ;; We modify apply-generic to attempt coercion if an exact match in the operation table is missing:
 ;; 
 (define (apply-generic op . args)
+  ;; For each element in candidate-types, see whether the entire
+  ;; type-list can be coerced to that type. If so, then re-invoke
+  ;; apply-generic, coercing arguments as appropraite. Otherwise,
+  ;; continue walking down the list of candidate types.
   (define (attempt-coercion type-list candidate-types)
     (if (null? candidate-types)
 	(error "No coercion for these types" type-list)
