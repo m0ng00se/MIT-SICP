@@ -27,7 +27,7 @@
 	 (error "Bad tagged datum -- CONTENTS" datum))))
 
 ;;
-;; Solution to part (a):
+;; The following predicate is useful for the solution to part (a):
 ;;
 
 ;;
@@ -54,6 +54,9 @@
 (can-coerce-type-list-to-target-type '(scheme-number complex) 'scheme-number)
 ;; ==> #f
 
+;;
+;; We modify apply-generic to attempt coercion if an exact match in the operation table is missing:
+;; 
 (define (apply-generic op . args)
   (define (attempt-coercion type-list candidate-types)
     (if (null? candidate-types)
@@ -62,17 +65,17 @@
 	  (if (can-coerce-type-list-to-target-type type-list target-type)
 	      (apply-generic op (map
 				 (lambda (arg)
-				       (let ((type (type-tag arg)))
-					 (if (equal? type target-type)
-					     arg
-					     ((get-coercion type target-type) arg))))
+				   (let ((type (type-tag arg)))
+				     (if (equal? type target-type)
+					 arg
+					 ((get-coercion type target-type) arg))))
 				 args))
 	      (attempt-coercion type-list (cdr candidate-types))))))
 
-  ;; Apply procedure if we find a match in our operations table.
-  ;; Otherwise, attempt coercion.
+  ;; If we find a match in our operations table for the indicated types,
+  ;; proceed as normal and apply the procedure. Otherwise, attempt coercion.
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
       (if proc
 	  (apply proc (map contents args))
-	  (attempt-coercion 'x)))))
+	  (attempt-coercion type-tags type-tags)))))
