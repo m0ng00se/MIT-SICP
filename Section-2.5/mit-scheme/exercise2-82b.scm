@@ -27,26 +27,52 @@
 	 (error "Bad tagged datum -- CONTENTS" datum))))
 
 ;;
-;; [apply-generic]:
+;; Solution to part (a):
 ;;
+
+;;
+;; Predicate that returns TRUE if all types in argument list can be converted to target type.
+;; e.g., '(scheme-number complex) and 'complex is TRUE
+;;       '(scheme-number complex) and 'scheme-number is FALSE
+;;
+(define (can-coerce-type-list-to-target-type type-list target-type)
+  ;; Return TRUE if applying predicate to each item in list evaluates to TRUE for each item.
+  (define (all-elements-evaluate-to-true? pred elems)
+    (= (length elems)
+       (length (filter pred elems))))
+  ;; Return TRUE if all elements in type-list either:
+  ;; (i)  are the target type;
+  ;; (ii) can be coerced to target type;
+  (all-elements-evaluate-to-true?
+   (lambda (x)
+     (or (equal? x target-type)
+	 (get-coercion x target-type)))
+   type-list))
+
+(can-coerce-type-list-to-target-type '(scheme-number complex) 'complex)
+;; ==> #t
+(can-coerce-type-list-to-target-type '(scheme-number complex) 'scheme-number)
+;; ==> #f
+
 (define (apply-generic op . args)
+  (define (attempt-coercion type-list candidate-types)
+    (if (null? candidate-types)
+	(error "No coercion for these types" type-list)
+	(let ((target-type (car candidate-types)))
+	  (if (can-coerce-type-list-to-target-type type-list target-type)
+	      (apply-generic op (map
+				 (lambda (arg)
+				       (let ((type (type-tag arg)))
+					 (if (equal? type target-type)
+					     arg
+					     ((get-coercion type target-type) arg))))
+				 args))
+	      (attempt-coercion type-list (cdr candidate-types))))))
+
+  ;; Apply procedure if we find a match in our operations table.
+  ;; Otherwise, attempt coercion.
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
       (if proc
 	  (apply proc (map contents args))
-	  (if (= (length args) 2)
-	      (let ((type1 (car type-tags))
-		    (type2 (cadr type-tags))
-		    (a1 (car args))
-		    (a2 (cadr args)))
-		(let ((t1->t2 (get-coercion type1 type2))
-		      (t2->t1 (get-coercion type2 type1)))
-		  (cond (t1->t2
-			 (apply-generic op (t1->t2 a1) a2))
-			(t2->t1
-			 (apply-generic op a1 (t2->t1 a2)))
-			(else
-			 (error "No method for these types"
-				(list op type-tags))))))
-	      (error "No method for these types"
-		     (list op type-tags)))))))
+	  (attempt-coercion 'x)))))
