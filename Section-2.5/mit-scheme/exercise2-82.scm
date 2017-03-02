@@ -75,7 +75,7 @@
 				   args)))
 		;; if-block prevents infinite loop if the operation is genuinely missing from table
 		(if (equal? args new-args)
-		    (attempt-coercion type-list (cdr candidate-type))
+		    (attempt-coercion type-list (cdr candidate-types))
 		    (apply-generic op new-args))
 		(attempt-coercion type-list (cdr candidate-types)))))))
   
