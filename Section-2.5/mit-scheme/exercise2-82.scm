@@ -173,3 +173,68 @@
 ;; ==> (complex rectangular 2 . 2)
 (add c1 1)
 ;; ==> (complex rectangular 2 . 1)
+
+;;
+;; We can add coercion procedures for rational numbers as well:
+;;
+(define (rational->scheme-number r)
+  (let ((number (contents r)))
+    (/ (car number) (cdr number))))
+(define (rational->complex r)
+  (let ((number (rational->scheme-number r)))
+    (make-complex-from-real-imag number 0)))
+
+(put-coercion 'rational 'scheme-number rational->scheme-number)
+(put-coercion 'rational 'complex rational->complex)
+
+(add 1 r1)
+;; ==> 3/2
+(add r1 1)
+;; ==> 3/2
+(add r1 c1)
+;; ==> (complex rectangular 3/2 . 1)
+(add c1 r1)
+;; ==> (complex rectangular 3/2 . 1)
+
+;;
+;; [WORKING] Modify this to work with an add-n procedure
+;;
+
+;;
+;; For part (b), this coercion stragey only works if all the arguments to be coerced
+;; are in the same branch of the type tree/hierarhcy. In other words, using the geometrical
+;; type tree indicated in Figure 2.26 in the text, there is no way to coerce a "right triangle"
+;; into a "parallelogram" (since, obviously, the right triangle has 3 sides and the parallelogram
+;; has 4 sides).
+;;
+
+;;
+;; Let's run some unit tests to prove this. We create a polygon package to implement
+;; the geometric hierarchy defined in the text:
+;;
+(define (install-polygon-package)
+  (define (tag x) (attach-tag 'polygon x))
+  (put 'make 'polygon
+       (lambda () (tag 'polygon)))
+  (put 'make 'triangle
+       (lambda () (tag 'triangle)))
+  (put 'make 'right-triangle
+       (lambda () (tag 'right-triangle)))
+
+  (put 'make 'quadrilateral
+       (lambda () (tag 'quadrilateral)))
+  'done)
+(install-polygon-package)
+
+(define (make-polygon)
+  ((get 'make 'polygon)))
+(define (make-triangle)
+  ((get 'make 'triangle)))
+(define (make-right-triangle)
+  ((get 'make 'right-triangle)))
+(define (make-quadrilateral)
+  ((get 'make 'quadrilateral)))
+
+
+
+
