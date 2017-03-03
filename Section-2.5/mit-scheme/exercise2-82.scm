@@ -149,3 +149,27 @@
       (if proc
 	  (apply proc (map contents args))
 	  (attempt-coercion type-tags type-tags)))))
+
+;;
+;; Unit-testing apply-generic directly:
+;;
+(apply-generic 'add 1 1)
+;; ==> 2
+(apply-generic 'add 1 c1)
+;; ==> (complex rectangular 2 . 1)
+(apply-generic 'add c1 c1)
+;; ==> (complex rectangular 2 . 2)
+(apply-generic 'add c1 1)
+;; ==> (complex rectangular 2 . 1)
+
+;;
+;; Unit-testing through the generic procedure:
+;;
+(add 1 1)
+;; ==> 2
+(add 1 c1)
+;; ==> (complex rectangular 2 . 1)
+(add c1 c1)
+;; ==> (complex rectangular 2 . 2)
+(add c1 1)
+;; ==> (complex rectangular 2 . 1)
