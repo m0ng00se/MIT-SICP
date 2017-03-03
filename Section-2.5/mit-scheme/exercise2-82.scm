@@ -55,10 +55,69 @@
 ;; ==> #f
 
 ;;
-;; We modify apply-generic to attempt coercion if an exact match in the operation table is missing:
+;; It's also useful to have a predicate that tests whether the type for two argument sets are identical:
+;;
+
+;; TRUE if both argument lists consists of identical types.
+(define (type-list-identical? arglist1 arglist2)
+  (let ((type-tags-1 (map type-tag arglist1))
+	(type-tags-2 (map type-tag arglist2)))
+    (equal? type-tags-1 type-tags-2)))
+
+(define c1 (make-complex-from-real-imag 1 1))
+
+(type-list-identical? (list 1 1) (list 1 1))
+;; ==> #t
+(type-list-identical? (list 1 c1) (list 1 c1))
+;; ==> #t
+(type-list-identical? (list c1 c1) (list c1 c1))
+;; ==> #t
+(type-list-identical? (list c1 1) (list c1 1))
+;; ==> #t
+
+(type-list-identical? (list 1 1) (list 1 c1))
+;; ==> #f
+(type-list-identical? (list 1 1) (list c1 c1))
+;; ==> #f
+(type-list-identical? (list 1 1) (list c1 1))
+;; ==> #f
+
+(type-list-identical? (list 1 c1) (list 1 1))
+;; ==> #f
+(type-list-identical? (list 1 c1) (list c1 c1))
+;; ==> #f
+(type-list-identical? (list 1 c1) (list c1 1))
+;; ==> #f
+
+(type-list-identical? (list c1 c1) (list 1 1))
+;; ==> #f
+(type-list-identical? (list c1 c1) (list 1 c1))
+;; ==> #f
+(type-list-identical? (list c1 c1) (list c1 1))
+;; ==> #f
+
+(type-list-identical? (list c1 1) (list 1 1))
+;; ==> #f
+(type-list-identical? (list c1 1) (list 1 c1))
+;; ==> #f
+(type-list-identical? (list c1 1) (list c1 c1))
+;; ==> #f
+
+;;
+;; We modify apply-generic to attempt coercion if an exact match in the operation table is missing,
+;; and also bring bring in the auxilliary procedures we've defined:
 ;; 
 (define (apply-generic op . args)
-  ;; TRUE if both argument lists consist of identical types.
+  ;; Imported procedures:
+  (define (can-coerce-type-list-to-target-type type-list target-type)
+    (define (all-elements-evaluate-to-true? pred elems)
+      (= (length elems)
+	 (length (filter pred elems))))
+    (all-elements-evaluate-to-true?
+     (lambda (x)
+       (or (equal? x target-type)
+	   (get-coercion x target-type)))
+     type-list))
   (define (type-list-identical? arglist1 arglist2)
     (let ((type-tags-1 (map type-tag arglist1))
 	  (type-tags-2 (map type-tag arglist2)))
