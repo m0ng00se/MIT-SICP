@@ -202,10 +202,12 @@
 
 ;;
 ;; For part (b), this coercion stragey only works if all the arguments to be coerced
-;; are in the same branch of the type tree/hierarhcy. In other words, using the geometrical
-;; type tree indicated in Figure 2.26 in the text, there is no way to coerce a "right triangle"
-;; into a "parallelogram" (since, obviously, the right triangle has 3 sides and the parallelogram
-;; has 4 sides).
+;; are in the same branch of the type tree/hierarhcy.
+;;
+;; For example, a "triangle" and a "quadrilateral" can both be coerced to type "polygon",
+;; since "polygon" is a common ancestor of both nodes in the hierarchy tree. But a "triangle"
+;; cannot be converted into a "quadrilateral" since "quadrilateral" is not a common
+;; ancestor of "triangle" in the hierarchy tree.
 ;;
 
 ;;
