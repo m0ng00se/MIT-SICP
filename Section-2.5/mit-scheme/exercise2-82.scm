@@ -70,7 +70,7 @@
   ;; continue walking down the list of candidate types.
   (define (attempt-coercion type-list candidate-types)
     (if (null? candidate-types)
-	(error "No coercion for this operation/type combination: " op type-list)
+	(error "No method for these types -- APPLY-GENERIC" (list op type-list))
 	(let ((target-type (car candidate-types)))
 	  (if (can-coerce-type-list-to-target-type type-list target-type)
 	      (let ((new-args (map (lambda (arg)
@@ -82,8 +82,8 @@
 		;; if-block prevents infinite loop if the operation is genuinely missing from table
 		(if (type-list-identical? args new-args)
 		    (attempt-coercion type-list (cdr candidate-types))
-		    (apply-generic op new-args))
-		(attempt-coercion type-list (cdr candidate-types)))))))
+		    (apply-generic op new-args)))
+	      (attempt-coercion type-list (cdr candidate-types))))))
   
   ;; If we find a match in our operations table for the indicated types,
   ;; proceed as normal and apply the procedure. Otherwise, attempt coercion.
