@@ -30,11 +30,9 @@
 ;; The following predicate is useful for the solution to part (a):
 ;;
 
-;;
 ;; Predicate that returns TRUE if all types in argument list can be converted to target type.
 ;; e.g., '(scheme-number complex) and 'complex is TRUE
 ;;       '(scheme-number complex) and 'scheme-number is FALSE
-;;
 (define (can-coerce-type-list-to-target-type type-list target-type)
   ;; Return TRUE if applying predicate to each item in list evaluates to TRUE for each item.
   (define (all-elements-evaluate-to-true? pred elems)
