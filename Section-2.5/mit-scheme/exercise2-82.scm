@@ -139,7 +139,7 @@
 		;; if-block prevents infinite loop if the operation is genuinely missing from table
 		(if (type-list-identical? args new-args)
 		    (attempt-coercion type-list (cdr candidate-types))
-		    (apply-generic op new-args)))
+		    (apply apply-generic op new-args)))
 	      (attempt-coercion type-list (cdr candidate-types))))))
   
   ;; If we find a match in our operations table for the indicated types,
