@@ -234,9 +234,28 @@
        (lambda () (tag 'triangle)))
   (put 'make 'right-triangle
        (lambda () (tag 'right-triangle)))
+  (put 'make 'isosceles-triangle
+       (lambda () (tag 'isosceles-triangle)))
+  (put 'make 'isosceles-right-triangle
+       (lambda () (tag 'isosceles-right-triangle)))
+  (put 'make 'equilateral-triangle
+       (lambda () (tag 'equilateral-triangle)))
   ;; Quadrilateral Branch
   (put 'make 'quadrilateral
        (lambda () (tag 'quadrilateral)))
+  (put 'make 'trapezoid
+       (lambda () (tag 'trapezoid)))
+  (put 'make 'kite
+       (lambda () (tag 'kite)))
+  (put 'make 'parallelogram
+       (lambda () (tag 'parallelogram)))
+  (put 'make 'rhombus
+       (lambda () (tag 'rhombus)))
+  (put 'make 'rectangle
+       (lambda () (tag 'rectangle)))
+  (put 'make 'square
+       (lambda () (tag 'square)))
+     
   'done)
 (install-polygon-package)
 
@@ -247,15 +266,58 @@
   ((get 'make 'triangle)))
 (define (make-right-triangle)
   ((get 'make 'right-triangle)))
+(define (make-isosceles-triangle)
+  ((get 'make 'isosceles-triangle)))
+(define (make-isosceles-right-triangle)
+  ((get 'make 'isosceles-right-triangle)))
+(define 'make 'equilateral-triangle
+  ((get 'make 'equilateral-triangle)))
 (define (make-quadrilateral)
   ((get 'make 'quadrilateral)))
+(define (make-trapezoid)
+  ((get 'make 'trapezoid)))
+(define (make-kite)
+  ((get 'make 'kite)))
+(define (make-parallelogram)
+  ((get 'make 'parallelogram)))
+(define (make-rhombus)
+  ((get 'make 'rhombus)))
+(define (make-rectangle)
+  ((get 'make 'rectangle)))
+(define (make-square)
+  ((get 'make 'square)))
 
 ;; Define methods which take two generic polygon arguments (methods are no-ops):
 (define (add-area p1 p2) (apply-generic 'add-area p1 p2))
 (define (add-area-triangle t1 t2) (apply-generic 'add-area-triangle t1 t2))
 (define (add-area-quadrilateral q1 q2) (apply-generic 'add-area-quadrilateral q1 q2))
 
-;; Next define the coercion hierarchy (coercion methods are no-ops):
+;; Let's construct some objects:
+(define p1 (make-polygon))
+(define p2 (make-polygon))
+(define t1 (make-triangle))
+(define t2 (make-triangle))
+(define q1 (make-quadrilateral))
+(define q2 (make-quadrilateral))
+
+;; We can add two polygons together:
+(add-area p1 p2)
+;; ==> (polygon . combined-area-of-polygon)
+
+;; And we can add two triangles together using the specifically typed method:
+(add-area-triangle t1 t1)
+;; ==> (triangle . combined-area-of-triangles)
+
+;; But we cannot use triangles as arguments in the method defined for polygons,
+;; and we cannot combined triangle and polygon arguments in the same method,
+;; even though triangles are a type of polgyon:
+(add-area t1 t2)
+;; ==> No method for these types -- APPLY-GENERIC (add-area (triangle triangle))
+(add-area p1 t1)
+;; ==> No method for these types -- APPLY-GENERIC (add-area (polygon triangle))
+
+;; The reason of course is b/c we haven't defined the hierarchy yet using
+;; coercion methods. Let's do that right now:
 (define (triangle->polygon arg)
   (make-polygon))
 (define (right-triangle->triangle arg)
