@@ -214,16 +214,25 @@
 ;; First define and install a polygon package (objects are no-ops):
 ;;
 (define (install-polygon-package)
-  (define (tag x) (attach-tag 'polygon x))
+  (define (tag x) (attach-tag x 'shape))
+
+  ;; Generic Methods
   (put 'add-area '(polygon polygon)
-       (lambda (x y) (tag 'area-of-polygon)))
+       (lambda (x y) (cons 'polygon 'combined-area-of-polygon)))
+  (put 'add-area-triangle '(triangle triangle)
+       (lambda (x y) (cons 'triangle 'combined-area-of-triangles)))
+  (put 'add-area-quadrilateral '(quadrilateral quadrilateral)
+       (lambda (x y) (cons 'quadrilateral 'combined-area-of-quadrilaterals)))
+
+  ;; Polygon Constructor
   (put 'make 'polygon
        (lambda () (tag 'polygon)))
+  ;; Triangle Branch
   (put 'make 'triangle
        (lambda () (tag 'triangle)))
   (put 'make 'right-triangle
        (lambda () (tag 'right-triangle)))
-
+  ;; Quadrilateral Branch
   (put 'make 'quadrilateral
        (lambda () (tag 'quadrilateral)))
   'done)
@@ -239,8 +248,10 @@
 (define (make-quadrilateral)
   ((get 'make 'quadrilateral)))
 
-;; Define a method which takes two generic polygon arguments (method is no-op):
+;; Define methods which take two generic polygon arguments (methods are no-ops):
 (define (add-area p1 p2) (apply-generic 'add-area p1 p2))
+(define (add-area-triangle t1 t2) (apply-generic 'add-area-triangle t1 t2))
+(define (add-area-quadrilateral q1 q2) (apply-generic 'add-area-quadrilateral q1 q2))
 
 ;; Next define the coercion hierarchy (coercion methods are no-ops):
 (define (triangle->polygon arg)
