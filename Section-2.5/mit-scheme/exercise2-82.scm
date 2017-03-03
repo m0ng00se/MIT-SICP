@@ -70,7 +70,7 @@
   ;; continue walking down the list of candidate types.
   (define (attempt-coercion type-list candidate-types)
     (if (null? candidate-types)
-	(error "No coercion for these types" type-list)
+	(error "No coercion for this operation/type combination: " op type-list)
 	(let ((target-type (car candidate-types)))
 	  (if (can-coerce-type-list-to-target-type type-list target-type)
 	      (let ((new-args (map (lambda (arg)
