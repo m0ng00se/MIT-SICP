@@ -209,11 +209,14 @@
 ;;
 
 ;;
-;; Let's run some unit tests to prove this. We create a polygon package to implement
-;; the geometric hierarchy defined in the text:
+;; Let's run some unit tests to prove this.
+;;
+;; First define and install a polygon package (objects are no-ops):
 ;;
 (define (install-polygon-package)
   (define (tag x) (attach-tag 'polygon x))
+  (put 'add-area '(polygon polygon)
+       'area)
   (put 'make 'polygon
        (lambda () (tag 'polygon)))
   (put 'make 'triangle
@@ -226,6 +229,7 @@
   'done)
 (install-polygon-package)
 
+;; Constructors for the polygon package:
 (define (make-polygon)
   ((get 'make 'polygon)))
 (define (make-triangle)
@@ -234,6 +238,17 @@
   ((get 'make 'right-triangle)))
 (define (make-quadrilateral)
   ((get 'make 'quadrilateral)))
+
+;; Define a method which takes two generic polygon arguments (method is no-op):
+(define (add-area p1 p2) (apply-generic 'add-area p1 p2))
+
+;; Next define the coercion hierarchy (coercion methods are no-ops):
+(define (triangle->polygon arg)
+  (make-polygon))
+(define (right-triangle->triangle arg)
+  (make-triangle))
+(define (quadrilateral->polygon arg)
+  (make-polygon))
 
 
 
