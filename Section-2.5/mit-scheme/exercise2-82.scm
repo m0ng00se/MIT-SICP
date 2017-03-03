@@ -216,7 +216,7 @@
 (define (install-polygon-package)
   (define (tag x) (attach-tag 'polygon x))
   (put 'add-area '(polygon polygon)
-       'area)
+       (lambda (x y) (tag 'area-of-polygon)))
   (put 'make 'polygon
        (lambda () (tag 'polygon)))
   (put 'make 'triangle
