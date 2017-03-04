@@ -350,7 +350,20 @@
   (make-rhombus))
 
 (put-coercion 'triangle 'polygon triangle->polygon)
-
+(put-coercion 'right-triangle 'triangle right-triangle->triangle)
+(put-coercion 'isosceles-triangle 'triangle isosceles-triangle->triangle)
+(put-coercion 'isosceles-right-triangle 'right-triangle isosceles-triangle->triangle)
+(put-coercion 'isosceles-right-triangle 'isosceles-triangle isosceles-right-triangle->isosceles-triangle)
+(put-coercion 'equilateral-triangle 'isosceles-triangle equilateral-triangle->isosceles-triangle)
+(put-coercion 'quadrilateral 'polygon quadrilateral->polygon)
+(put-coercion 'kite 'quadrilateral kite->quadrilateral)
+(put-coercion 'trapezoid 'quadrilteral trapezoid->quadrilateral)
+(put-coercion 'parallelogram 'trapezoid parallelogram->trapezoid)
+(put-coercion 'rhombus 'kite rhombus->kite)
+(put-coercion 'rhombus 'parallelogram rhombus->parallelogram)
+(put-coercion 'rectangle 'parallelogram rectangle->parallelogram)
+(put-coercion 'square 'rectangle square->rectangle)
+(put-coercion 'square 'rhombus square->rhombus)
 
 
 
