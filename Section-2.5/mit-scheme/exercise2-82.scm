@@ -1,8 +1,14 @@
 ;;
 ;; Exercise 2.82
 ;;
-
-;; [WORKING]
+;; Show how to generalize 'apply-generic' to handle coercion in the general
+;; case of multiple arguments. One strategy is to attempt to coerce all the
+;; arguments to the type of the first argument, then to the type of the
+;; second argument, and so on. Give an example of a situation where this
+;; strategy (and likewise the two-argument version given above) is not
+;; sufficiently general. (Hint: Consider the case where there are some
+;; suitable mixed-type operations present in the table that will not be tried).
+;;
 
 (load "numbers.scm")
 
@@ -197,8 +203,44 @@
 ;; ==> (complex rectangular 3/2 . 1)
 
 ;;
-;; [WORKING] Modify this to work with an add-n procedure
+;; To test if our new coercion procedure can work across multiple (i.e., more than
+;; two) argumetns, we define a new "add-n" procedure that takes an arbitrary/variadic
+;; number of arguments.
 ;;
+;; Note that this procedure uses the generic implementation of "add" to actually add
+;; the arguments:
+;;
+(define (add-n . args)
+  (define (add-n-iter working total)
+    (if (null? working)
+	total
+	(add-n-iter (cdr working) (add total (car working)))))
+  (add-n-iter args 0))
+
+;;
+;; We try this procedure with three arguments of uniform type, integer, rational and
+;; complex, respectively:
+;;
+(add-n 1 1 1)
+;; ==> 3
+(add-n r1 r1 r1)
+;; ==> 3/2
+(add-n c1 c1 c1)
+;; ==> (complex rectangular 3 . 3)
+
+;;
+;; Now we try to add mixed arguments, and see if they coerce successfully:
+;;
+(add-n 1 1 r1)
+;; ==> 5/2
+(add-n 1 r1 r1)
+;; ==> 2
+(add-n 1 1 c1)
+;; ==> (complex rectangular 3 . 1)
+(add-n 1 c1 c1)
+;; ==> (complex rectangular 3 . 2)
+(add-n 1 r1 c1)
+;; ==> (complex rectangular 5/2 . 1)
 
 ;;
 ;; For part (b), there are at least two cases where this coercion strategy would not work.
