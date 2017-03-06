@@ -201,23 +201,33 @@
 ;;
 
 ;;
-;; For part (b), this coercion stragey only works if all the arguments to be coerced
-;; are in the same branch of the type tree/hierarhcy.
+;; For part (b), there are at least two cases where this coercion strategy would not work.
 ;;
-;; For example, a "triangle" and a "quadrilateral" can both be coerced to type "polygon",
-;; since "polygon" is a common ancestor of both nodes in the hierarchy tree. But a "triangle"
-;; cannot be converted into a "quadrilateral" since "quadrilateral" is not a common
-;; ancestor of "triangle" in the hierarchy tree.
+;; For case (i), if the procedure expects arguments which are on a different branch in the
+;; hierarchy tree from the arguments that have been supplied, no coercion can take place.
+;; Suppose we have type A, and two subtypes where B < A and C < A are subtypes of A, but
+;; B and C are not subtypes of one another.
+;;
+;; In this case, if the procedure expects arguments of type C, there is no way we can
+;; supply arguments of type B and successfully coerce the arguments into type C.
+;;
+;; For case (ii), suppose that we have a procedure that takes two arguments of type A, and
+;; suppose we invoke this procedure with two arguments of type B, where B < A is a subtype
+;; A and B can be coerced to A. In this case, our strategy will still fail, since the
+;; algorithm will attempt to coerce B to B, which will fail, and then it will again attempt
+;; to coerce B to B, which again will fail, even though in principle B should be coerce-able
+;; to type A.
+;;
+;; Case (ii) is probably a more important case to be aware of than case (i).
 ;;
 
 ;;
-;; Let's run some unit tests to prove this.
-;;
-;; First define and install a polygon package (objects are no-ops):
+;; Let's construct a polygon package, mirroring the hierarchy defined in the text, to test
+;; these ideas out. All the objects/methods in this package are no-ops:
 ;;
 (define (install-polygon-package)
   (define (tag x) (attach-tag x 'shape))
-
+  
   ;; Generic Methods
   (put 'add-area '(polygon polygon)
        (lambda (x y) (cons 'polygon 'combined-area-of-polygon)))
@@ -365,6 +375,11 @@
 (put-coercion 'square 'rectangle square->rectangle)
 (put-coercion 'square 'rhombus square->rhombus)
 
+;;
+;; Now that we have our coercion procedures defined, let's see how our
+;; coercion strategy works for the two cases identified above.
+;;
 
 
-
+ 
+;; [WORKING]
