@@ -380,6 +380,20 @@
 ;; coercion strategy works for the two cases identified above.
 ;;
 
+(add-area p1 p2)
+;; ==> (polygon . combined-area-of-polygon)
+(add-area p1 t1)
+;; ==> (polygon . combined-area-of-polygon)
+(add-area t1 p1)
+;; ==> (polygon . combined-area-of-polygon)
 
- 
-;; [WORKING]
+;; So we can successfully coerce a Triangle to a Polygon, if we furnish
+;; mixed argument types to the procedure. However, it we attempt to invoke
+;; the same procedure with just Triangle arguments, it fails:
+(add-area t1 t2)
+;; ==> No method for these types -- APPLY-GENERIC (add-area (triangle triangle))
+
+;; Likewise, we cannot coerce the Triangles into being of type Quadrilateral:
+(add-area-quadrilateral t1 t2)
+;; ==> No method for these types -- APPLY-GENERIC (add-area-quadrilteral (triangle triangle))
+
