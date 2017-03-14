@@ -159,22 +159,15 @@
 ;; Now let's define our "raise" procedures:
 ;;
 (define (raise-integer->rational n)
-  (if (equal? (type-tag n) 'integer)
-      (make-rational (contents n) 1)
-      '()))
+  (make-rational n 1))
 
 (define (raise-rational->scheme-number r)
-  (if (equal? (type-tag r) 'rational)
-      (let ((number (contents r)))
-	(let ((n (car number))
-	      (d (cdr number)))
-	  (make-scheme-number (exact->inexact (/ n d)))))
-      '()))
+  (let ((n (car r))
+	(d (cdr r)))
+    (make-scheme-number (exact->inexact (/ n d)))))
 
 (define (raise-scheme-number->complex n)
-  (if (equal? (type-tag n) 'scheme-number)
-      (make-complex-from-real-imag (contents n) 0)
-      '()))
+  (make-complex-from-real-imag n 0))
 
 ;;
 ;; Tracing the call graph through "apply-generic", we see that the 
@@ -191,21 +184,21 @@
 ;;
 ;; Run through some unit tests:
 ;;
-(raise-integer->rational (make-integer 2))
+(raise-integer->rational (contents (make-integer 2)))
 ;; ==> (rational 2 . 1)
-(raise-integer->rational (make-integer 2.1))  ;; <-- technically misuing integer API, but handle gracefully
+(raise-integer->rational (contents (make-integer 2.1)))  ;; <-- technically misuing integer API, but handle gracefully
 ;; ==> (rational 2. . 1.)
-(raise-integer->rational (make-integer 2.6))  ;; <-- technically misuing integer API, but handle gracefully
+(raise-integer->rational (contents (make-integer 2.6)))  ;; <-- technically misuing integer API, but handle gracefully
 ;; ==> (rational 2. . 1.)
 
 ;;
 ;; Rational examples:
 ;;
-(raise-rational->scheme-number (make-rational 1 2))
+(raise-rational->scheme-number (contents (make-rational 1 2)))
 ;; ==> 0.5
-(raise-rational->scheme-number (make-rational 3 1))
+(raise-rational->scheme-number (contents (make-rational 3 1)))
 ;; ==> 3.
-(raise-rational->scheme-number (make-rational 6 2))
+(raise-rational->scheme-number (contents (make-rational 6 2)))
 ;; ==> 3.
 
 ;;
