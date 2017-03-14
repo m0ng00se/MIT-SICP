@@ -26,28 +26,41 @@
 	  (error "Bad tagged datum -- CONTENTS" datum))))
 
 (define (apply-generic op . args)
-  (define (handle-exception type-tags)
-    (error "No method for these types: " (list op type-tags)))
+  (define (can-coerce-type-list-to-target-type type-list target-type)
+    (define (all-elements-evaluate-to-true? pred elems)
+      (= (length elems)
+	 (length (filter pred elems))))
+    (all-elements-evaluate-to-true?
+     (lambda (x)
+       (or (equal? x target-type)
+	   (get-coercion x target-type)))
+     type-list))
+  (define (type-list-identical? arglist1 arglist2)
+    (let ((type-tags-1 (map type-tag arglist1))
+	  (type-tags-2 (map type-tag arglist2)))
+      (equal? type-tags-1 type-tags-2)))
+  
+  (define (attempt-coercion type-list candidate-types)
+    (if (null? candidate-types)
+	(error "No method for these types -- APPLY-GENERIC" (list op type-list))
+	(let ((target-type (car candidate-types)))
+	  (if (can-coerce-type-list-to-target-type type-list target-type)
+	      (let ((new-args (map (lambda (arg)
+				     (let ((type (type-tag arg)))
+				       (if (equal? type target-type)
+					   arg
+					   ((get-coercion type target-type) arg))))
+				   args)))
+		(if (type-list-identical? args new-args)
+		    (attempt-coercion type-list (cdr candidate-types))
+		    (apply apply-generic op new-args)))
+	      (attempt-coercion type-list (cdr candidate-types))))))
+  
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
       (if proc
 	  (apply proc (map contents args))
-	  (if (= (length args) 2)
-	      (let ((type1 (car type-tags))
-		    (type2 (cadr type-tags))
-		    (a1 (car args))
-		    (a2 (cadr args)))
-		(if (equal? type1 type2)
-		    (handle-exception type-tags)
-		    (let ((t1->t2 (get-coercion type1 type2))
-			  (t2->t1 (get-coercion type2 type1)))
-		      (cond (t1->t2
-			     (apply-generic op (t1->t2 a1) a2))
-			    (t2->t1
-			     (apply-generic op a1 (t2->t1 a2)))
-			    (else
-			     (handle-exception type-tags))))))
-	      (handle-exception type-tags))))))
+	  (attempt-coercion type-tags type-tags)))))
 
 ;; ============
 ;; Generic Math
