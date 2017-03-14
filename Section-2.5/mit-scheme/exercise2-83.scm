@@ -159,8 +159,9 @@
 ;; Now let's define our "raise" procedures:
 ;;
 (define (raise-integer->rational n)
-  (if ((equal? (type
-  (make-rational n 1))
+  (if (equal? (type-tag n) 'integer)
+      (make-rational (contents n) 1)
+      '()))
 
 (define (raise-rational->scheme-number r)
   (if (equal? (type-tag r) 'rational)
@@ -171,7 +172,9 @@
       '()))
 
 (define (raise-scheme-number->complex n)
-  (make-complex-from-real-imag n 0))
+  (if (equal? (type-tag n) 'scheme-number)
+      (make-complex-from-real-imag (contents n) 0)
+      '()))
 
 ;;
 ;; Tracing the call graph through "apply-generic", we see that the 
