@@ -8,6 +8,28 @@
 ;; (except complex).
 ;;
 
+(load "numbers.scm")
+
+;;
+;; Import the procedures we defined in Exercise 2.78:
+;;
+(define (attach-tag type-tag contents)
+  (if (number? contents)
+      contents
+      (cons type-tag contents)))
+
+(define (type-tag datum)
+  (cond ((pair? datum) (car datum))
+	((number? datum) 'scheme-number)
+	(else
+	 (error "Bad tagged datum -- TYPE-TAG" datum))))
+
+(define (contents datum)
+  (cond ((pair? datum) (cdr datum))
+	((number? datum) datum)
+	(else
+	 (error "Bad tagged datum -- CONTENTS" datum))))
+
 ;;
 ;; Both the tower diagram and the problem statement refer to a type hierarchy that
 ;; looks something like the following:
@@ -137,12 +159,16 @@
 ;; Now let's define our "raise" procedures:
 ;;
 (define (raise-integer->rational n)
+  (if ((equal? (type
   (make-rational n 1))
 
 (define (raise-rational->scheme-number r)
-  (let ((n (car r))
-	(d (cdr r)))
-    (make-scheme-number (exact->inexact (/ n d)))))
+  (if (equal? (type-tag r) 'rational)
+      (let ((number (contents r)))
+	(let ((n (car number))
+	      (d (cdr number)))
+	  (make-scheme-number (exact->inexact (/ n d)))))
+      '()))
 
 (define (raise-scheme-number->complex n)
   (make-complex-from-real-imag n 0))
