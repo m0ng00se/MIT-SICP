@@ -191,21 +191,21 @@
 ;;
 ;; Run through some unit tests:
 ;;
-(raise-integer->rational (contents (make-integer 2)))
+(raise-integer->rational (make-integer 2))
 ;; ==> (rational 2 . 1)
-(raise-integer->rational (contents (make-integer 2.1)))  ;; <-- technically misuing integer API, but handle gracefully
+(raise-integer->rational (make-integer 2.1))  ;; <-- technically misuing integer API, but handle gracefully
 ;; ==> (rational 2. . 1.)
-(raise-integer->rational (contents (make-integer 2.6)))  ;; <-- technically misuing integer API, but handle gracefully
+(raise-integer->rational (make-integer 2.6))  ;; <-- technically misuing integer API, but handle gracefully
 ;; ==> (rational 2. . 1.)
 
 ;;
 ;; Rational examples:
 ;;
-(raise-rational->scheme-number (contents (make-rational 1 2)))
+(raise-rational->scheme-number (make-rational 1 2))
 ;; ==> 0.5
-(raise-rational->scheme-number (contents (make-rational 3 1)))
+(raise-rational->scheme-number (make-rational 3 1))
 ;; ==> 3.
-(raise-rational->scheme-number (contents (make-rational 6 2)))
+(raise-rational->scheme-number (make-rational 6 2))
 ;; ==> 3.
 
 ;;
