@@ -1,11 +1,23 @@
 ;;
 ;; Code for handling a two-dimensional table (from Chapter 3)
 ;;
+
+;;
+;; 'assoc' procedure:
+;;
 (define (assoc key records)
   (cond ((null? records) false)
 	((equal? key (caar records)) (car records))
 	(else
-	    (assoc key (cdr records)))))
+	 (assoc key (cdr records)))))
+
+(define records (list (cons 'a 1) (cons 'b 2)))
+(assoc 'a records)
+;; ==> (a . 1)
+(assoc 'b records)
+;; ==> (b . 2)
+(assoc 'c records)
+;; ==> #f
 
 (define (make-table)
   (let ((local-table (list '*table*)))
