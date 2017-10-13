@@ -19,6 +19,9 @@
 (assoc 'c records)
 ;; ==> #f
 
+;;
+;; 'make-table' procedure:
+;;
 (define (make-table)
   (let ((local-table (list '*table*)))
     (define (lookup key-1 key-2)
@@ -48,6 +51,19 @@
             ((eq? m 'insert-proc!) insert!)
             (else (error "Unknown operation -- TABLE" m))))
     dispatch))
+
+(define records (make-table))
+((records 'insert-proc!) 'a 'b 1)
+((records 'lookup-proc) 'a 'b)
+((records 'insert-proc!) 'a 'b 2)
+((records 'lookup-proc) 'a 'b)
+((records 'insert-proc!) 'a 'c 10)
+((records 'insert-proc!) 'b 'a 20)
+((records 'lookup-proc) 'a 'c)
+((records 'lookup-proc) 'b 'a)
+((records 'lookup-proc) 'b 'b)
+((records 'lookup-proc) 'c 'a)
+
 
 ;; Operations Table
 (define operation-table (make-table))
