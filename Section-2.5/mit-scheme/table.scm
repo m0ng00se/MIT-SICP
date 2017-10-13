@@ -55,15 +55,20 @@
 (define records (make-table))
 ((records 'insert-proc!) 'a 'b 1)
 ((records 'lookup-proc) 'a 'b)
+;; ==> 1
 ((records 'insert-proc!) 'a 'b 2)
 ((records 'lookup-proc) 'a 'b)
+;; ==> 2
 ((records 'insert-proc!) 'a 'c 10)
 ((records 'insert-proc!) 'b 'a 20)
 ((records 'lookup-proc) 'a 'c)
+;; ==> 10
 ((records 'lookup-proc) 'b 'a)
+;; ==> 20
 ((records 'lookup-proc) 'b 'b)
+;; ==> #f
 ((records 'lookup-proc) 'c 'a)
-
+;; ==> #f
 
 ;; Operations Table
 (define operation-table (make-table))
