@@ -56,6 +56,8 @@
 (put 'raise '(rational) raise-rational->scheme-number)
 (put 'raise '(scheme-number) raise-scheme-number->complex)
 
+(define (raise x) (apply-generic 'raise x))
+
 ;; Coercion Table
 (define coercion-table (make-table))
 (define get-coercion (coercion-table 'lookup-proc))
