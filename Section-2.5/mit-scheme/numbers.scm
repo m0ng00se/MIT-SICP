@@ -1,7 +1,7 @@
 ;;
 ;; Define the procedures used in the "generic" numbers package in the text.
 ;;
-(load "table.scm")
+(load "operations.scm")
 
 ;; ==============
 ;; Tagging Libary
