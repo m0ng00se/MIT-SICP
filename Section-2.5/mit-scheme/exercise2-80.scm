@@ -6,36 +6,7 @@
 ;; rational numbers, and complex numbers.
 ;;
 
-(load "numbers.scm")
-
-;;
-;; Import the procedures we defined in Exercise 2.78:
-;;
-(define (attach-tag type-tag contents)
-  (if (number? contents)
-      contents
-      (cons type-tag contents)))
-
-(define (type-tag datum)
-  (cond ((pair? datum) (car datum))
-	((number? datum) 'scheme-number)
-	(else
-	 (error "Bad tagged datum -- TYPE-TAG" datum))))
-
-(define (contents datum)
-  (cond ((pair? datum) (cdr datum))
-	((number? datum) datum)
-	(else
-	  (error "Bad tagged datum -- CONTENTS" datum))))
-
-;;
-;; Import the procedure we defined in Exercise 2.79:
-;;
-(define (equ? x y) (apply-generic 'equ? x y))
-
-;;
-;; Moving on to the answer:
-;;
+(load "numbers2-79.scm")
 
 ;; =================
 ;; Generic Procedure
