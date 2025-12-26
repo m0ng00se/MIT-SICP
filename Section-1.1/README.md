@@ -59,25 +59,29 @@ So the first step in our evaluation model yields the following result:
 (sum-of-squares (+ 5 1) (* 5 2))
 ```
 
-In applicative-order evaluation, we now evaluate both arguments supplied to the sum-of-squares procedure, to arrive at:
+In applicative-order evaluation, we now evaluate both arguments supplied to the `sum-of-squares` procedure, to arrive at:
 
 ```scheme
 (sum-of-squares 6 10)
 ```
 
-At which point, the **recursive** nature of expression evaluation becomes evident: the problem of evaluating the expression `(f 5)` reduces to the problem of evaluating the expression `(sum-of-squares (+ 5 1) (* 5 10))`; that is to say, we must again evaluate the operands of the expression (in this case, `(+ 5 1)` and `(* 5 10)`), and then we must apply these operands to the operator `sum-of-squares`.
+The **recursive** nature of expression evaluation becomes evident: the problem of evaluating the expression `(f 5)` reduces to the problem of evaluating the expression `(sum-of-squares (+ 5 1) (* 5 10))`; that is to say, we must again evaluate the operands of the expression (in this case, `(+ 5 1)` and `(* 5 10)`), and then we must apply these operands to the operator `sum-of-squares`.
 
-Proceeding with the evaluation, we have:
+Proceeding with the evaluation from the start, we have:
 
 ```scheme
 (f 5)
 
 (sum-of-squares (+ 5 1) (* 5 2))
 
+(sum-of-squares 6 10)
+
 (+ (square 6) (square 10))
 ```
 
-Using the definition of the procedure `square`, we get:
+All the arguments are primitives, namely, `6` and `10`.
+
+We continue the evaluation using the definition of the procedure `square`:
 
 ```scheme
 (+ (* 6 6) (* 10 10))
