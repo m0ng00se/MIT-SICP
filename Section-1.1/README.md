@@ -47,7 +47,7 @@ But the question we wish to concern ourselves with is: How (exactly) does the in
 
 First, consider that the expression `(f 5)` is comprised of two sub-expressions: the operator `f` and the operand `5`. 
 
-Evaluation of the operator `5` simply yields `5`, which is to say, `5` already is a primtive and is not susceptible to further evaluation. 
+Evaluation of the operator `5` simply yields `5`, which is to say, `5` already is a primtive and is not further reducible.
 
 The operator `f`, however, can be further reduced to its definition in terms of the `sum-of-squares` procedure.
 
@@ -57,6 +57,12 @@ So the first step in our evaluation model yields the following result:
 (f 5)
 
 (sum-of-squares (+ 5 1) (* 5 2))
+```
+
+In applicative-order evaluation, we now evaluate both arguments supplied to the sum-of-squares procedure, to arrive at:
+
+```scheme
+(sum-of-squares 6 10)
 ```
 
 At which point, the **recursive** nature of expression evaluation becomes evident: the problem of evaluating the expression `(f 5)` reduces to the problem of evaluating the expression `(sum-of-squares (+ 5 1) (* 5 10))`; that is to say, we must again evaluate the operands of the expression (in this case, `(+ 5 1)` and `(* 5 10)`), and then we must apply these operands to the operator `sum-of-squares`.
