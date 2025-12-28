@@ -165,7 +165,7 @@ $x_{n+1} = x_n - \frac{x_n^2-a}{2x_n} = \frac{2x_n^2 - x_n^2 + a}{2x_n} = \frac{
 
 $x_{n+1} = \frac{1}{2}(x_n + \frac{a}{x_n})$
 
-In other words, if we are calculating square roots and we have an initial guess $x_n$, then the "next guess" should be to take the average of $x_n$ and $a/x_n$. This is exactly what we did by defining the `improve` procedure as:
+In other words, if we are calculating the square root of $a$ and we have an initial guess $x_n$, then the "next guess" $x_{n+1}$ should be to take the average of $x_n$ and $a/x_n$. This is exactly what we did by defining the `improve` procedure as:
 
 ```scheme
 (define (improve guess x)
