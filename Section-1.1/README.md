@@ -155,7 +155,7 @@ or solving for $x$:
 
 $x \approx a - \frac{f(a)}{f'(a)}$
 
-In terms of numerical analysis, we can then write the following as an model for numerically approximating the zeros of an arbitrary function $f(x)$: 
+In terms of numerical analysis, we can then write the following as a model for numerically approximating the zeros of an arbitrary function $f(x)$: 
 
 $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
 
