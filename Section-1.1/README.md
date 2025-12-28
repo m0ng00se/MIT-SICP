@@ -127,3 +127,50 @@ Having now arrived at an expression involving only primitive operations, the eva
 It can be shown that for procedures that can be modeled using substitution and that yield legitimate values, normal-order and applicative-order evaluation produce the same value. 
 
 Lisp uses applicative-order evaluation, partly because of the additional efficiency obtained from avoiding multiple evaluations of expressions such `(+ 5 1)` and `(* 5 2)` above, and more significantly, because normal-order evaluation becomes much more complicated to deal with when we leave the realm of procedures that can be modeled by substitution.
+
+Newton's Method
+---------------
+
+One way to derive Newton's method for numerical approximations of square roots is to start with a Taylor expansion:
+
+$f(x) \approx f(a) + f'(a)(x-a) + \frac{1}{2}f''(a)(x-a)^2 + \frac{1}{6}f'''(a)(x-a)^3 + ...$
+
+For Newton's Method, we ignore the higher-order terms with second derivatives or higher, hence:
+
+$f(x) \approx f(a) + f'(a)(x-a)$
+
+To calculate square roots, we are attempting to solve $x^2=a$, or in other words, we are searching for roots (zeros) of the equation:
+
+$f(x) = x^2 - a = 0$
+
+Differentiating, we have:
+
+$f'(x) = 2x$
+
+Since we are searching for $x$ such that $f(x) = 0$, we can plug $f(x) = 0$ into our expression for Newton's approximation above, and obtain:
+
+$0 \approx f(a) + f'(a)(x-a)$
+
+or solving for $x$:
+
+$x \approx a - \frac{f(a)}{f'(a)}$
+
+In terms of numerical analysis, we can then write the following as an model for numerically approximating the zeros of an arbitrary function $f(x)$: 
+
+$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
+
+To calculate the square roots of $a$, we use $f(x) = x^2 - a$, and obtain:
+
+$x_{n+1} = x_n - \frac{x_n^2-a}{2x_n} = \frac{2x_n^2 - x_n^2 + a}{2x_n} = \frac{x_n^2 + a}{2x_n}$
+
+$x_{n+1} = \frac{1}{2}(x_n + \frac{a}{x_n})$
+
+In other words, to calculate square roots, the "next improvement" to a guess $x_n$ is to take the average of $x_n$ and $a/x_n$. This is exactly what we did by defining the `improve` procedure as:
+
+```scheme
+(define (improve guess x)
+   (average guess (/ x guess)))
+```
+
+### Reference:
+- [Square Roots via Newton's Method](https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf)
