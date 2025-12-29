@@ -13,7 +13,9 @@ Problems and projects from the legendary MIT 6.001 Purple Book.
 
 Some useful links:
 
-* [The SICP Web Site (includes full text)](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html) 
+* [The SICP Web Site (includes full text)](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html)
+
+* [Recursive Functions of Symbolic Expressions and their Computation by Machine, Part I](https://www-formal.stanford.edu/jmc/recursive.pdf)
 
 * [The "Don't Panic" Guide to 6.001 Scheme](http://sicp.ai.mit.edu/Spring-2005/manuals/dontpanicnew.html)
 
