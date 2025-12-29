@@ -147,7 +147,7 @@ Differentiating, we have:
 
 $f'(x) = 2x$
 
-Since we are searching for $x$ such that $f(x) = 0$, we can plug $f(x) = 0$ into our expression for Newton's approximation, and obtain:
+Since we are searching for $x$ such that $f(x) = 0$, we can substitute $f(x) = 0$ into our expression for Newton's approximation, and obtain:
 
 $0 \approx f(a) + f'(a)(x-a)$
 
