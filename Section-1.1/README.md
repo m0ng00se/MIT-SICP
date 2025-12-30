@@ -23,7 +23,7 @@ Applicative-Order Evaluation
 
 One of the main concepts in Section 1.1 is to introduce the difference between "**applicative-order**" evaluation and "**normal-order**" evaluation.
 
-Applicative-order evaluation, or something similar to it, is the commonly used in production interpreteres, for reasons of performance and efficiency. Nevertheless, normal-order evaluation can be useful as a heuristic tool, and its various uses are explored in later chapters in this book.
+Applicative-order evaluation (or, in practical terms, something similar to but not exactly identical to it) is the commonly used in production interpreteres, for reasons of performance and efficiency. Nevertheless, normal-order evaluation can be useful as a heuristic tool, and its various uses are explored in later chapters in this book.
 
 The illustrate the difference between the two models, consider the following function definitions:
 
@@ -35,7 +35,7 @@ The illustrate the difference between the two models, consider the following fun
 (define (f a) (sum-of-squares (+ a 1) (* a 2)))
 ```
 
-Evaluating the value of the `(f 5)` is straightforward enough:
+We can calculate the  value of the `(f 5)` easily enough:
 
 ```scheme
 (f 5)
@@ -43,53 +43,69 @@ Evaluating the value of the `(f 5)` is straightforward enough:
 ==> 136
 ```
 
-In applicative-order evaluation, we first evaluate the operator and its operands, and then apply the resulting procedure to the resulting arguments. In other words, the function arguments are fully evaluated before the function is invoked.
+But the question is, how does the interpreter arrive at this answer?
 
-But the question we wish to concern ourselves with is: How (exactly) does the interpreter go about arriving at this answer?
+In **applicative-order** evaluation, we first evaluate the operator and its operands, and then apply the resulting procedure to the resulting arguments. In other words, the function arguments are fully evaluated before the function is invoked.
 
-First, consider that the expression `(f 5)` is comprised of two sub-expressions: the operator `f` and the operand `5`. 
-
-Evaluation of the operator `5` simply yields `5`, which is to say, `5` already is a primtive and is not further reducible.
-
-The operator `f`, however, can be further reduced to its definition in terms of the `sum-of-squares` procedure.
-
-So the first step in our evaluation model yields the following result:
+Consider evaluation of the combination `(f 5)`:
 
 ```scheme
 (f 5)
+```
 
+We fetch the definition for the function `f`:
+
+```scheme
+(sum-of-squares (+ a 1) (* a 2))
+```
+
+and replace the formal parameter `a` with the value `5`:
+
+```scheme
 (sum-of-squares (+ 5 1) (* 5 2))
 ```
 
-In applicative-order evaluation, we now evaluate both arguments supplied to the `sum-of-squares` procedure, to arrive at:
+We are using **applicative-order** evaluation, so we fully evaluate about arguments to obtain:
 
 ```scheme
 (sum-of-squares 6 10)
 ```
 
-The **recursive** nature of expression evaluation becomes evident: the problem of evaluating the expression `(f 5)` reduces to the problem of evaluating the expression `(sum-of-squares (+ 5 1) (* 5 10))`; that is to say, we must again evaluate the operands of the expression (in this case, `(+ 5 1)` and `(* 5 10)`), and then we must apply these operands to the operator `sum-of-squares`.
-
-Proceeding with the evaluation from the start, we have:
+Next we fetch the definition of `sum-of-squares`:
 
 ```scheme
-(f 5)
+(+ (square a) (square b))
+```
 
-(sum-of-squares (+ 5 1) (* 5 2))
+and replace the formal parameters `a` and `b` with the values `6` and `10`, respectively:
 
-(sum-of-squares 6 10)
-
+```scheme
 (+ (square 6) (square 10))
 ```
 
-All the arguments are primitives, namely, `6` and `10`.
-
-We continue the evaluation using the definition of the procedure `square`:
+`+` is a primitive operation, but, since this is **applicative-order**, we now need to evaluate the two arguments of `+`. To evaluate `(square 6)`, we first fetch the definition of `square`:
 
 ```scheme
-(+ (* 6 6) (* 10 10))
+(* x x)
+```
 
+and replace the formal parameter `x` with the value `6`:
+
+```scheme
+(* 6 6)
+36
+```
+
+Our evaluation now reduces to:
+
+```scheme
+(+ 36 (square 10))
+```
+
+The second argument `(square 10)` reduces to `100`, through a similar process, giving:
+
+```scheme
 (+ 36 100)
-
 136
 ```
 
