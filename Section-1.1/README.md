@@ -109,6 +109,21 @@ The second argument `(square 10)` reduces to `100`, through a similar process, g
 136
 ```
 
+Pulling it all together, and evaluating the two formal parameters of `sum-of-squares` in successive order,  **applicative-order** evaluation would look something like:
+
+```scheme
+(f 5)
+(sum-of-squares (+ 5 1) (* 5 2))
+(sum-of-squares 6 (* 5 2))
+(sum-of-squares 6 10)
+(+ (square 6) (square 10))
+(+ (* 6 6) (square 10))
+(+ 36 (square 10))
+(+ 36 (* 10 10))
+(+ 36 100)
+136
+```
+
 Normal-Order Evaluation
 -----------------------
 
@@ -116,17 +131,14 @@ The evaluation model described above is not the only way to perform expression e
 
 An alternative evaluation model would **not** evaluate the operands until their values were actually needed. Instead, it would first substitute operand expressions for parameters until it obtained an expression involving only primitive operators, and then it would perform the evaluation.
 
-Such a model of expression evaluation is called normal-order evaluation.
+Such a model of expression evaluation is called **normal-order** evaluation.
 
 In the normal-order model of expression evaluation, evaluation of `(f 5)` would proceed according to the following sequence of operations:
 
 ```scheme
 (f 5)
- 
 (sum-of-squares (+ 5 1) (* 5 2))
-
 (+ (square (+ 5 1)) (square (* 5 2)))
-
 (+ (* (+ 5 1) (+ 5 1)) (* (* 5 2) (* 5 2)))
 ```
 
@@ -134,11 +146,8 @@ Having now arrived at an expression involving only primitive operations, the eva
 
 ```scheme
 (+ (* (+ 5 1) (+ 5 1)) (* (* 5 2) (* 5 2)))
-
 (+ (* 6 6) (* 10 10))
-
 (+ 36 100)
-
 136
 ```
 
@@ -192,3 +201,4 @@ In other words, if we are calculating the square root of $a$ and we have an init
 
 ### Reference:
 - [Square Roots via Newton's Method](https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf)
+- [Applicative-Order vs. Normal-Order Evaluation](https://rivea0.github.io/blog/applicative-order-vs-normal-order)
