@@ -23,9 +23,9 @@ Applicative-Order Evaluation
 
 One of the main concepts in Section 1.1 is to introduce the difference between "**applicative-order**" evaluation and "**normal-order**" evaluation.
 
-Applicative-order evaluation is the model used by production Scheme interpreters, largely for reasons of performance and efficiency. Nevertheless, normal-order evaluation can be useful as a heuristic tool, and its various uses are explored in later chapters in this book.
+Applicative-order evaluation, or something similar to it, is the commonly used in production interpreteres, for reasons of performance and efficiency. Nevertheless, normal-order evaluation can be useful as a heuristic tool, and its various uses are explored in later chapters in this book.
 
-The illustrate the difference between the two models, consider the following definitions:
+The illustrate the difference between the two models, consider the following function definitions:
 
 ```scheme
 (define (square x) (* x x))
@@ -35,13 +35,15 @@ The illustrate the difference between the two models, consider the following def
 (define (f a) (sum-of-squares (+ a 1) (* a 2)))
 ```
 
-Evaluation of the procedure `f` is straightforward enough:
+Evaluating the value of the `(f 5)` is straightforward enough:
 
 ```scheme
 (f 5)
 
 ==> 136
 ```
+
+In applicative-order evaluation, we first evaluate the operator and its operands, and then apply the resulting procedure to the resulting arguments. In other words, the function arguments are fully evaluated before the function is invoked.
 
 But the question we wish to concern ourselves with is: How (exactly) does the interpreter go about arriving at this answer?
 
