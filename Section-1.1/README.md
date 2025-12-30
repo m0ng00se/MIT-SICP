@@ -202,3 +202,4 @@ In other words, if we are calculating the square root of $a$ and we have an init
 ### Reference:
 - [Square Roots via Newton's Method](https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf)
 - [Applicative-Order vs. Normal-Order Evaluation](https://rivea0.github.io/blog/applicative-order-vs-normal-order)
+- [Normal, Applicative and Lazy Evaluation](https://sookocheff.com/post/fp/evaluating-lambda-expressions/)
