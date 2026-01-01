@@ -155,6 +155,42 @@ It can be shown that for procedures that can be modeled using substitution and t
 
 Lisp uses applicative-order evaluation, partly because of the additional efficiency obtained from avoiding multiple evaluations of expressions such `(+ 5 1)` and `(* 5 2)` above, and more significantly, because normal-order evaluation becomes much more complicated to deal with when we leave the realm of procedures that can be modeled by substitution.
 
+Infinite Recursions
+-------------------
+
+**Applicative-order** evaluation can result in infinte recursions that fail to terminate, in cases where a **normal-order** evaluation will terminate.
+
+The example given in `Problem 1.5` is the following Scheme code:
+
+```scheme
+(define (p) (p))
+(define (test x y)
+   (if (= x 0)
+      0
+      y))
+(test 0 (p))
+```
+
+The function `p` is an infinite recursion. In applicative-order evaluation of the procedure `test`, the formal parameter `x` is reduced to `0`, and the formal parameter `y` is reduced to `(p)`, which causes an infinite recursion. The function call thus never returns. In fact, the function is never evaluated, since the evaluation of the argument `y` never terminates. In normal-order evaluation of the procedure `test`, the formal parameter `x` is reduced to `0`, which causes the function to return `0` and terminate.
+
+Normal-order evaluation of a lambda expression is the repeated application of the leftmost reducible function application, i.e., normal-order evaluation traverses the lambda expression and evaluates every function before evaluating any function arguments. In applicative-order evaluation, all internal reductions are applied first, and the left-most reduction is applied only after all internal reductions are complete.
+
+Black-Box Procedures
+--------------------
+
+The `square` procedure is most naturally defined as:
+
+```scheme
+(define (square x) (* x x))
+```
+
+but the procedure could also be defined, for instance, as:
+
+```scheme
+(define (double x) (+ x x))
+(define (square x) (exp (double (log x))))
+```
+
 Newton's Method
 ---------------
 
@@ -199,7 +235,8 @@ In other words, if we are calculating the square root of $a$ and we have an init
    (average guess (/ x guess)))
 ```
 
-### Reference:
+### References:
 - [Square Roots via Newton's Method](https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf)
 - [Applicative-Order vs. Normal-Order Evaluation](https://rivea0.github.io/blog/applicative-order-vs-normal-order)
 - [Normal, Applicative and Lazy Evaluation](https://sookocheff.com/post/fp/evaluating-lambda-expressions/)
+- [Recursive Functions of Symbolic Expressions and Their Computation by Machine](https://www-formal.stanford.edu/jmc/recursive.pdf)
