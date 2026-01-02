@@ -221,7 +221,7 @@ In other words, if we are calculating the square root of $a$ and we have an init
 ```
 
 Newton's Method as a Tangent Line
--------------------------------------
+---------------------------------
 Given a point in Cartesian point, $(x_o, y_0)$, and a function, $f(x)$, we can use the equation for the tangent line at that point, $y - y_0 = m(x-x_0)$, to approximate the zeros of the function by seeing where the tangent line intersects the $x$-axis:
 
 $y - y_0 = m(x - x_0)$
@@ -237,6 +237,32 @@ or for the $n$-th approximation:
 $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
 
 which is the same approximation we obtained by cutting off the Taylor expansion at the first derivative.
+
+Error Analysis for Newton's Method
+----------------------------------
+Defining the $n$-th approximation as $x_n = x(1+\delta_n)$, where $x = \sqrt a$ and $\delta_n$ is the error of the $n$-th approximation, we can rewrite Newton's square root approximation as follows:
+
+$x_{n+1} = \frac{1}{2}(x_n + \frac{a}{x_n})$
+
+$x(1+\delta_{n+1}) = \frac{1}{2}\left[x(1+\delta_n) + \frac{a}{x(1 + \delta_n)}\right]$
+
+and using the fact that $x = a/x$, we can write:
+
+$1 + \delta_{n+1} = \frac{1}{2}\left(1 + \delta_n + \frac{1}{1 + \delta_n}\right)$
+
+We perform a Taylor expansion for $f(x) = \frac{1}{1+x}$ where for small $\delta \approx 0$:
+
+$f(\delta) = f(0) + f'(0) \cdot \delta + \frac{1}{2}f''(0) \cdot \delta^2 + \frac{1}{6}f'''(0) \cdot \delta^3 + \mathcal{O}(\delta^4)$
+
+$\frac{1}{1+\delta} = 1 - \delta + \delta^2 + \mathcal{O}(\delta^3)$
+
+Substituting into the above, we obtain:
+
+$1 + \delta_{n+1} = \frac{1}{2}\left(1 + \delta_n + 1 - \delta_n + \delta_n^2 + \mathcal{O}(\delta_n^3)\right)$
+
+$\delta_{n+1} = \frac{1}{2}\delta_n^2 + \mathcal{O}(\delta_n^3)$
+
+$\delta_{n=1} \approx \frac{1}{2}\delta_n^2$
 
 References
 --------------
