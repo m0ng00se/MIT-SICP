@@ -53,45 +53,30 @@ Consider evaluation of the combination `(f 5)`:
 (f 5)
 ```
 
-We fetch the definition for the function `f`:
+We fetch the definition for the function `f`, and replace the formal parameter `a` with the value `5`:
 
 ```scheme
 (sum-of-squares (+ a 1) (* a 2))
-```
-
-and replace the formal parameter `a` with the value `5`:
-
-```scheme
 (sum-of-squares (+ 5 1) (* 5 2))
 ```
 
-We are using **applicative-order** evaluation, so we fully evaluate about arguments to obtain:
+Since we are using **applicative-order** evaluation, so we fully evaluate about arguments to obtain:
 
 ```scheme
 (sum-of-squares 6 10)
 ```
 
-Next we fetch the definition of `sum-of-squares`:
+Next we fetch the definition of `sum-of-squares`, and replace the formal parameters with the function arguments, and so on:
 
 ```scheme
 (+ (square a) (square b))
-```
-
-and replace the formal parameters `a` and `b` with the values `6` and `10`, respectively:
-
-```scheme
 (+ (square 6) (square 10))
 ```
 
-`+` is a primitive operation, but, since this is **applicative-order**, we now need to evaluate the two arguments of `+`. To evaluate `(square 6)`, we first fetch the definition of `square`:
+`+` is a primitive operation, but, since this is **applicative-order**, we now need to evaluate the two arguments of `+`. To evaluate `(square 6)`, we first fetch the definition of `square` and replace the formal parameter `x` with the value `6`:
 
 ```scheme
 (* x x)
-```
-
-and replace the formal parameter `x` with the value `6`:
-
-```scheme
 (* 6 6)
 36
 ```
@@ -191,8 +176,8 @@ but the procedure could also be defined, for instance, as:
 (define (square x) (exp (double (log x))))
 ```
 
-Newton's Method
----------------
+Newton's Method as a Taylor Expansion
+-------------------------------------
 
 One way to derive Newton's method for numerical approximations of square roots is to start with a Taylor expansion:
 
@@ -235,7 +220,26 @@ In other words, if we are calculating the square root of $a$ and we have an init
    (average guess (/ x guess)))
 ```
 
-### References:
+Newton's Method as a Tangent Line
+-------------------------------------
+Given a point in Cartesian point, $(x_o, y_0)$, and a function, $f(x)$, we can use the equation for the tangent line at that point, $y - y_0 = m(x-x_0)$, to approximate the zeros of the function by seeing where the tangent line intersects the $x$-axis:
+
+$y - y_0 = m(x - x_0)$
+
+$y - f(x_0) = f'(x_0)(x - x_0)$
+
+The zeros occurs when $y=0$. Substituting this and solving for $x$, we obtain:
+
+$x = x_0 - \frac{f(x_0)}{f'(x_0)}$
+
+or for the $n$-th approximation:
+
+$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
+
+which is the same approximation we obtained by cutting off the Taylor expansion at the first derivative.
+
+References
+--------------
 - [Square Roots via Newton's Method](https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf)
 - [Applicative-Order vs. Normal-Order Evaluation](https://rivea0.github.io/blog/applicative-order-vs-normal-order)
 - [Normal, Applicative and Lazy Evaluation](https://sookocheff.com/post/fp/evaluating-lambda-expressions/)
