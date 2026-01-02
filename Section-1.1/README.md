@@ -262,7 +262,7 @@ $1 + \delta_{n+1} = \frac{1}{2}\left(1 + \delta_n + 1 - \delta_n + \delta_n^2 + 
 
 $\delta_{n+1} = \frac{1}{2}\delta_n^2 + \mathcal{O}(\delta_n^3)$
 
-$\delta_{n=1} \approx \frac{1}{2}\delta_n^2$
+$\delta_{n+1} \approx \frac{1}{2}\delta_n^2$
 
 References
 --------------
