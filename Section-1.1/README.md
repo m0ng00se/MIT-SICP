@@ -264,6 +264,8 @@ $\delta_{n+1} = \frac{1}{2}\delta_n^2 + \mathcal{O}(\delta_n^3)$
 
 $\delta_{n+1} \approx \frac{1}{2}\delta_n^2$
 
+In other words, the error roughly "squares" (i.e., "halves") with each successive approximiation once we are close to a solution. This corresponds to roughly doubling the number of "correct" significant digits with each iteration. This is known as **quadratic convergence** and is why Newton's Method converges so rapidly to a correct solution.
+
 References
 --------------
 - [Square Roots via Newton's Method](https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf)
